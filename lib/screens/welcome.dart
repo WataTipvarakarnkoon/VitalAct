@@ -1,25 +1,42 @@
 import 'package:flutter/material.dart';
 
+class AppSize {
+  static late double width;
+  static late double height;
+
+  static void init(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    width = size.width;
+    height = size.height;
+  }
+}
+
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AppSize.init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Image.asset(
-            'assets/images/Background.png',
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+          Positioned(
+            child: Image.asset(
+              'assets/images/Background.png',
+              fit: BoxFit.cover,
+              width: AppSize.width * 1,
+              height: AppSize.height * .7,
+            ),
           ),
 
           Positioned(
-            top: -150,
-            left: -160,
-            child: Image.asset('assets/images/Ellipse.png', height: 500),
+            top: AppSize.height * -0.15,
+            left: AppSize.width * -.6,
+            child: Image.asset(
+              'assets/images/Ellipse.png',
+              height: AppSize.height * 0.65,
+            ),
           ),
 
           Center(
@@ -66,7 +83,7 @@ class WelcomePage extends StatelessWidget {
                     ],
                   ),
                   child: SizedBox(
-                    width: 350,
+                    width: AppSize.width * 0.9,
                     height: 60,
                     child: ElevatedButton(
                       onPressed: () {
@@ -90,7 +107,7 @@ class WelcomePage extends StatelessWidget {
                 const SizedBox(height: 23),
 
                 SizedBox(
-                  width: 350,
+                  width: AppSize.width * 0.9,
                   height: 60,
                   child: ElevatedButton(
                     onPressed: () {
