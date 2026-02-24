@@ -1,6 +1,6 @@
 name: vitalact
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -26,7 +26,7 @@ flutter:
     - family: BalooBhai2
       fonts:
         - asset: assets/fonts/BalooBhai2-Semibold.ttf
-          weight: 600 
+          weight: 600
         - asset: assets/fonts/BalooBhai2-Regular.ttf
           weight: 400
         - asset: assets/fonts/BalooBhai2-Medium.ttf
