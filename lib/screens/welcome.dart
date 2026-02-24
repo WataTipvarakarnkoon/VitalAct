@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/main.dart' show AppSize;
+import 'package:vitalact/widgets/app_button.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -61,68 +62,25 @@ class WelcomePage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0xCCCC3838),
-                        blurRadius: 0,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: SizedBox(
-                    width: AppSize.width * 0.9,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFF4646),
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text(
-                        'GET STARTED',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
+                // 🔴 Filled Button
+                AppButton(
+                  width: AppSize.width * 0.9,
+                  text: 'GET STARTED',
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/signup');
+                  },
                 ),
 
                 const SizedBox(height: 23),
 
-                SizedBox(
+                // ⚪ Outlined Button
+                AppButton(
                   width: AppSize.width * 0.9,
-                  height: 60,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color(0xFFFF4646),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: const BorderSide(
-                          color: Color(0xFFFF9393),
-                          width: 4,
-                        ),
-                      ),
-                    ),
-                    child: const Text(
-                      'I ALREADY HAVE AN ACCOUNT',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
+                  variant: ButtonVariant.outlined,
+                  text: 'I ALREADY HAVE AN ACCOUNT',
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
                 ),
               ],
             ),
