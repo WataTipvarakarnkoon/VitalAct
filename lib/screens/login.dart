@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/main.dart' show AppSize;
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
