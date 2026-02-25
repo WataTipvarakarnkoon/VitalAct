@@ -62,7 +62,6 @@ class WelcomePage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // 🔴 Filled Button
                 AppButton(
                   width: AppSize.width * 0.9,
                   text: 'GET STARTED',
@@ -73,7 +72,6 @@ class WelcomePage extends StatelessWidget {
 
                 const SizedBox(height: 23),
 
-                // ⚪ Outlined Button
                 AppButton(
                   width: AppSize.width * 0.9,
                   variant: ButtonVariant.outlined,

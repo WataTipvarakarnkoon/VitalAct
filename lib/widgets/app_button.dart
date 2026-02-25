@@ -25,17 +25,27 @@ class AppButton extends StatelessWidget {
     return SizedBox(
       width: width ?? MediaQuery.of(context).size.width * 0.9,
       height: height,
-      child: Material(
-        elevation: isFilled ? 2 : 0,
-        borderRadius: BorderRadius.circular(40),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          boxShadow: isFilled
+              ? [
+                  BoxShadow(
+                    color: Color(0xCCCC3838).withValues(alpha: 40),
+                    blurRadius: 0,
+                    offset: Offset(0, 5),
+                  ),
+                ]
+              : [],
+        ),
+
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: isFilled ? const Color(0xFFFF4646) : Colors.white,
             foregroundColor: isFilled ? Colors.white : const Color(0xFFFF4646),
-            elevation: 0, // IMPORTANT: prevent double shadow
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
+              borderRadius: BorderRadius.circular(50),
               side: isFilled
                   ? BorderSide.none
                   : const BorderSide(color: Color(0xFFFF9393), width: 4),

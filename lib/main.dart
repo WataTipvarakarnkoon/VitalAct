@@ -3,6 +3,7 @@ import 'screens/welcome.dart';
 import 'screens/login.dart';
 import 'screens/signup.dart';
 import 'screens/splash_screen.dart';
+import 'screens/index_page.dart';
 
 void main() => runApp(const MainApp());
 
@@ -31,6 +32,7 @@ class MainApp extends StatelessWidget {
         '/welcome': (context) => const WelcomePage(),
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(),
+        '/index': (context) => const IndexPage(),
       },
     );
   }

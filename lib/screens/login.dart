@@ -8,22 +8,103 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter a search term',
+            Text(
+              'Log In',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 30,
+                color: Color.fromARGB(255, 52, 52, 52),
               ),
             ),
+
+            const SizedBox(height: 25),
+
+            SizedBox(
+              width: AppSize.width * .9,
+              height: 45,
+              child: TextField(
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: Color.fromARGB(255, 119, 119, 100),
+                ),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  hintText: 'Username',
+                  hintStyle: TextStyle(
+                    color: Color.fromARGB(255, 119, 119, 100),
+                  ),
+
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 196, 196, 196),
+                      width: 3,
+                    ),
+                  ),
+
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 0, 170, 255),
+                      width: 3,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            SizedBox(
+              width: AppSize.width * 0.9,
+              height: 45,
+              child: TextField(
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: Color.fromARGB(255, 119, 119, 100),
+                ),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  hintText: 'Password',
+                  hintStyle: TextStyle(
+                    color: Color.fromARGB(255, 119, 119, 100),
+                  ),
+
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 196, 196, 196),
+                      width: 3,
+                    ),
+                  ),
+
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 0, 170, 255),
+                      width: 3,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
             AppButton(
               width: AppSize.width * 0.9,
-              text: 'GET STARTED',
+              height: 45,
+              text: 'LOG IN',
               onPressed: () {
-                Navigator.pushNamed(context, '/signup');
+                Navigator.pushNamed(context, '/index');
               },
             ),
           ],
