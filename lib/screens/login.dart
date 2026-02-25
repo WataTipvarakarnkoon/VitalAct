@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
+import 'package:vitalact/widgets/auth_text_field.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -31,78 +32,11 @@ class LoginPage extends StatelessWidget {
 
                     const SizedBox(height: 25),
 
-                    SizedBox(
-                      width: width * 0.9,
-                      height: 45,
-                      child: TextField(
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 119, 119, 100),
-                        ),
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          hintText: 'Username',
-                          hintStyle: const TextStyle(
-                            color: Color.fromARGB(255, 119, 119, 100),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 196, 196, 196),
-                              width: 3,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 0, 170, 255),
-                              width: 3,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    AuthTextField(hintText: 'Username'),
 
                     const SizedBox(height: 10),
 
-                    SizedBox(
-                      width: width * 0.9,
-                      height: 45,
-                      child: TextField(
-                        obscureText: true,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 119, 119, 100),
-                        ),
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          hintText: 'Password',
-                          hintStyle: const TextStyle(
-                            color: Color.fromARGB(255, 119, 119, 100),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 196, 196, 196),
-                              width: 3,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 0, 170, 255),
-                              width: 3,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    AuthTextField(hintText: 'Password', obscureText: true),
 
                     const SizedBox(height: 25),
 
