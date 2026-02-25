@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vitalact/main.dart' show AppSize;
 import 'package:vitalact/widgets/app_button.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -7,7 +6,10 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppSize.init(context);
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -16,17 +18,17 @@ class WelcomePage extends StatelessWidget {
             child: Image.asset(
               'assets/images/Background.png',
               fit: BoxFit.cover,
-              width: AppSize.width * 1,
-              height: AppSize.height * .7,
+              width: width,
+              height: height * 0.7,
             ),
           ),
 
           Positioned(
-            top: AppSize.height * -0.15,
-            left: AppSize.width * -.6,
+            top: height * -0.15,
+            left: width * -0.6,
             child: Image.asset(
               'assets/images/Ellipse.png',
-              height: AppSize.height * 0.65,
+              height: height * 0.65,
             ),
           ),
 
@@ -63,7 +65,7 @@ class WelcomePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AppButton(
-                  width: AppSize.width * 0.9,
+                  width: width * 0.9,
                   text: 'GET STARTED',
                   onPressed: () {
                     Navigator.pushNamed(context, '/signup');
@@ -73,7 +75,7 @@ class WelcomePage extends StatelessWidget {
                 const SizedBox(height: 23),
 
                 AppButton(
-                  width: AppSize.width * 0.9,
+                  width: width * 0.9,
                   variant: ButtonVariant.outlined,
                   text: 'I ALREADY HAVE AN ACCOUNT',
                   onPressed: () {
