@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 4000),
+      duration: const Duration(milliseconds: 2700),
     );
 
     _position =
@@ -36,7 +36,11 @@ class _SplashScreenState extends State<SplashScreen>
         ).animate(
           CurvedAnimation(
             parent: _controller,
-            curve: const Interval(0.10, 0.17, curve: Curves.easeOut),
+            curve: const Interval(
+              0.10,
+              0.17,
+              curve: Cubic(0.34, 1.56, 0.64, 1.0),
+            ),
           ),
         );
 
@@ -64,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
     _scaleDown = Tween<double>(begin: 1.5, end: 0.2).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.35, 0.41, curve: Curves.easeIn),
+        curve: const Interval(0.4, 0.45, curve: Cubic(0.34, 1.56, 0.64, 1.0)),
       ),
     );
 
@@ -75,21 +79,25 @@ class _SplashScreenState extends State<SplashScreen>
         ).animate(
           CurvedAnimation(
             parent: _controller,
-            curve: const Interval(0.45, 0.62, curve: Curves.easeInOut),
+            curve: const Interval(
+              0.5,
+              0.65,
+              curve: Cubic(0.34, 1.56, 0.64, 1.0),
+            ),
           ),
         );
 
     _scaleFull = Tween<double>(begin: 1.0, end: 50).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.8, 1, curve: Curves.easeOut),
+        curve: const Interval(0.9, 1.0, curve: Curves.easeOut),
       ),
     );
 
     _textOpacity = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.5, 0.65, curve: Curves.easeIn),
+        curve: const Interval(0.52, 0.7, curve: Cubic(0.34, 1.56, 0.64, 1.0)),
       ),
     );
 
