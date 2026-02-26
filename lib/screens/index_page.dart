@@ -28,7 +28,7 @@ class IndexPage extends StatelessWidget {
         ],
       ),
 
-      bottomNavigationBar: const BottomBar(),
+      bottomNavigationBar: SafeArea(child: const BottomBar()),
     );
   }
 }
