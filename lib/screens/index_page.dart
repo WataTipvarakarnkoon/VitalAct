@@ -47,7 +47,7 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      height: 90,
+      height: 60,
       padding: EdgeInsets.symmetric(horizontal: width * 0.09),
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: Color(0xFFFF4646), width: 4)),
