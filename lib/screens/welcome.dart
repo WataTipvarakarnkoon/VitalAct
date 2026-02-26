@@ -60,7 +60,7 @@ class WelcomePage extends StatelessWidget {
           ),
 
           Align(
-            alignment: const Alignment(0, 0.8),
+            alignment: const Alignment(0, .75),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
