@@ -21,6 +21,10 @@ flutter:
   assets:
     - assets/images/Background.png
     - assets/images/Ellipse.png
+    - assets/icons/home.png
+    - assets/icons/setting.png
+    - assets/icons/profile.png
+    - assets/icons/practice.png
 
   fonts:
     - family: BalooBhai2

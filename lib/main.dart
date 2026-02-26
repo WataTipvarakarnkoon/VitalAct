@@ -7,17 +7,6 @@ import 'screens/index_page.dart';
 
 void main() => runApp(const MainApp());
 
-class AppSize {
-  static late double width;
-  static late double height;
-
-  static void init(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    width = size.width;
-    height = size.height;
-  }
-}
-
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
@@ -34,6 +23,37 @@ class MainApp extends StatelessWidget {
         '/signup': (context) => const SignupPage(),
         '/index': (context) => const IndexPage(),
       },
+    );
+  }
+}
+
+class IconItems extends StatelessWidget {
+  final String path;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const IconItems({
+    super.key,
+    required this.path,
+    required this.onTap,
+    required this.isSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(7),
+        decoration: isSelected
+            ? BoxDecoration(
+                border: Border.all(color: Color(0xFFFF4646), width: 2.5),
+                color: Color(0xFFFFEBEB),
+                borderRadius: BorderRadius.circular(7),
+              )
+            : null,
+        child: SizedBox(height: 30, child: Image.asset(path)),
+      ),
     );
   }
 }

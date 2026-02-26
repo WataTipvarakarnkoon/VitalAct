@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vitalact/main.dart' show AppSize;
 import 'package:vitalact/widgets/app_button.dart';
 
 class LoginPage extends StatelessWidget {
@@ -7,6 +6,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 25),
 
             SizedBox(
-              width: AppSize.width * .9,
+              width: width * .9,
               height: 45,
               child: TextField(
                 style: TextStyle(
@@ -63,7 +63,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 10),
 
             SizedBox(
-              width: AppSize.width * 0.9,
+              width: width * 0.9,
               height: 45,
               child: TextField(
                 style: TextStyle(
@@ -100,7 +100,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 25),
 
             AppButton(
-              width: AppSize.width * 0.9,
+              width: width * 0.9,
               height: 45,
               text: 'LOG IN',
               onPressed: () {
