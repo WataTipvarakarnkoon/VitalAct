@@ -30,13 +30,13 @@ class LoginPage extends StatelessWidget {
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 20,
-                  color: Color.fromARGB(255, 119, 119, 100),
+                  color: Color.fromARGB(255, 119, 119, 119),
                 ),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                   hintText: 'Username',
                   hintStyle: const TextStyle(
-                    color: Color.fromARGB(255, 119, 119, 100),
+                    color: Color.fromARGB(255, 119, 119, 119),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
