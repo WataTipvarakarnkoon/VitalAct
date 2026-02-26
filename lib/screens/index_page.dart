@@ -17,14 +17,12 @@ class IndexPage extends StatelessWidget {
             top: height * -.4,
             child: Image.asset('assets/images/Background.png', width: width),
           ),
-
           Positioned(
             top: height * -.39,
             left: width * -.3,
             height: height * 0.5,
             child: Image.asset('assets/images/Ellipse.png'),
           ),
-
           Positioned(
             top: height * .08,
             left: 0,
@@ -36,23 +34,21 @@ class IndexPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xCCCC3838).withValues(alpha: 1),
+                      color: const Color(0xCCCC3838).withValues(alpha: 1),
                       blurRadius: 0,
-                      offset: Offset(0, 5),
+                      offset: const Offset(0, 5),
                     ),
                   ],
                   borderRadius: BorderRadius.circular(15),
-                  color: Color(0xFFFF4646),
+                  color: const Color(0xFFFF4646),
                 ),
               ),
             ),
           ),
-
-          Positioned.fill(top: height * .162, child: Lesson()),
+          Positioned.fill(top: height * .162, child: const Lesson()),
         ],
       ),
-
-      bottomNavigationBar: SafeArea(child: const BottomBar()),
+      bottomNavigationBar: const SafeArea(child: BottomBar()),
     );
   }
 }
@@ -73,7 +69,7 @@ class _BottomBarState extends State<BottomBar> {
     return Container(
       height: 65,
       padding: EdgeInsets.symmetric(horizontal: width * 0.09),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: Color(0xFFFF4646), width: 3.5)),
       ),
       child: Row(
@@ -153,15 +149,15 @@ class _LessonState extends State<Lesson> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       physics: const SlowScrollPhysics(),
       child: Column(
         children: [
-          Padding(padding: EdgeInsets.only(top: 50)),
-
+          const Padding(padding: EdgeInsets.only(top: 50)),
           Container(
-            padding: EdgeInsets.only(right: 110),
-            child: Text(
+            padding: EdgeInsets.only(right: width * .25),
+            child: const Text(
               'RECOGNITION',
               style: TextStyle(
                 fontSize: 35,
@@ -171,17 +167,17 @@ class _LessonState extends State<Lesson> {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           button(0),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
           button(1),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
           button(2),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
           button(3),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
           button(4),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
         ],
       ),
     );
