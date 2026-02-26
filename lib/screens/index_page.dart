@@ -178,7 +178,7 @@ class _LessonState extends State<Lesson> {
               Column(
                 children: [
                   Container(
-                    width: 250,
+                    width: 260,
                     padding: const EdgeInsets.only(top: 17, left: 15),
                     child: Text(
                       active ? stepHeading[step] : '',
@@ -191,11 +191,12 @@ class _LessonState extends State<Lesson> {
                   ),
                   Container(
                     width: 250,
-                    padding: const EdgeInsets.only(top: 7, left: 15),
+                    padding: const EdgeInsets.only(top: 7, left: 11),
                     child: Text(
                       active ? stepSub[step] : '',
                       style: const TextStyle(
                           fontWeight: FontWeight.w500,
+                          fontSize: 13,
                           color: Colors.white,
                           height: 0.9),
                     ),
