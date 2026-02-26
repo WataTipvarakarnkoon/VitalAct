@@ -29,20 +29,19 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(milliseconds: 2700),
     );
 
-    _position =
-        Tween<Offset>(
-          begin: const Offset(0, .7),
-          end: const Offset(0, 0),
-        ).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: const Interval(
-              0.10,
-              0.17,
-              curve: Cubic(0.34, 1.56, 0.64, 1.0),
-            ),
-          ),
-        );
+    _position = Tween<Offset>(
+      begin: const Offset(0, .7),
+      end: const Offset(0, 0),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(
+          0.10,
+          0.17,
+          curve: Cubic(0.34, 1.56, 0.64, 1.0),
+        ),
+      ),
+    );
 
     _opacity = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
@@ -72,20 +71,19 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
 
-    _positionLeft =
-        Tween<Offset>(
-          begin: const Offset(0, 0),
-          end: const Offset(4.5, -2.7),
-        ).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: const Interval(
-              0.5,
-              0.65,
-              curve: Cubic(0.34, 1.56, 0.64, 1.0),
-            ),
-          ),
-        );
+    _positionLeft = Tween<Offset>(
+      begin: const Offset(0, 0),
+      end: const Offset(4.5, -2.7),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(
+          0.5,
+          0.65,
+          curve: Cubic(0.34, 1.56, 0.64, 1.0),
+        ),
+      ),
+    );
 
     _scaleFull = Tween<double>(begin: 1.0, end: 50).animate(
       CurvedAnimation(
@@ -157,16 +155,14 @@ class _SplashScreenState extends State<SplashScreen>
                 height: 80,
                 width: 80,
                 decoration: BoxDecoration(
-                  color: Color(0xFFFF4646),
+                  color: const Color(0xFFFF4646),
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
             ),
-
             const SizedBox(height: 20),
-
             Transform.translate(
-              offset: Offset(-30, 0),
+              offset: const Offset(-30, 0),
               child: FadeTransition(
                 opacity: _textOpacity,
                 child: const Text(

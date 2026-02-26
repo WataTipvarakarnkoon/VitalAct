@@ -29,17 +29,12 @@ class SignupPage extends StatelessWidget {
                         color: Color.fromARGB(255, 52, 52, 52),
                       ),
                     ),
-
                     const SizedBox(height: 25),
-
-                    AuthTextField(hintText: 'Username'),
-
+                    const AuthTextField(hintText: 'Username'),
                     const SizedBox(height: 10),
-
-                    AuthTextField(hintText: 'Password', obscureText: false),
-
+                    const AuthTextField(
+                        hintText: 'Password', obscureText: false),
                     const SizedBox(height: 25),
-
                     AppButton(
                       width: width * 0.9,
                       height: 45,

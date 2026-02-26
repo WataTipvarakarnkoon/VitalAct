@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Log In',
               style: TextStyle(
                 fontWeight: FontWeight.w800,
@@ -22,36 +22,32 @@ class LoginPage extends StatelessWidget {
                 color: Color.fromARGB(255, 52, 52, 52),
               ),
             ),
-
             const SizedBox(height: 25),
-
             SizedBox(
               width: width * .9,
               height: 45,
               child: TextField(
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 20,
                   color: Color.fromARGB(255, 119, 119, 100),
                 ),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                   hintText: 'Username',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     color: Color.fromARGB(255, 119, 119, 100),
                   ),
-
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromARGB(255, 196, 196, 196),
                       width: 3,
                     ),
                   ),
-
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromARGB(255, 0, 170, 255),
                       width: 3,
                     ),
@@ -59,36 +55,32 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
-
             SizedBox(
               width: width * 0.9,
               height: 45,
               child: TextField(
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 20,
                   color: Color.fromARGB(255, 119, 119, 100),
                 ),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                   hintText: 'Password',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     color: Color.fromARGB(255, 119, 119, 100),
                   ),
-
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromARGB(255, 196, 196, 196),
                       width: 3,
                     ),
                   ),
-
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromARGB(255, 0, 170, 255),
                       width: 3,
                     ),
@@ -96,9 +88,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 25),
-
             AppButton(
               width: width * 0.9,
               height: 45,

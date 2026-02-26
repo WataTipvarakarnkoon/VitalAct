@@ -118,6 +118,8 @@ class Lesson extends StatefulWidget {
 
 class _LessonState extends State<Lesson> {
   int currentstep = 0;
+  bool isPressed = false;
+  int? pressedStep;
 
   void press(int step) {
     if (step == currentstep) {
@@ -129,18 +131,78 @@ class _LessonState extends State<Lesson> {
 
   Widget button(int step) {
     bool active = step <= currentstep;
+    bool isPressed = pressedStep == step;
     final width = MediaQuery.of(context).size.width;
+    final stepHeading = [
+      'Normal vs abnormal signs',
+      'Life-threatening red flags',
+      'Breathing Distress Detection',
+      'Chest Pain & Stroke Clues',
+      'Mixed Symptom Recognition Challenge',
+    ];
+    final stepSub = [
+      'Learn to quickly recognize abnormal breathing and emergency warning signs.',
+      'Identify critical signs that require immediate emergency action.',
+      'Recognize early and severe signs of breathing difficulty.',
+      'Spot key symptoms of heart attack and stroke quickly.',
+      'Practice identifying emergencies when multiple symptoms appear.',
+    ];
 
-    return GestureDetector(
-      onTap: active ? () => press(step) : null,
-      child: Container(
-        width: width * 0.8,
-        height: 110,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              active ? 'assets/images/press.png' : 'assets/images/Notpress.png',
-            ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        onTap: active ? () => press(step) : null,
+        onHighlightChanged: (pressed) {
+          setState(() {
+            pressedStep = pressed ? step : null;
+          });
+        },
+        child: AnimatedScale(
+          scale: isPressed ? 0.9 : 1.0,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+          child: SizedBox(
+            width: width * .8,
+            child: Stack(children: [
+              Positioned(
+                child: Image.asset(
+                  active
+                      ? 'assets/images/press.png'
+                      : 'assets/images/Notpress.png',
+                ),
+              ),
+              Column(
+                children: [
+                  Container(
+                    width: 250,
+                    padding: const EdgeInsets.only(top: 17, left: 15),
+                    child: Text(
+                      active ? stepHeading[step] : '',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          color: Colors.white,
+                          height: 0.9),
+                    ),
+                  ),
+                  Container(
+                    width: 250,
+                    padding: const EdgeInsets.only(top: 7, left: 15),
+                    child: Text(
+                      active ? stepSub[step] : '',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          height: 0.9),
+                    ),
+                  )
+                ],
+              ),
+            ]),
           ),
         ),
       ),

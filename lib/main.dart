@@ -44,11 +44,11 @@ class IconItems extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         decoration: isSelected
             ? BoxDecoration(
-                border: Border.all(color: Color(0xFFFF4646), width: 2.5),
-                color: Color(0xFFFFEBEB),
+                border: Border.all(color: const Color(0xFFFF4646), width: 2.5),
+                color: const Color(0xFFFFEBEB),
                 borderRadius: BorderRadius.circular(7),
               )
             : null,

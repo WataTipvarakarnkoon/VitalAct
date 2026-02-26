@@ -22,7 +22,6 @@ class WelcomePage extends StatelessWidget {
               height: height * 0.7,
             ),
           ),
-
           Positioned(
             top: height * -0.15,
             left: width * -0.6,
@@ -31,11 +30,10 @@ class WelcomePage extends StatelessWidget {
               height: height * 0.65,
             ),
           ),
-
-          Center(
+          const Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: const [
+              children: [
                 Text(
                   'VitalAct',
                   style: TextStyle(
@@ -58,7 +56,6 @@ class WelcomePage extends StatelessWidget {
               ],
             ),
           ),
-
           Align(
             alignment: const Alignment(0, .75),
             child: Column(
@@ -71,9 +68,7 @@ class WelcomePage extends StatelessWidget {
                     Navigator.pushNamed(context, '/signup');
                   },
                 ),
-
                 const SizedBox(height: 23),
-
                 AppButton(
                   width: width * 0.9,
                   variant: ButtonVariant.outlined,

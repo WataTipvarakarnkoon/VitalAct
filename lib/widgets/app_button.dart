@@ -31,14 +31,13 @@ class AppButton extends StatelessWidget {
           boxShadow: isFilled
               ? [
                   BoxShadow(
-                    color: Color(0xCCCC3838).withValues(alpha: 40),
+                    color: const Color(0xCCCC3838).withValues(alpha: 40),
                     blurRadius: 0,
-                    offset: Offset(0, 5),
+                    offset: const Offset(0, 5),
                   ),
                 ]
               : [],
         ),
-
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
