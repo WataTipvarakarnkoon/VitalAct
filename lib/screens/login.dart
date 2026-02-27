@@ -1,8 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
+import 'package:vitalact/widgets/auth_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vitalact/utils/validators.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> signIn() async {
+    if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please fix the errors"),
+        ),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Signin successful!")),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "Signin failed")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,94 +59,47 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Log In',
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 30,
-                color: Color.fromARGB(255, 52, 52, 52),
-              ),
-            ),
-            const SizedBox(height: 25),
-            SizedBox(
-              width: width * .9,
-              height: 45,
-              child: TextField(
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  color: Color.fromARGB(255, 119, 119, 119),
-                ),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  hintText: 'Username',
-                  hintStyle: const TextStyle(
-                    color: Color.fromARGB(255, 119, 119, 119),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 196, 196, 196),
-                      width: 3,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 0, 170, 255),
-                      width: 3,
-                    ),
-                  ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Log In',
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 30,
+                  color: Color.fromARGB(255, 52, 52, 52),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: width * 0.9,
-              height: 45,
-              child: TextField(
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  color: Color.fromARGB(255, 119, 119, 119),
-                ),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  hintText: 'Password',
-                  hintStyle: const TextStyle(
-                    color: Color.fromARGB(255, 119, 119, 119),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 196, 196, 196),
-                      width: 3,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 0, 170, 255),
-                      width: 3,
-                    ),
-                  ),
-                ),
+              const SizedBox(height: 25),
+
+              /// Email
+              AuthTextField(
+                hintText: 'Email',
+                controller: emailController,
+                validator: Validators.email,
               ),
-            ),
-            const SizedBox(height: 25),
-            AppButton(
-              width: width * 0.9,
-              height: 45,
-              text: 'LOG IN',
-              onPressed: () {
-                Navigator.pushNamed(context, '/index');
-              },
-            ),
-          ],
+              const SizedBox(height: 10),
+
+              /// Password
+              AuthTextField(
+                hintText: 'Password',
+                controller: passwordController,
+                obscureText: true,
+                validator: Validators.password,
+              ),
+              const SizedBox(height: 25),
+
+              AppButton(
+                width: width * 0.9,
+                height: 45,
+                text: 'LOG IN',
+                onPressed: signIn,
+              ),
+            ],
+          ),
         ),
       ),
     );
