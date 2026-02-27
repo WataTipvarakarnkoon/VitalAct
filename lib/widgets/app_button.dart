@@ -31,7 +31,7 @@ class AppButton extends StatelessWidget {
           boxShadow: isFilled
               ? [
                   BoxShadow(
-                    color: const Color(0xCCCC3838).withValues(alpha: 40),
+                    color: const Color(0xCCCC3838).withOpacity(0.5),
                     blurRadius: 0,
                     offset: const Offset(0, 5),
                   ),
