@@ -79,19 +79,25 @@ class _SignupPageState extends State<SignupPage> {
                   const SizedBox(height: 25),
 
                   /// Email
-                  AuthTextField(
-                    hintText: 'Email',
-                    controller: emailController,
-                    validator: Validators.email,
+                  SizedBox(
+                    width: width * 0.9,
+                    child: AuthTextField(
+                      hintText: 'Email',
+                      controller: emailController,
+                      validator: Validators.email,
+                    ),
                   ),
                   const SizedBox(height: 10),
 
                   /// Password
-                  AuthTextField(
-                    hintText: 'Password',
-                    controller: passwordController,
-                    obscureText: true,
-                    validator: Validators.password,
+                  SizedBox(
+                    width: width * 0.9,
+                    child: AuthTextField(
+                      hintText: "Password",
+                      controller: passwordController,
+                      validator: Validators.password,
+                      isPassword: true,
+                    ),
                   ),
                   const SizedBox(height: 25),
 
@@ -99,7 +105,9 @@ class _SignupPageState extends State<SignupPage> {
                     width: width * 0.9,
                     height: 45,
                     text: 'SIGN UP',
-                    onPressed: signUp,
+                    onPressed: () {
+                      signUp();
+                    },
                   ),
                 ],
               ),

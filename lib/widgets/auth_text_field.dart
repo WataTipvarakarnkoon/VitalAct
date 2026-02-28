@@ -1,61 +1,93 @@
 import 'package:flutter/material.dart';
 
-class AuthTextField extends StatelessWidget {
+class AuthTextField extends StatefulWidget {
   final String hintText;
-  final bool obscureText;
+  final bool isPassword;
   final TextEditingController controller;
   final String? Function(String?)? validator;
 
   const AuthTextField({
     super.key,
     required this.hintText,
-    this.obscureText = false,
     required this.controller,
     this.validator,
+    this.isPassword = false,
   });
 
   @override
+  State<AuthTextField> createState() => _AuthTextFieldState();
+}
+
+class _AuthTextFieldState extends State<AuthTextField> {
+  bool _obscureText = true;
+  String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPassword;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    return SizedBox(
-      width: width * 0.9,
-      height: 45,
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        style: const TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 20,
-          color: Color.fromARGB(255, 119, 119, 119),
-        ),
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-          hintText: hintText,
-          hintStyle: const TextStyle(color: Color.fromARGB(255, 119, 119, 119)),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: const BorderSide(
-              color: Color.fromARGB(255, 196, 196, 196),
-              width: 3,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: widget.controller,
+          obscureText: widget.isPassword ? _obscureText : false,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: widget.validator,
+          decoration: InputDecoration(
+            errorText: _errorText,
+            hintText: widget.hintText,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 14,
+            ),
+            suffixIcon: widget.isPassword
+                ? IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  )
+                : null,
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: const BorderSide(
+                color: Color(0xFFC62828),
+                width: 2,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: const BorderSide(
+                color: Color(0xFFC62828),
+                width: 2,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: const BorderSide(
+                color: Color(0xFFC4C4C4),
+                width: 2,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: const BorderSide(
+                color: Color(0xFF00AAFF),
+                width: 2,
+              ),
             ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: const BorderSide(
-              color: Color.fromARGB(255, 0, 170, 255),
-              width: 3,
-            ),
-          ),
-
-          //error
-          errorStyle: const TextStyle(
-            fontSize: 0,
-            height: 0,
-          ),
         ),
-        validator: validator,
-      ),
+      ],
     );
   }
 }
