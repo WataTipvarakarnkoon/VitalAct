@@ -31,9 +31,16 @@ class WelcomePage extends StatelessWidget {
               height: height * 0.65,
             ),
           ),
-          const SpriteExact(),
-          const Center(
-            child: Column(
+          Positioned(
+              top: height * 0.21,
+              left: 0,
+              right: 0,
+              child: const SpriteAnimation()),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: height * 0.1,
+            child: const Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
