@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
+import 'package:vitalact/widgets/animation.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -30,6 +31,7 @@ class WelcomePage extends StatelessWidget {
               height: height * 0.65,
             ),
           ),
+          const SpriteExact(),
           const Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,

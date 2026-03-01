@@ -34,7 +34,7 @@ class IndexPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xCCCC3838).withOpacity(0.5),
+                      color: const Color(0xCCCC3838).withOpacity(1),
                       blurRadius: 0,
                       offset: const Offset(0, 5),
                     ),

@@ -34,11 +34,19 @@ class _AuthTextFieldState extends State<AuthTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+          style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 17,
+              color: Color.fromARGB(255, 119, 119, 119)),
           controller: widget.controller,
           obscureText: widget.isPassword ? _obscureText : false,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: widget.validator,
           decoration: InputDecoration(
+            hintStyle: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 17,
+                color: Color.fromARGB(255, 119, 119, 119)),
             errorText: _errorText,
             hintText: widget.hintText,
             contentPadding: const EdgeInsets.symmetric(

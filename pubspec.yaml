@@ -28,6 +28,7 @@ flutter:
     - assets/icons/setting.png
     - assets/icons/profile.png
     - assets/icons/practice.png
+    - assets/spritesheet/wave.png
 
   fonts:
     - family: BalooBhai2
