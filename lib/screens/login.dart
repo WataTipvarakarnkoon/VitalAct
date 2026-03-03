@@ -57,6 +57,31 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<void> signInAnonymously() async {
+    try {
+      await AuthService.signInAnonymously();
+
+      if (!mounted) return;
+
+      Navigator.pushReplacementNamed(context, '/index');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Signed in anonymously")),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AuthErrorMapper.messageFromException(e))),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Anonymous sign-in failed")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -107,6 +132,14 @@ class _LoginPageState extends State<LoginPage> {
                 height: 45,
                 text: 'LOG IN',
                 onPressed: signIn,
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: width * 0.9,
+                child: TextButton(
+                  onPressed: signInAnonymously,
+                  child: const Text('Continue as Guest'),
+                ),
               ),
             ],
           ),

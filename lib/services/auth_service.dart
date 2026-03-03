@@ -23,7 +23,13 @@ class AuthService {
     );
   }
 
+  static Future<UserCredential> signInAnonymously() {
+    return _auth.signInAnonymously();
+  }
+
   static Future<void> signOut() => _auth.signOut();
 
   static User? get currentUser => _auth.currentUser;
+
+  static bool get isAnonymous => _auth.currentUser?.isAnonymous ?? false;
 }
