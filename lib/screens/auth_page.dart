@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/auth_text_field.dart';
 import 'package:vitalact/services/auth_service.dart';
@@ -45,6 +46,7 @@ class _AuthPageState extends State<AuthPage> {
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
+        TextInput.finishAutofillContext();
 
         if (!mounted) return;
         Navigator.pushReplacementNamed(context, '/index');
@@ -56,6 +58,7 @@ class _AuthPageState extends State<AuthPage> {
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
+        TextInput.finishAutofillContext();
 
         if (!mounted) return;
         Navigator.pushReplacementNamed(context, '/login');
@@ -112,54 +115,62 @@ class _AuthPageState extends State<AuthPage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 30,
-                      color: Color.fromARGB(255, 52, 52, 52),
+            child: AutofillGroup(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 30,
+                        color: Color.fromARGB(255, 52, 52, 52),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  SizedBox(
-                    width: width * 0.9,
-                    child: AuthTextField(
-                      hintText: 'Email',
-                      controller: emailController,
-                      validator: Validators.email,
+                    const SizedBox(height: 25),
+                    SizedBox(
+                      width: width * 0.9,
+                      child: AuthTextField(
+                        hintText: 'Email',
+                        controller: emailController,
+                        validator: Validators.email,
+                        autofillHints: const [AutofillHints.email],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: width * 0.9,
-                    child: AuthTextField(
-                      hintText: 'Password',
-                      controller: passwordController,
-                      validator: Validators.password,
-                      isPassword: true,
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: width * 0.9,
+                      child: AuthTextField(
+                        hintText: 'Password',
+                        controller: passwordController,
+                        validator: Validators.password,
+                        isPassword: true,
+                        autofillHints: [
+                          isLogin
+                              ? AutofillHints.password
+                              : AutofillHints.newPassword,
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  AppButton(
-                    width: width * 0.9,
-                    height: 45,
-                    text: primaryText,
-                    onPressed: submit,
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: width * 0.9,
-                    child: TextButton(
-                      onPressed: signInAnonymously,
-                      child: const Text('Continue as Guest'),
+                    const SizedBox(height: 25),
+                    AppButton(
+                      width: width * 0.9,
+                      height: 45,
+                      text: primaryText,
+                      onPressed: submit,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: width * 0.9,
+                      child: TextButton(
+                        onPressed: signInAnonymously,
+                        child: const Text('Continue as Guest'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

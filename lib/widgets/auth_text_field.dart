@@ -5,6 +5,7 @@ class AuthTextField extends StatefulWidget {
   final bool isPassword;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final Iterable<String>? autofillHints;
 
   const AuthTextField({
     super.key,
@@ -12,6 +13,7 @@ class AuthTextField extends StatefulWidget {
     required this.controller,
     this.validator,
     this.isPassword = false,
+    this.autofillHints,
   });
 
   @override
@@ -42,6 +44,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
           obscureText: widget.isPassword ? _obscureText : false,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: widget.validator,
+          autofillHints: widget.autofillHints,
           decoration: InputDecoration(
             hintStyle: const TextStyle(
                 fontWeight: FontWeight.w700,
