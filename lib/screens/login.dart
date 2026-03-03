@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/auth_text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vitalact/services/auth_service.dart';
+import 'package:vitalact/utils/auth_error_mapper.dart';
 import 'package:vitalact/utils/validators.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await AuthService.signIn(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
@@ -50,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? "Signin failed")),
+        SnackBar(content: Text(AuthErrorMapper.messageFromException(e))),
       );
     }
   }
