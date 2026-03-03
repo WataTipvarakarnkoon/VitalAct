@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'profile_page.dart';
 import 'practice_page.dart';
-import '../widgets/icon_items.dart';
+import '../../widgets/icon_items.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
