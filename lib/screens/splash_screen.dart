@@ -7,8 +7,6 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-bool _minimumTimePassed = false;
-
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
@@ -29,14 +27,6 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
       duration: const Duration(milliseconds: 2700),
     );
-
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      if (mounted) {
-        setState(() {
-          _minimumTimePassed = true;
-        });
-      }
-    });
 
     _position = Tween<Offset>(
       begin: const Offset(0, .7),
