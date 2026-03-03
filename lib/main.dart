@@ -5,6 +5,8 @@ import 'screens/splash_screen.dart';
 import 'screens/index_page.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'screens/auth_gate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'BalooBhai2'),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/splash',
+      home: const AuthGate(),
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/welcome': (context) => const WelcomePage(),
@@ -33,6 +35,8 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+
+
 
 class IconItems extends StatelessWidget {
   final String path;
