@@ -1,19 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/auth_text_field.dart';
 import 'package:vitalact/services/auth_service.dart';
 import 'package:vitalact/utils/auth_error_mapper.dart';
 import 'package:vitalact/utils/validators.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+enum AuthMode { login, signup }
+
+class AuthPage extends StatefulWidget {
+  final AuthMode mode;
+
+  const AuthPage({super.key, required this.mode});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<AuthPage> createState() => _AuthPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -25,34 +29,73 @@ class _SignupPageState extends State<SignupPage> {
     super.dispose();
   }
 
-  Future<void> signUp() async {
+  bool get isLogin => widget.mode == AuthMode.login;
+
+  Future<void> submit() async {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please fix the errors"),
-        ),
+        const SnackBar(content: Text('Please fix the errors')),
       );
       return;
     }
 
     try {
-      await AuthService.signUp(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
+      if (isLogin) {
+        await AuthService.signIn(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
 
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, '/index');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Signin successful!')),
+        );
+      } else {
+        await AuthService.signUp(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, '/login');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Signup successful!')),
+        );
+      }
+    } on Exception catch (e) {
       if (!mounted) return;
 
-      Navigator.pushReplacementNamed(context, '/login');
+      if (e is FirebaseAuthException) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AuthErrorMapper.messageFromException(e))),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
+    }
+  }
 
+  Future<void> signInAnonymously() async {
+    try {
+      await AuthService.signInAnonymously();
+
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/index');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Signup successful!")),
+        const SnackBar(content: Text('Signed in anonymously')),
       );
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AuthErrorMapper.messageFromException(e))),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Anonymous sign-in failed')),
       );
     }
   }
@@ -60,6 +103,8 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final title = isLogin ? 'Log In' : 'Sign up';
+    final primaryText = isLogin ? 'LOG IN' : 'SIGN UP';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -72,17 +117,15 @@ class _SignupPageState extends State<SignupPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Sign up',
-                    style: TextStyle(
+                  Text(
+                    title,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 30,
                       color: Color.fromARGB(255, 52, 52, 52),
                     ),
                   ),
                   const SizedBox(height: 25),
-
-                  /// Email
                   SizedBox(
                     width: width * 0.9,
                     child: AuthTextField(
@@ -92,26 +135,29 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   const SizedBox(height: 10),
-
-                  /// Password
                   SizedBox(
                     width: width * 0.9,
                     child: AuthTextField(
-                      hintText: "Password",
+                      hintText: 'Password',
                       controller: passwordController,
                       validator: Validators.password,
                       isPassword: true,
                     ),
                   ),
                   const SizedBox(height: 25),
-
                   AppButton(
                     width: width * 0.9,
                     height: 45,
-                    text: 'SIGN UP',
-                    onPressed: () {
-                      signUp();
-                    },
+                    text: primaryText,
+                    onPressed: submit,
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: width * 0.9,
+                    child: TextButton(
+                      onPressed: signInAnonymously,
+                      child: const Text('Continue as Guest'),
+                    ),
                   ),
                 ],
               ),
