@@ -23,6 +23,7 @@ class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: IndexedStack(
         index: selectedIndex,
         children: pages,
