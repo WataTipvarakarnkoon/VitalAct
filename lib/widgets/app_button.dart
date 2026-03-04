@@ -30,24 +30,23 @@ class AppButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
           boxShadow: isFilled
               ? [
-                  BoxShadow(
-                    color: const Color(0xCCCC3838).withOpacity(1),
+                  const BoxShadow(
+                    color: Color(0xFFCC3838),
                     blurRadius: 0,
-                    offset: const Offset(0, 5),
+                    offset: Offset(0, 5),
                   ),
                 ]
               : [],
         ),
-        child: ElevatedButton(
+        child: OutlinedButton(
           onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
+          style: OutlinedButton.styleFrom(
             backgroundColor: isFilled ? const Color(0xFFFF4646) : Colors.white,
             foregroundColor: isFilled ? Colors.white : const Color(0xFFFF4646),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-              side: isFilled
-                  ? BorderSide.none
-                  : const BorderSide(color: Color(0xFFFF9393), width: 4),
+            side: BorderSide(
+              color:
+                  isFilled ? const Color(0xFFCC3838) : const Color(0xFFFF9393),
+              width: isFilled ? 2.0 : 3.0,
             ),
           ),
           child: Text(

@@ -44,6 +44,10 @@ class _PracticePageState extends State<PracticePage>
                 indicatorColor: themeColor,
                 labelColor: themeColor,
                 unselectedLabelColor: Colors.grey,
+                labelStyle:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                unselectedLabelStyle:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 tabs: const [
                   Tab(text: "Mental Drill"),
                   Tab(text: "Physical Drill"),
