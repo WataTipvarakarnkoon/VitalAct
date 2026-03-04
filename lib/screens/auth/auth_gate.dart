@@ -4,28 +4,38 @@ import '../splash_screen.dart';
 import '../main/index_page.dart';
 import 'welcome.dart';
 
-class AuthGate extends StatelessWidget {
+class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
 
-  Future<User?> _initialize() async {
-    final results = await Future.wait([
-      Future.delayed(const Duration(milliseconds: 3000)),
-      FirebaseAuth.instance.authStateChanges().first,
-    ]);
+  @override
+  State<AuthGate> createState() => _AuthGateState();
+}
 
-    return results[1] as User?;
+class _AuthGateState extends State<AuthGate> {
+  bool _showSplash = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      if (mounted) {
+        setState(() {
+          _showSplash = false;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<User?>(
-      future: _initialize(),
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         Widget child;
 
-        if (snapshot.connectionState != ConnectionState.done) {
+        if (_showSplash) {
           child = const SplashScreen(key: ValueKey('splash'));
-        } else if (snapshot.data != null) {
+        } else if (snapshot.hasData) {
           child = const IndexPage(key: ValueKey('index'));
         } else {
           child = const WelcomePage(key: ValueKey('welcome'));

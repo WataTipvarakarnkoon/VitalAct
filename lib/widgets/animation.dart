@@ -37,6 +37,8 @@ class _SpriteAnimationState extends State<SpriteAnimation>
     final codec = await ui.instantiateImageCodec(bytes);
     final frame = await codec.getNextFrame();
 
+    if (!mounted) return;
+
     setState(() {
       sprite = frame.image;
     });

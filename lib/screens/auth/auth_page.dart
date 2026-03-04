@@ -46,10 +46,11 @@ class _AuthPageState extends State<AuthPage> {
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
+
         TextInput.finishAutofillContext();
 
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, '/index');
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Signin successful!')),
         );
@@ -61,7 +62,6 @@ class _AuthPageState extends State<AuthPage> {
         TextInput.finishAutofillContext();
 
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, '/login');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Signup successful!')),
         );
