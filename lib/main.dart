@@ -21,7 +21,14 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'BalooBhai2'),
+      theme: ThemeData(
+        fontFamily: 'BalooBhai2',
+        tabBarTheme: const TabBarTheme(
+          labelStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          unselectedLabelStyle:
+              TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: const AuthGate(),
       routes: {

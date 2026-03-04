@@ -1,10 +1,85 @@
 import 'package:flutter/material.dart';
 
-class PracticePage extends StatelessWidget {
+class PracticePage extends StatefulWidget {
   const PracticePage({super.key});
 
   @override
+  State<PracticePage> createState() => _PracticePageState();
+}
+
+class _PracticePageState extends State<PracticePage>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Text("PracticePage");
+    return AnimatedBuilder(
+      animation: _tabController.animation!,
+      builder: (context, _) {
+        final double t = _tabController.animation!.value;
+        final Color themeColor = Color.lerp(Colors.red, Colors.blue, t)!;
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          color: themeColor.withOpacity(0.05),
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
+              TabBar(
+                indicatorWeight: 1,
+                indicatorSize: TabBarIndicatorSize.tab,
+                controller: _tabController,
+                indicatorColor: themeColor,
+                labelColor: themeColor,
+                unselectedLabelColor: Colors.grey,
+                tabs: const [
+                  Tab(text: "Mental Drill"),
+                  Tab(text: "Physical Drill"),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    Center(
+                      child: Text(
+                        "Mental Content",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: themeColor,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "Physical Content",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: themeColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
