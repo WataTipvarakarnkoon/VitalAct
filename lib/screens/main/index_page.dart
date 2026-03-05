@@ -12,13 +12,13 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
-  int selectedIndex = 2;
+  int selectedIndex = 1;
 
-  final PageController _controller = PageController(initialPage: 2);
+  final PageController _controller = PageController(initialPage: 1);
   final List<Widget> pages = const [
     ProfilePage(),
-    PracticePage(),
     HomePage(),
+    PracticePage(),
   ];
 
   @override
@@ -82,13 +82,13 @@ class BottomBar extends StatelessWidget {
           ),
           IconItems(
             path: 'assets/icons/home.png',
-            isSelected: selectedIndex == 2,
-            onTap: () => onTap(2),
+            isSelected: selectedIndex == 1,
+            onTap: () => onTap(1),
           ),
           IconItems(
             path: 'assets/icons/practice.png',
-            isSelected: selectedIndex == 1,
-            onTap: () => onTap(1),
+            isSelected: selectedIndex == 2,
+            onTap: () => onTap(2),
           ),
         ],
       ),
