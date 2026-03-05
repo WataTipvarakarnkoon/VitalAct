@@ -9,6 +9,12 @@ class AppButton extends StatelessWidget {
   final double? width;
   final double height;
 
+  // Optional color overrides
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final Color? borderColor;
+  final Color? shadowColor;
+
   const AppButton({
     super.key,
     required this.text,
@@ -16,11 +22,26 @@ class AppButton extends StatelessWidget {
     this.variant = ButtonVariant.filled,
     this.width,
     this.height = 60,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.borderColor,
+    this.shadowColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final isFilled = variant == ButtonVariant.filled;
+
+    final Color defaultBackground =
+        isFilled ? const Color(0xFFFF4646) : Colors.white;
+
+    final Color defaultForeground =
+        isFilled ? Colors.white : const Color(0xFFFF4646);
+
+    final Color defaultBorder =
+        isFilled ? const Color(0xFFCC3838) : const Color(0xFFFF9393);
+
+    const Color defaultShadow = Color(0xFFCC3838);
 
     return SizedBox(
       width: width ?? MediaQuery.of(context).size.width * 0.9,
@@ -30,9 +51,9 @@ class AppButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
           boxShadow: isFilled
               ? [
-                  const BoxShadow(
-                    color: Color(0xFFCC3838),
-                    offset: Offset(0, 5),
+                  BoxShadow(
+                    color: shadowColor ?? defaultShadow,
+                    offset: const Offset(0, 5),
                   ),
                 ]
               : [],
@@ -40,17 +61,22 @@ class AppButton extends StatelessWidget {
         child: OutlinedButton(
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
-            backgroundColor: isFilled ? const Color(0xFFFF4646) : Colors.white,
-            foregroundColor: isFilled ? Colors.white : const Color(0xFFFF4646),
+            backgroundColor: backgroundColor ?? defaultBackground,
+            foregroundColor: foregroundColor ?? defaultForeground,
             side: BorderSide(
-              color:
-                  isFilled ? const Color(0xFFCC3838) : const Color(0xFFFF9393),
+              color: borderColor ?? defaultBorder,
               width: isFilled ? 2.0 : 3.0,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
             ),
           ),
           child: Text(
             text,
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+            ),
           ),
         ),
       ),

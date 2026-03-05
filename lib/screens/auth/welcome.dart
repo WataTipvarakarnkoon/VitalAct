@@ -3,7 +3,14 @@ import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+  final VoidCallback onLogin;
+  final VoidCallback onSignup;
+
+  const WelcomePage({
+    super.key,
+    required this.onLogin,
+    required this.onSignup,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,18 +79,14 @@ class WelcomePage extends StatelessWidget {
                 AppButton(
                   width: width * 0.9,
                   text: 'GET STARTED',
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/signup');
-                  },
+                  onPressed: onSignup,
                 ),
                 const SizedBox(height: 23),
                 AppButton(
                   width: width * 0.9,
                   variant: ButtonVariant.outlined,
                   text: 'I ALREADY HAVE AN ACCOUNT',
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
+                  onPressed: onLogin,
                 ),
               ],
             ),
