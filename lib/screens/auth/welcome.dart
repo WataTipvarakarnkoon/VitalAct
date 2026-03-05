@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
-import 'package:vitalact/widgets/animation.dart';
+import 'package:vitalact/widgets/sprite_animation.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
