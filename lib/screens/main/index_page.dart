@@ -27,7 +27,11 @@ class _IndexPageState extends State<IndexPage> {
       backgroundColor: Colors.white,
       body: PageView(
         controller: _controller,
-        onPageChanged: (index) {},
+        onPageChanged: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
         children: pages,
       ),
       bottomNavigationBar: SafeArea(
