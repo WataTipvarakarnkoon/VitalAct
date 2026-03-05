@@ -33,6 +33,14 @@ class _AuthPageState extends State<AuthPage> {
   bool get isLogin => widget.mode == AuthMode.login;
 
   Future<void> submit() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    // Don't proceed if email or password is empty, but don't show error
+    if (email.isEmpty || password.isEmpty) {
+      return;
+    }
+
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fix the errors')),
@@ -43,8 +51,8 @@ class _AuthPageState extends State<AuthPage> {
     try {
       if (isLogin) {
         await AuthService.signIn(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
+          email: email,
+          password: password,
         );
 
         TextInput.finishAutofillContext();
@@ -56,8 +64,8 @@ class _AuthPageState extends State<AuthPage> {
         );
       } else {
         await AuthService.signUp(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
+          email: email,
+          password: password,
         );
         TextInput.finishAutofillContext();
 
