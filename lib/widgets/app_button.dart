@@ -16,6 +16,8 @@ class AppButton extends StatelessWidget {
 
   final double borderRadius;
 
+  final EdgeInsetsGeometry padding;
+
   const AppButton({
     super.key,
     required this.child,
@@ -28,6 +30,7 @@ class AppButton extends StatelessWidget {
     this.borderColor,
     this.shadowColor,
     this.borderRadius = 50,
+    this.padding = const EdgeInsets.symmetric(),
   });
 
   @override
@@ -61,6 +64,7 @@ class AppButton extends StatelessWidget {
         child: OutlinedButton(
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
+            padding: padding,
             backgroundColor: backgroundColor ?? defaultBackground,
             foregroundColor: foregroundColor ?? defaultForeground,
             side: BorderSide(

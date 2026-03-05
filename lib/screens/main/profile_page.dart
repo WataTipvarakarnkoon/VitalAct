@@ -14,7 +14,7 @@ class ProfileRow extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return SizedBox(
-      width: width * .8,
+      width: width * 0.8,
       child: Row(
         children: [
           Text(
@@ -92,21 +92,15 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 50),
                 const ProfileRow(label: 'Email:', value: 'X'),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 const ProfileRow(label: 'Password:', value: 'X'),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Container(
                   width: width * .8,
                   height: 1.5,
                   color: const Color.fromARGB(255, 132, 132, 132),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 const ProfileRow(label: 'Dark Mode:', value: 'Switch'),
                 const SizedBox(height: 30),
                 const Spacer(),

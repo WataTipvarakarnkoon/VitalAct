@@ -22,8 +22,8 @@ flutter:
   assets:
     - assets/images/Background.png
     - assets/images/Ellipse.png
-    - assets/images/Notpress.png
-    - assets/images/press.png
+    - assets/images/gray_lesson_box.png
+    - assets/images/red_lesson_box.png
     - assets/icons/home.png
     - assets/icons/setting.png
     - assets/icons/profile.png

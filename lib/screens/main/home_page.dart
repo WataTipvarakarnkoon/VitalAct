@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
+import '../../data/lesson_data.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -34,10 +35,32 @@ class HomePage extends StatelessWidget {
             width: width * 0.9,
             height: 70,
             borderRadius: 15,
+            padding: const EdgeInsetsGeometry.symmetric(horizontal: 0),
             backgroundColor: const Color(0xFFFF4646),
             borderColor: const Color(0xFFFF4646),
             shadowColor: const Color(0xFFCC3838),
-            child: const Text("PLACEHOLDER FOR THE NEXT LESSON"),
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "CONTINUE",
+                  style: TextStyle(
+                    fontSize: 15,
+                    height: 1.2,
+                    color: Color(0xB3FFFFFF),
+                  ),
+                ),
+                Text(
+                  "Recognition: Life-threatening red flags",
+                  style: TextStyle(
+                    fontSize: 17,
+                    height: 1.1,
+                    color: Color(0xFFFFFFFF),
+                  ),
+                ),
+              ],
+            ),
           )),
         ),
         Positioned.fill(
@@ -57,102 +80,30 @@ class Lesson extends StatefulWidget {
 }
 
 class _LessonState extends State<Lesson> {
-  int currentstep = 0;
-  bool isPressed = false;
-  int? pressedStep;
+  int currentStep = 0;
+  int? pressedIndex;
 
-  void press(int step) {
-    if (step == currentstep) {
-      setState(() {
-        currentstep++;
-      });
-    }
-  }
+  Future<void> openLesson(int index) async {
+    if (index > currentStep) return;
 
-  Widget button(int step) {
-    bool active = step <= currentstep;
-    bool isPressed = pressedStep == step;
-    final width = MediaQuery.of(context).size.width;
-    final stepHeading = [
-      'Normal vs abnormal signs',
-      'Life-threatening red flags',
-      'Breathing Distress Detection',
-      'Chest Pain & Stroke Clues',
-      'Mixed Symptom Recognition Challenge',
-    ];
-    final stepSub = [
-      'Learn to quickly recognize abnormal breathing and emergency warning signs.',
-      'Identify critical signs that require immediate emergency action.',
-      'Recognize early and severe signs of breathing difficulty.',
-      'Spot key symptoms of heart attack and stroke quickly.',
-      'Practice identifying emergencies when multiple symptoms appear.',
-    ];
-
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-        focusColor: Colors.transparent,
-        onTap: active ? () => press(step) : null,
-        onHighlightChanged: (pressed) {
-          setState(() {
-            pressedStep = pressed ? step : null;
-          });
-        },
-        child: AnimatedScale(
-          scale: isPressed ? 0.9 : 1.0,
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeOut,
-          child: SizedBox(
-            width: width * .8,
-            child: Stack(children: [
-              Positioned(
-                child: Image.asset(
-                  active
-                      ? 'assets/images/press.png'
-                      : 'assets/images/Notpress.png',
-                ),
-              ),
-              Column(
-                children: [
-                  Container(
-                    width: 260,
-                    padding: const EdgeInsets.only(top: 17, left: 15),
-                    child: Text(
-                      active ? stepHeading[step] : '',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          color: Colors.white,
-                          height: 0.9),
-                    ),
-                  ),
-                  Container(
-                    width: 250,
-                    padding: const EdgeInsets.only(top: 7, left: 11),
-                    child: Text(
-                      active ? stepSub[step] : '',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                          color: Colors.white,
-                          height: 0.9),
-                    ),
-                  )
-                ],
-              ),
-            ]),
-          ),
-        ),
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => lessonData[index].page,
       ),
     );
+
+    if (result == true && index == currentStep) {
+      setState(() {
+        currentStep++;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
     return SingleChildScrollView(
       physics: const SlowScrollPhysics(),
       child: Column(
@@ -171,15 +122,98 @@ class _LessonState extends State<Lesson> {
             ),
           ),
           const SizedBox(height: 10),
-          button(0),
-          const SizedBox(height: 60),
-          button(1),
-          const SizedBox(height: 60),
-          button(2),
-          const SizedBox(height: 60),
-          button(3),
-          const SizedBox(height: 60),
-          button(4),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: lessonData.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 60),
+            itemBuilder: (context, index) {
+              final lesson = lessonData[index];
+              final active = index <= currentStep;
+              final isPressed = pressedIndex == index;
+
+              return Center(
+                child: FractionallySizedBox(
+                  widthFactor: 0.8,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: active ? () => openLesson(index) : null,
+                      onHighlightChanged: (pressed) {
+                        setState(() {
+                          pressedIndex = pressed ? index : null;
+                        });
+                      },
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      child: AnimatedScale(
+                          scale: isPressed ? 0.95 : 1,
+                          duration: const Duration(milliseconds: 50),
+                          child: SizedBox(
+                            width: width * .8,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Lesson Card
+                                Stack(
+                                  children: [
+                                    Image.asset(
+                                      active
+                                          ? 'assets/images/red_lesson_box.png'
+                                          : 'assets/images/gray_lesson_box.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(13),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (active)
+                                            Text(
+                                              lesson.title,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          const SizedBox(height: 3),
+                                          if (active)
+                                            Text(
+                                              lesson.description,
+                                              style: const TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 12),
+
+                                // Progress Bar
+                                if (active)
+                                  LinearProgressIndicator(
+                                    value: index <= currentStep
+                                        ? (index < currentStep ? 1 : 0.3)
+                                        : 0,
+                                    minHeight: 6,
+                                    backgroundColor: Colors.white24,
+                                    color: Colors.red,
+                                  ),
+                              ],
+                            ),
+                          )),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 60),
         ],
       ),
