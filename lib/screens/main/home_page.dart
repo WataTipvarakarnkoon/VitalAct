@@ -164,7 +164,8 @@ class _LessonState extends State<Lesson> {
                                       fit: BoxFit.contain,
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(13),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 13, horizontal: 16),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
