@@ -197,13 +197,32 @@ class _LessonState extends State<Lesson> {
 
                                 // Progress Bar
                                 if (active)
-                                  LinearProgressIndicator(
-                                    value: index <= currentStep
-                                        ? (index < currentStep ? 1 : 0.3)
-                                        : 0,
-                                    minHeight: 6,
-                                    backgroundColor: Colors.white24,
-                                    color: Colors.red,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                        color: const Color(0xFFCC3838),
+                                        width: 2,
+                                      ),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color(0xFFCC3838),
+                                          offset: Offset(0, 4),
+                                          blurRadius: 0,
+                                        )
+                                      ],
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(18),
+                                      child: LinearProgressIndicator(
+                                        value: index <= currentStep
+                                            ? (index < currentStep ? 1 : 0.3)
+                                            : 0,
+                                        minHeight: 10,
+                                        backgroundColor: Colors.white,
+                                        color: const Color(0xFFFF4646),
+                                      ),
+                                    ),
                                   ),
                               ],
                             ),
