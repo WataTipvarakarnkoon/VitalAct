@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../splash_screen.dart';
 import '../main/index_page.dart';
 import 'welcome.dart';
+import 'auth_page.dart';
 
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
@@ -13,6 +14,8 @@ class AuthGate extends StatefulWidget {
 
 class _AuthGateState extends State<AuthGate> {
   bool _showSplash = true;
+  bool _showLogin = false;
+  bool _showSignup = false;
 
   @override
   void initState() {
@@ -38,17 +41,45 @@ class _AuthGateState extends State<AuthGate> {
         } else if (snapshot.hasData) {
           child = const IndexPage(key: ValueKey('index'));
         } else {
-          child = const WelcomePage(key: ValueKey('welcome'));
+          if (_showLogin) {
+            child = AuthPage(
+              key: const ValueKey('auth-login'),
+              mode: AuthMode.login,
+              onBack: () {
+                setState(() {
+                  _showLogin = false;
+                });
+              },
+            );
+          } else if (_showSignup) {
+            child = AuthPage(
+              key: const ValueKey('auth-signup'),
+              mode: AuthMode.signup,
+              onBack: () {
+                setState(() {
+                  _showSignup = false;
+                });
+              },
+            );
+          } else {
+            child = WelcomePage(
+              key: const ValueKey('welcome'),
+              onLogin: () {
+                setState(() {
+                  _showLogin = true;
+                });
+              },
+              onSignup: () {
+                setState(() {
+                  _showSignup = true;
+                });
+              },
+            );
+          }
         }
 
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 600),
-          transitionBuilder: (child, animation) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
           child: child,
         );
       },

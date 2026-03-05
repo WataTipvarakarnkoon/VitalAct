@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'screens/auth/welcome.dart';
-import 'screens/auth/auth_page.dart';
 import 'screens/splash_screen.dart';
 import 'screens/main/index_page.dart';
 import 'firebase_options.dart';
@@ -28,9 +26,6 @@ class MainApp extends StatelessWidget {
       home: const AuthGate(),
       routes: {
         '/splash': (context) => const SplashScreen(),
-        '/welcome': (context) => const WelcomePage(),
-        '/login': (context) => const AuthPage(mode: AuthMode.login),
-        '/signup': (context) => const AuthPage(mode: AuthMode.signup),
         '/index': (context) => const IndexPage(),
       },
     );

@@ -11,8 +11,13 @@ enum AuthMode { login, signup }
 
 class AuthPage extends StatefulWidget {
   final AuthMode mode;
+  final VoidCallback? onBack;
 
-  const AuthPage({super.key, required this.mode});
+  const AuthPage({
+    super.key,
+    required this.mode,
+    this.onBack,
+  });
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -58,10 +63,6 @@ class _AuthPageState extends State<AuthPage> {
         TextInput.finishAutofillContext();
 
         if (!mounted) return;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Signin successful!')),
-        );
       } else {
         await AuthService.signUp(
           email: email,
@@ -70,9 +71,6 @@ class _AuthPageState extends State<AuthPage> {
         TextInput.finishAutofillContext();
 
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Signup successful!')),
-        );
       }
     } on Exception catch (e) {
       if (!mounted) return;
@@ -94,10 +92,6 @@ class _AuthPageState extends State<AuthPage> {
       await AuthService.signInAnonymously();
 
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/index');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Signed in anonymously')),
-      );
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -118,6 +112,14 @@ class _AuthPageState extends State<AuthPage> {
     final primaryText = isLogin ? 'LOG IN' : 'SIGN UP';
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: BackButton(
+            onPressed: widget.onBack != null
+                ? widget.onBack!
+                : () => Navigator.pop(context)),
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
