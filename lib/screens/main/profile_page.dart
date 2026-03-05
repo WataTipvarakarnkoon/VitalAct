@@ -2,6 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/icon_items.dart';
 import 'settings_page.dart';
 
+class ProfileRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const ProfileRow({super.key, required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    return SizedBox(
+      width: width * .8,
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Color.fromARGB(255, 132, 132, 132),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 132, 132, 132),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -41,59 +80,11 @@ class ProfilePage extends StatelessWidget {
                       color: Color(0xFFFF4646)),
                 ),
                 const SizedBox(height: 50),
-                SizedBox(
-                  width: width * .8,
-                  child: const Row(
-                    children: [
-                      Text(
-                        "Email:",
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 132, 132, 132)),
-                        textAlign: TextAlign.start,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "XX.XXX@icloud.com",
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 132, 132, 132)),
-                          textAlign: TextAlign.end,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                const ProfileRow(label: 'Email:', value: 'X'),
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  width: width * .8,
-                  child: const Row(
-                    children: [
-                      Text(
-                        "Password:",
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 132, 132, 132)),
-                        textAlign: TextAlign.start,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "XXXXXXXXXXXXX",
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 132, 132, 132)),
-                          textAlign: TextAlign.end,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                const ProfileRow(label: 'Passsword:', value: 'X'),
                 const SizedBox(
                   height: 10,
                 ),
@@ -105,31 +96,7 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  width: width * .8,
-                  child: const Row(
-                    children: [
-                      Text(
-                        "Dark Mode:",
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 132, 132, 132)),
-                        textAlign: TextAlign.start,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "XXXXXXXXXXXXX",
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 132, 132, 132)),
-                          textAlign: TextAlign.end,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                const ProfileRow(label: 'Dark Mode:', value: 'Switch'),
                 const SizedBox(
                   height: 30,
                 ),
