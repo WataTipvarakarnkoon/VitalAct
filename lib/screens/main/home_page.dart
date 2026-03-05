@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/widgets/app_button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -28,22 +29,16 @@ class HomePage extends StatelessWidget {
           left: 0,
           right: 0,
           child: Center(
-            child: Container(
-              width: width * 0.9,
-              height: 70,
-              decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0xCCCC3838),
-                    blurRadius: 0,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(15),
-                color: const Color(0xFFFF4646),
-              ),
-            ),
-          ),
+              child: AppButton(
+            onPressed: () {},
+            width: width * 0.9,
+            height: 70,
+            borderRadius: 15,
+            backgroundColor: const Color(0xFFFF4646),
+            borderColor: const Color(0xFFFF4646),
+            shadowColor: const Color(0xFFCC3838),
+            child: const Text("PLACEHOLDER FOR THE NEXT LESSON"),
+          )),
         ),
         Positioned.fill(
           top: height * 0.162,

@@ -78,15 +78,15 @@ class WelcomePage extends StatelessWidget {
               children: [
                 AppButton(
                   width: width * 0.9,
-                  text: 'GET STARTED',
                   onPressed: onSignup,
+                  child: const Text("GET STARTED"),
                 ),
                 const SizedBox(height: 23),
                 AppButton(
                   width: width * 0.9,
                   variant: ButtonVariant.outlined,
-                  text: 'I ALREADY HAVE AN ACCOUNT',
                   onPressed: onLogin,
+                  child: const Text("I ALREADY HAVE AN ACCOUNT"),
                 ),
               ],
             ),

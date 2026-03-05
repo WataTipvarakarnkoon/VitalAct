@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 enum ButtonVariant { filled, outlined }
 
 class AppButton extends StatelessWidget {
-  final String text;
+  final Widget child;
   final VoidCallback onPressed;
   final ButtonVariant variant;
   final double? width;
   final double height;
 
-  // Optional color overrides
   final Color? backgroundColor;
   final Color? foregroundColor;
   final Color? borderColor;
   final Color? shadowColor;
 
+  final double borderRadius;
+
   const AppButton({
     super.key,
-    required this.text,
+    required this.child,
     required this.onPressed,
     this.variant = ButtonVariant.filled,
     this.width,
@@ -26,29 +27,28 @@ class AppButton extends StatelessWidget {
     this.foregroundColor,
     this.borderColor,
     this.shadowColor,
+    this.borderRadius = 50,
   });
 
   @override
   Widget build(BuildContext context) {
     final isFilled = variant == ButtonVariant.filled;
 
-    final Color defaultBackground =
-        isFilled ? const Color(0xFFFF4646) : Colors.white;
+    final defaultBackground = isFilled ? const Color(0xFFFF4646) : Colors.white;
 
-    final Color defaultForeground =
-        isFilled ? Colors.white : const Color(0xFFFF4646);
+    final defaultForeground = isFilled ? Colors.white : const Color(0xFFFF4646);
 
-    final Color defaultBorder =
+    final defaultBorder =
         isFilled ? const Color(0xFFCC3838) : const Color(0xFFFF9393);
 
-    const Color defaultShadow = Color(0xFFCC3838);
+    const defaultShadow = Color(0xFFCC3838);
 
     return SizedBox(
       width: width ?? MediaQuery.of(context).size.width * 0.9,
       height: height,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(borderRadius),
           boxShadow: isFilled
               ? [
                   BoxShadow(
@@ -68,15 +68,17 @@ class AppButton extends StatelessWidget {
               width: isFilled ? 2.0 : 3.0,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
+              borderRadius: BorderRadius.circular(borderRadius),
             ),
           ),
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
+          child: DefaultTextStyle(
+            style: TextStyle(
+              fontFamily: 'BalooBhai2',
               fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: foregroundColor ?? defaultForeground,
             ),
+            child: child,
           ),
         ),
       ),

@@ -95,7 +95,7 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const ProfileRow(label: 'Passsword:', value: 'X'),
+                const ProfileRow(label: 'Password:', value: 'X'),
                 const SizedBox(
                   height: 10,
                 ),
@@ -112,7 +112,6 @@ class ProfilePage extends StatelessWidget {
                   height: 30,
                 ),
                 AppButton(
-                  text: "LOG OUT",
                   onPressed: () => _signOut(context),
                   width: 150,
                   height: 37,
@@ -120,6 +119,7 @@ class ProfilePage extends StatelessWidget {
                   foregroundColor: Colors.white,
                   borderColor: const Color.fromARGB(255, 92, 88, 88),
                   shadowColor: const Color.fromARGB(255, 92, 88, 88),
+                  child: const Text("LOG OUT"),
                 )
               ],
             ),
