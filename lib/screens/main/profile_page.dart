@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:vitalact/widgets/icon_items.dart';
-import 'settings_page.dart';
+import 'package:vitalact/widgets/app_button.dart';
+import 'package:vitalact/services/auth_service.dart';
+import 'package:vitalact/screens/auth/auth_gate.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+  Future<void> _signOut(BuildContext context) async {
+    await AuthService.signOut();
+
+    if (!context.mounted) return;
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const AuthGate()),
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,41 +144,17 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Container(
+                AppButton(
+                  text: "LOG OUT",
+                  onPressed: () => _signOut(context),
+                  width: 150,
                   height: 37,
-                  width: 125,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(255, 132, 132, 132)),
-                  child: const Center(
-                    child: Text(
-                      'LOG OUT',
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ),
+                  backgroundColor: const Color.fromARGB(255, 132, 132, 132),
+                  foregroundColor: Colors.white,
+                  borderColor: const Color.fromARGB(255, 92, 88, 88),
+                  shadowColor: const Color.fromARGB(255, 92, 88, 88),
+                )
               ],
-            ),
-          ),
-
-          // SETTINGS ICON (top-right)
-          Positioned(
-            top: 10,
-            right: 20,
-            child: IconItems(
-              path: 'assets/icons/setting.png',
-              isSelected: false, // not tied to bottom nav
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const SettingsPage(),
-                  ),
-                );
-              },
             ),
           ),
         ],
