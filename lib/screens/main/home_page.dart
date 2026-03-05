@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import '../../data/lesson_data.dart';
+import '../lessons/lesson_runner_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -89,7 +90,9 @@ class _LessonState extends State<Lesson> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => lessonData[index].page,
+        builder: (_) => LessonRunnerPage(
+          steps: lessonData[index].steps,
+        ),
       ),
     );
 
