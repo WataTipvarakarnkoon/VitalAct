@@ -14,6 +14,7 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> {
   int selectedIndex = 2;
 
+  final PageController _controller = PageController(initialPage: 2);
   final List<Widget> pages = const [
     ProfilePage(),
     PracticePage(),
@@ -24,15 +25,24 @@ class _IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: IndexedStack(
-        index: selectedIndex,
+      body: PageView(
+        controller: _controller,
+        onPageChanged: (index) {},
         children: pages,
       ),
       bottomNavigationBar: SafeArea(
         child: BottomBar(
           selectedIndex: selectedIndex,
           onTap: (index) {
-            setState(() => selectedIndex = index);
+            setState(() {
+              selectedIndex = index;
+            });
+
+            _controller.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
           },
         ),
       ),
