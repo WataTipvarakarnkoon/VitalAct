@@ -7,71 +7,147 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
-            // CENTER CONTENT
-            Center(
+            Container(
+              width: double.infinity,
+              height: 150,
+              color: const Color(0xFFFF4646),
+            ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 80),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    width: 120,
-                    height: 120,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
+                    width: 125,
+                    height: 125,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 4),
+                      color: const Color.fromARGB(255, 155, 38, 38),
                       shape: BoxShape.circle,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   const Text(
                     "Name Surname",
                     style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFFF4646)),
                   ),
-                  const SizedBox(height: 30),
-
-                  // Big rectangle
-                  Container(
-                    width: 320,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Two small rectangles
+                  const SizedBox(height: 50),
                   SizedBox(
-                    width: 320,
-                    child: Row(
+                    width: width * .8,
+                    child: const Row(
                       children: [
-                        Expanded(
-                          child: Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
+                        Text(
+                          "Email:",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 132, 132, 132)),
+                          textAlign: TextAlign.start,
                         ),
-                        const SizedBox(width: 16),
                         Expanded(
-                          child: Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(16),
-                            ),
+                          child: Text(
+                            "XX.XXX@icloud.com",
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 132, 132, 132)),
+                            textAlign: TextAlign.end,
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: width * .8,
+                    child: const Row(
+                      children: [
+                        Text(
+                          "Password:",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 132, 132, 132)),
+                          textAlign: TextAlign.start,
+                        ),
+                        Expanded(
+                          child: Text(
+                            "XXXXXXXXXXXXX",
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 132, 132, 132)),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    width: width * .8,
+                    height: 1.5,
+                    color: const Color.fromARGB(255, 132, 132, 132),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: width * .8,
+                    child: const Row(
+                      children: [
+                        Text(
+                          "Dark Mode:",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 132, 132, 132)),
+                          textAlign: TextAlign.start,
+                        ),
+                        Expanded(
+                          child: Text(
+                            "XXXXXXXXXXXXX",
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 132, 132, 132)),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    height: 37,
+                    width: 125,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: const Color.fromARGB(255, 132, 132, 132)),
+                    child: const Center(
+                      child: Text(
+                        'LOG OUT',
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                 ],
