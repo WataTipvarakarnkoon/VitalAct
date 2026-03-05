@@ -108,19 +108,24 @@ class ProfilePage extends StatelessWidget {
                   height: 10,
                 ),
                 const ProfileRow(label: 'Dark Mode:', value: 'Switch'),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
+                const Spacer(),
                 AppButton(
                   onPressed: () => _signOut(context),
-                  width: 150,
-                  height: 37,
+                  width: 140,
+                  height: 35,
                   backgroundColor: const Color.fromARGB(255, 132, 132, 132),
                   foregroundColor: Colors.white,
                   borderColor: const Color.fromARGB(255, 92, 88, 88),
                   shadowColor: const Color.fromARGB(255, 92, 88, 88),
-                  child: const Text("LOG OUT"),
-                )
+                  child: const Text(
+                    "LOG OUT",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
               ],
             ),
           ),

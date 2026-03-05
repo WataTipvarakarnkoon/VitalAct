@@ -74,7 +74,7 @@ class AppButton extends StatelessWidget {
           child: DefaultTextStyle(
             style: TextStyle(
               fontFamily: 'BalooBhai2',
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: FontWeight.w700,
               color: foregroundColor ?? defaultForeground,
             ),
