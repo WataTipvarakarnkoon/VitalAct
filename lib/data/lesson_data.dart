@@ -29,7 +29,7 @@ final List<LessonItem> lessonData = [
       ),
       ReadingStep(
         id: 'r2',
-        title: 'Normal vs Abnormal Breathing',
+        title: 'AAAAAAAAAAAAAAAAAAAAAA',
         content:
             'Normal breathing is quiet and regular...\n\nAbnormal breathing includes...',
       ),

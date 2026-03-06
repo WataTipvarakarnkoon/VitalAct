@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/lesson_step.dart';
 import '../../models/steps/reading_step.dart';
 import 'question_types/reading_page.dart';
+import 'package:animations/animations.dart';
 
 class LessonRunnerPage extends StatefulWidget {
   final String title;
@@ -110,17 +111,60 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
             // PROGRESS BAR
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: LinearProgressIndicator(
-                value: progress,
-                minHeight: 12,
-                backgroundColor: const Color(0xFFBDBDBD),
-                color: const Color(0xFFFF4646),
-                borderRadius: BorderRadius.circular(6),
+              child: TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
+                tween: Tween<double>(
+                  begin: 0,
+                  end: progress,
+                ),
+                builder: (context, value, _) {
+                  return LinearProgressIndicator(
+                    value: value,
+                    minHeight: 12,
+                    backgroundColor: const Color(0xFFBDBDBD),
+                    color: const Color(0xFFFF4646),
+                    borderRadius: BorderRadius.circular(6),
+                  );
+                },
               ),
             ),
+
             Expanded(
-              child: _buildStep(step),
-            ),
+              child: PageTransitionSwitcher(
+                duration: const Duration(milliseconds: 400),
+                transitionBuilder:
+                    (child, primaryAnimation, secondaryAnimation) {
+                  final curvedPrimary = CurvedAnimation(
+                    parent: primaryAnimation,
+                    curve: Curves.easeInOut,
+                  );
+
+                  final curvedSecondary = CurvedAnimation(
+                    parent: secondaryAnimation,
+                    curve: Curves.easeInOut,
+                  );
+
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1, 0),
+                      end: Offset.zero,
+                    ).animate(curvedPrimary),
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: Offset.zero,
+                        end: const Offset(-1, 0),
+                      ).animate(curvedSecondary),
+                      child: child,
+                    ),
+                  );
+                },
+                child: Container(
+                  key: ValueKey(currentIndex),
+                  child: _buildStep(step),
+                ),
+              ),
+            )
           ],
         ),
       ),
