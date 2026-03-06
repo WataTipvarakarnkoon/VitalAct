@@ -27,6 +27,12 @@ final List<LessonItem> lessonData = [
         content:
             'Normal breathing is quiet and regular...\n\nAbnormal breathing includes...',
       ),
+      ReadingStep(
+        id: 'r2',
+        title: 'Normal vs Abnormal Breathing',
+        content:
+            'Normal breathing is quiet and regular...\n\nAbnormal breathing includes...',
+      ),
     ],
   ),
   const LessonItem(

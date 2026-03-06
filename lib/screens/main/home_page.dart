@@ -91,6 +91,7 @@ class _LessonState extends State<Lesson> {
       context,
       MaterialPageRoute(
         builder: (_) => LessonRunnerPage(
+          title: lessonData[index].title,
           steps: lessonData[index].steps,
         ),
       ),
@@ -150,8 +151,8 @@ class _LessonState extends State<Lesson> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       child: AnimatedScale(
-                          scale: isPressed ? 0.95 : 1,
-                          duration: const Duration(milliseconds: 50),
+                          scale: isPressed ? 0.9 : 1,
+                          duration: const Duration(milliseconds: 100),
                           child: SizedBox(
                             width: width * .8,
                             child: Column(
@@ -216,16 +217,14 @@ class _LessonState extends State<Lesson> {
                                         )
                                       ],
                                     ),
-                                    child: ClipRRect(
+                                    child: LinearProgressIndicator(
+                                      value: index <= currentStep
+                                          ? (index < currentStep ? 1 : 0.3)
+                                          : 0,
+                                      minHeight: 10,
+                                      backgroundColor: Colors.white,
+                                      color: const Color(0xFFFF4646),
                                       borderRadius: BorderRadius.circular(18),
-                                      child: LinearProgressIndicator(
-                                        value: index <= currentStep
-                                            ? (index < currentStep ? 1 : 0.3)
-                                            : 0,
-                                        minHeight: 10,
-                                        backgroundColor: Colors.white,
-                                        color: const Color(0xFFFF4646),
-                                      ),
                                     ),
                                   ),
                               ],

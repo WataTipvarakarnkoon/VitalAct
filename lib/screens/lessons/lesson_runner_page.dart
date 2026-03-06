@@ -4,10 +4,12 @@ import '../../models/steps/reading_step.dart';
 import 'question_types/reading_page.dart';
 
 class LessonRunnerPage extends StatefulWidget {
+  final String title;
   final List<LessonStep> steps;
 
   const LessonRunnerPage({
     super.key,
+    required this.title,
     required this.steps,
   });
 
@@ -18,7 +20,7 @@ class LessonRunnerPage extends StatefulWidget {
 class _LessonRunnerPageState extends State<LessonRunnerPage> {
   int currentIndex = 0;
 
-  double get progress => (currentIndex + 1) / widget.steps.length;
+  double get progress => (currentIndex) / widget.steps.length;
 
   void nextStep() {
     if (currentIndex < widget.steps.length - 1) {
@@ -76,7 +78,8 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            padding: const EdgeInsets.only(bottom: 2),
+            icon: const Icon(Icons.clear_rounded, color: Color(0xFFBDBDBD)),
             onPressed: () async {
               final shouldLeave = await _confirmExit();
               if (shouldLeave && context.mounted) {
@@ -85,12 +88,18 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
             },
           ),
           title: Text(
-            "Lesson ${currentIndex + 1}/${widget.steps.length}",
+            widget.title,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Color(0xFFBDBDBD),
+              fontWeight: FontWeight.w500,
+            ),
           ),
           centerTitle: true,
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(1),
             child: Divider(
+              color: Color(0xFFBDBDBD),
               height: 1,
               thickness: 1,
             ),
@@ -98,16 +107,15 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
         ),
         body: Column(
           children: [
+            // PROGRESS BAR
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: ClipRRect(
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 12,
+                backgroundColor: const Color(0xFFBDBDBD),
+                color: const Color(0xFFFF4646),
                 borderRadius: BorderRadius.circular(6),
-                child: LinearProgressIndicator(
-                  value: progress,
-                  minHeight: 12,
-                  backgroundColor: const Color(0xFFBDBDBD),
-                  color: const Color(0xFFFF4646),
-                ),
               ),
             ),
             Expanded(
