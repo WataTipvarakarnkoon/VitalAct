@@ -166,6 +166,7 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                     const SizedBox(height: 25),
                     AppButton(
+                      height: 55,
                       onPressed: submit,
                       child: Text(primaryText),
                     ),

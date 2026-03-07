@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/models/steps/two_choice_step.dart';
+import 'package:vitalact/screens/lessons/question_types/two_choice_page.dart';
 import '../../models/lesson_step.dart';
 import '../../models/steps/reading_step.dart';
 import 'question_types/reading_page.dart';
@@ -174,6 +176,11 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
   Widget _buildStep(LessonStep step) {
     if (step is ReadingStep) {
       return ReadingPage(
+        step: step,
+        onNext: nextStep,
+      );
+    } else if (step is TwoChoiceStep) {
+      return TwoChoicePage(
         step: step,
         onNext: nextStep,
       );

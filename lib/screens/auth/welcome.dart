@@ -79,6 +79,7 @@ class WelcomePage extends StatelessWidget {
                 AppButton(
                   width: width * 0.9,
                   onPressed: onSignup,
+                  height: 60,
                   child: const Text("GET STARTED"),
                 ),
                 const SizedBox(height: 23),
@@ -86,6 +87,7 @@ class WelcomePage extends StatelessWidget {
                   width: width * 0.9,
                   variant: ButtonVariant.outlined,
                   onPressed: onLogin,
+                  height: 60,
                   child: const Text("I ALREADY HAVE AN ACCOUNT"),
                 ),
               ],

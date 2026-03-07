@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/widgets/lesson/lesson_button.dart';
 import '../../../models/steps/reading_step.dart';
 
 class ReadingPage extends StatelessWidget {
@@ -18,49 +19,39 @@ class ReadingPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Content
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      step.title,
-                      style: const TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: SizedBox(
+                  width: double.infinity, // force full width
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        step.title,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      step.content,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        height: 1.6,
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                  ],
-                ),
-              ),
-            ),
-
-            // Continue Button
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: onNext,
-                  child: const Text(
-                    "Continue",
-                    style: TextStyle(fontSize: 16),
+                      const SizedBox(height: 16),
+                      Text(step.content,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            height: 1.6,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFA7A7A7),
+                          )),
+                      const SizedBox(height: 40),
+                    ],
                   ),
                 ),
               ),
             ),
+            LessonButton(
+              text: "Continue",
+              onPressed: onNext,
+            )
           ],
         ),
       ),

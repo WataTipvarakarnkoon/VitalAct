@@ -4,7 +4,7 @@ enum ButtonVariant { filled, outlined }
 
 class AppButton extends StatelessWidget {
   final Widget child;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final ButtonVariant variant;
   final double? width;
   final double height;

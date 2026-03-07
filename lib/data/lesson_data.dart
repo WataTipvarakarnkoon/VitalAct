@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
+import 'package:vitalact/models/steps/two_choice_step.dart';
 import '../models/lesson_item.dart';
 
 class PlaceholderPage extends StatelessWidget {
@@ -16,16 +17,25 @@ class PlaceholderPage extends StatelessWidget {
 }
 
 final List<LessonItem> lessonData = [
-  const LessonItem(
+  LessonItem(
     title: 'Normal vs abnormal signs',
     description:
         'Learn to quickly recognize abnormal breathing and emergency warning signs.',
     steps: [
-      ReadingStep(
-        id: 'r1',
+      const ReadingStep(
+        id: 'What-is-normal',
         title: 'What Is Normal?',
         content:
             'Normal Breathing\n • 12–20 breaths per minute (adult)\n • Regular rhythm\n • Can speak full sentences\n • Skin normal color\n\n\nNote:\nNormal → No immediate danger\nConcerning → Monitor closely\nEmergency → Immediate action needed',
+      ),
+      TwoChoiceStep(
+        id: 'Q1',
+        title: 'Person breathing 22 times per minute but speaking clearly.',
+        instructions: 'Choose the best answer.',
+        imageAsset: 'assets/images/test_lesson_image.png',
+        choices: const ['Normal', 'Emergency'],
+        disclaimer:
+            'Assume this is a sudden situation and the person was previously stable.',
       )
     ],
   ),
