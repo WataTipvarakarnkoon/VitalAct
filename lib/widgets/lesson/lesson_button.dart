@@ -24,29 +24,25 @@ class LessonButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool enabled = onPressed != null;
 
-    // OPTION BUTTON MODE
+// OPTION BUTTON MODE
     if (type == LessonButtonType.option) {
-      return GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          height: 56,
-          decoration: BoxDecoration(
-            color: selected ? const Color(0xFFFFE5E5) : Colors.white,
-            border: Border.all(
-              color: selected ? Colors.red : const Color(0xFFE0E0E0),
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(14),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
+      return AppButton(
+        height: 56,
+        onPressed: onPressed,
+        borderRadius: 14,
+        borderColor:
+            selected ? const Color(0xFFCC3838) : const Color(0xFF7C7C7C),
+        shadowColor:
+            selected ? const Color(0xFFCC3838) : const Color(0xFF7C7C7C),
+        shadowElevation: 3,
+        backgroundColor: selected ? Colors.red : Colors.white,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
+              fontSize: 18,
+              color: selected ? Colors.white : const Color(0xFF7C7C7C)),
         ),
       );
     }

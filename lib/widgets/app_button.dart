@@ -8,6 +8,8 @@ class AppButton extends StatelessWidget {
   final ButtonVariant variant;
   final double? width;
   final double height;
+  final double? shadowElevation;
+  final double? borderWidth;
 
   final Color? backgroundColor;
   final Color? foregroundColor;
@@ -31,6 +33,8 @@ class AppButton extends StatelessWidget {
     this.shadowColor,
     this.borderRadius = 50,
     this.padding = const EdgeInsets.symmetric(),
+    this.shadowElevation,
+    this.borderWidth,
   });
 
   @override
@@ -43,6 +47,7 @@ class AppButton extends StatelessWidget {
 
     final defaultBorder =
         isFilled ? const Color(0xFFCC3838) : const Color(0xFFFF9393);
+    const defaultBorderWidth = 3.0;
 
     const defaultShadow = Color(0xFFCC3838);
 
@@ -56,7 +61,7 @@ class AppButton extends StatelessWidget {
               ? [
                   BoxShadow(
                     color: shadowColor ?? defaultShadow,
-                    offset: const Offset(0, 5),
+                    offset: Offset(0, shadowElevation ?? 5),
                   ),
                 ]
               : [],
@@ -69,7 +74,7 @@ class AppButton extends StatelessWidget {
             foregroundColor: foregroundColor ?? defaultForeground,
             side: BorderSide(
               color: borderColor ?? defaultBorder,
-              width: isFilled ? 2.0 : 3.0,
+              width: borderWidth ?? defaultBorderWidth,
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
