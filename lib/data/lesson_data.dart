@@ -23,16 +23,10 @@ final List<LessonItem> lessonData = [
     steps: [
       ReadingStep(
         id: 'r1',
-        title: 'Normal vs Abnormal Breathing',
+        title: 'What Is Normal?',
         content:
-            'Normal breathing is quiet and regular...\n\nAbnormal breathing includes...',
-      ),
-      ReadingStep(
-        id: 'r2',
-        title: 'AAAAAAAAAAAAAAAAAAAAAA',
-        content:
-            'Normal breathing is quiet and regular...\n\nAbnormal breathing includes...',
-      ),
+            'Normal Breathing\n • 12–20 breaths per minute (adult)\n • Regular rhythm\n • Can speak full sentences\n • Skin normal color\n\n\nNote:\nNormal → No immediate danger\nConcerning → Monitor closely\nEmergency → Immediate action needed',
+      )
     ],
   ),
   const LessonItem(

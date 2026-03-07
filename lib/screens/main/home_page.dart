@@ -197,7 +197,7 @@ class _LessonState extends State<Lesson> {
                                     ),
                                   ],
                                 ),
-
+/*
                                 const SizedBox(height: 12),
 
                                 // Progress Bar
@@ -226,7 +226,7 @@ class _LessonState extends State<Lesson> {
                                       color: const Color(0xFFFF4646),
                                       borderRadius: BorderRadius.circular(18),
                                     ),
-                                  ),
+                                  ),*/
                               ],
                             ),
                           )),
