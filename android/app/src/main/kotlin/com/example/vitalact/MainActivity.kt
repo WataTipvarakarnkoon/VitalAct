@@ -2,4 +2,6 @@ package com.example.vitalact
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity()
++ import com.xraph.plugin.flutter_unity_widget.FlutterUnityActivity;
+
++ class MainActivity: FlutterUnityActivity()
