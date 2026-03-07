@@ -123,3 +123,7 @@ app.*.symbols
 # Firebase config files
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
+
+# Unity export from flutter_unity_widget
+/android/unityLibrary/
+/ios/UnityLibrary/
