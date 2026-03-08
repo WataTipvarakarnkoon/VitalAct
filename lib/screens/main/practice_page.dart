@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'test_unity.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key});
@@ -58,13 +59,30 @@ class _PracticePageState extends State<PracticePage>
                   controller: _tabController,
                   children: [
                     Center(
-                      child: Text(
-                        "Mental Content",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: themeColor,
-                        ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Mental Content",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: themeColor,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const TestUnity(),
+                                ),
+                              );
+                            },
+                            child: const Text("Open Unity Test"),
+                          ),
+                        ],
                       ),
                     ),
                     Center(
