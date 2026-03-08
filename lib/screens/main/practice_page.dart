@@ -73,12 +73,12 @@ class _PracticePageState extends State<PracticePage>
                           const SizedBox(height: 12),
                           ElevatedButton(
                             onPressed: () {
-                              /*Navigator.push(
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const TestUnity(),
                                 ),
-                              );*/
+                              );
                             },
                             child: const Text("Open Unity Test"),
                           ),
