@@ -81,7 +81,17 @@ public class Raycast : MonoBehaviour
       if (AreAllTogglersSelected())
       {
           GameManager.instance.CurrentState = GameManager.GameState.CPR;
-          objective.SetObjective("Perform CPR");
+          
+          if (objective != null)
+              objective.SetObjective("Perform CPR");
+      }
+      else
+      {
+          // Reset state if not all selected
+          GameManager.instance.CurrentState = GameManager.GameState.Assess;
+          
+          if (objective != null)
+              objective.SetObjective("Complete Assessment");
       }
   }
 
