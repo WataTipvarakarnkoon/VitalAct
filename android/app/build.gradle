@@ -72,8 +72,8 @@ flutter {
 
 dependencies {
     // build.gradle.kts (Flutter 3.29+)
-    implementation project(':unityLibrary')
-    implementation project(':flutter_unity_widget')
+    //implementation project(':unityLibrary')
+    //implementation project(':flutter_unity_widget')
 }
 configurations.all {
     resolutionStrategy {
