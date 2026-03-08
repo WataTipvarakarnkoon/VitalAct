@@ -1,6 +1,6 @@
 import '../lesson_step.dart';
 
-class TwoChoiceStep extends LessonStep {
+class MultiChoiceStep extends LessonStep {
   final String instructions;
   final String title;
   final String imageAsset;
@@ -14,7 +14,7 @@ class TwoChoiceStep extends LessonStep {
   final String incorrectExplanation;
   final String? hint;
 
-  TwoChoiceStep({
+  MultiChoiceStep({
     required this.instructions,
     required this.title,
     required this.imageAsset,
