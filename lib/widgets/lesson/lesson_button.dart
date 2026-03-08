@@ -29,13 +29,13 @@ class LessonButton extends StatelessWidget {
       return AppButton(
         height: 56,
         onPressed: onPressed,
-        borderRadius: 14,
+        borderRadius: 15,
         borderColor:
-            selected ? const Color(0xFFCC3838) : const Color(0xFF7C7C7C),
+            selected ? const Color(0xFFC42F2F) : const Color(0xFF7C7C7C),
         shadowColor:
-            selected ? const Color(0xFFCC3838) : const Color(0xFF7C7C7C),
+            selected ? const Color(0xFFC42F2F) : const Color(0xFF7C7C7C),
         shadowElevation: 3,
-        backgroundColor: selected ? Colors.red : Colors.white,
+        backgroundColor: selected ? const Color(0xFFFF4646) : Colors.white,
         child: Text(
           text,
           textAlign: TextAlign.center,
@@ -51,6 +51,7 @@ class LessonButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: AppButton(
+        borderRadius: 15,
         height: 50,
         onPressed: onPressed,
         borderColor:
@@ -62,7 +63,7 @@ class LessonButton extends StatelessWidget {
         foregroundColor: Colors.white,
         child: Text(
           text,
-          style: const TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
     );
