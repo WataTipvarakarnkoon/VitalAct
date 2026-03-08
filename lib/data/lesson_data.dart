@@ -34,8 +34,14 @@ final List<LessonItem> lessonData = [
         instructions: 'Choose the best answer.',
         imageAsset: 'assets/images/test_lesson_image.png',
         choices: const ['Normal', 'Emergency'],
+        correctIndex: 1,
         disclaimer:
             'Assume this is a sudden situation and the person was previously stable.',
+        correctExplanation:
+            "22 breaths per minute is above the normal adult range (12–20) and may signal early distress.",
+        incorrectExplanation:
+            "Even if the person can speak clearly, 22 breaths per minute is faster than normal.",
+        hint: "Compare the breathing rate to the normal adult range (12–20).",
       )
     ],
   ),
