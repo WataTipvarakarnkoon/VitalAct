@@ -2,5 +2,5 @@ package com.example.vitalact
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterUnityActivity() {
+class MainActivity: FlutterActivity() {
 }
