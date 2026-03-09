@@ -1,5 +1,5 @@
+import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
-//import 'test_unity.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key});
@@ -73,12 +73,12 @@ class _PracticePageState extends State<PracticePage>
                           const SizedBox(height: 12),
                           ElevatedButton(
                             onPressed: () {
-                              /*Navigator.push(
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const TestUnity(),
+                                  builder: (context) => TestUnity(),
                                 ),
-                              );*/
+                              );
                             },
                             child: const Text("Open Unity Test"),
                           ),

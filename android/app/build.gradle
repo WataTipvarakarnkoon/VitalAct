@@ -29,8 +29,6 @@ android {
     compileSdk 34
     ndkVersion "26.1.10909125"
     namespace "com.example.vitalact"
-    compileSdk flutter.compileSdkVersion
-    //ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -72,6 +70,7 @@ flutter {
 dependencies {
     // build.gradle.kts (Flutter 3.29+)
     implementation project(':unityLibrary')
+    implementation project(':flutter_unity_widget')
 }
 configurations.all {
     resolutionStrategy {
