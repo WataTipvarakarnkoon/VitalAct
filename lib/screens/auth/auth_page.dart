@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vitalact/widgets/app_button.dart';
-import 'package:vitalact/widgets/auth_text_field.dart';
+import 'package:vitalact/widgets/app_text_field.dart';
 import 'package:vitalact/services/auth_service.dart';
 import 'package:vitalact/utils/auth_error_mapper.dart';
 import 'package:vitalact/utils/validators.dart';
@@ -142,7 +142,7 @@ class _AuthPageState extends State<AuthPage> {
                     const SizedBox(height: 25),
                     SizedBox(
                       width: width * 0.9,
-                      child: AuthTextField(
+                      child: AppTextField(
                         hintText: 'Email',
                         controller: emailController,
                         validator: Validators.email,
@@ -152,7 +152,7 @@ class _AuthPageState extends State<AuthPage> {
                     const SizedBox(height: 10),
                     SizedBox(
                       width: width * 0.9,
-                      child: AuthTextField(
+                      child: AppTextField(
                         hintText: 'Password',
                         controller: passwordController,
                         validator: Validators.password,
