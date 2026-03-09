@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
 import 'package:vitalact/models/steps/multi_choice_step.dart';
+import 'package:vitalact/models/steps/text_input_step.dart';
 import '../models/lesson_item.dart';
 
 class PlaceholderPage extends StatelessWidget {
@@ -86,6 +87,15 @@ Emergency → Immediate action needed''',
             "Breathing slower than the normal range (12–20) should not be considered normal.",
         hint: "Check whether the breathing rate is below the normal range.",
       ),
+      const TextInputStep(
+          id: 'Q4',
+          instructions: 'instructions',
+          title: 'title',
+          imageAsset: 'assets/images/test_lesson_image.png',
+          correctAnswers: ['correctAnswers'],
+          correctExplanation: 'correctExplanation',
+          incorrectExplanation: 'incorrectExplanation',
+          hint: 'hint')
     ],
   ),
   const LessonItem(
