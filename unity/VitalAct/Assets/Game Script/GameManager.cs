@@ -23,15 +23,12 @@ public class GameManager : MonoBehaviour
         switch (CurrentState)
         {
             case GameState.Assess:
-                Debug.Log("GameState1");
                 objective.SetObjective("Check the victim's condition.");
                 break;
-            case GameState.Identify:
-                Debug.Log("GameState2");    
+            case GameState.Identify:  
                 objective.SetObjective("Press TAB, and fill the checklist.");
                 break;
             case GameState.CPR:
-                Debug.Log("GameState3");  
                 objective.SetObjective("Perform CPR.");
                 break;
         }
