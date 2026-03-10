@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
 import 'package:vitalact/models/steps/multi_choice_step.dart';
+import 'package:vitalact/models/steps/text_input_step.dart';
 import '../models/lesson_item.dart';
 
 class PlaceholderPage extends StatelessWidget {
