@@ -28,36 +28,31 @@ class LessonStepScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          /// MAIN CONTENT (safe from notch etc)
-          SafeArea(
-            child: child,
-          ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            /// MAIN CONTENT
+            child,
 
-          /// FEEDBACK PANEL
-          LessonFeedbackPanel(
-            visible: answered,
-            isCorrect: isCorrect ?? false,
-            explanation: explanation,
-            hint: hint,
-          ),
-
-          /// BUTTON (not protected by SafeArea)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: MediaQuery.of(context).viewInsets.bottom == 0
-                ? MediaQuery.of(context).padding.bottom
-                : 0,
-            child: LessonButton(
-              text: buttonText,
-              onPressed: onButtonPressed,
+            /// FEEDBACK PANEL
+            LessonFeedbackPanel(
+              visible: answered,
+              isCorrect: isCorrect ?? false,
+              explanation: explanation,
+              hint: hint,
             ),
-          )
-        ],
+
+            /// BUTTON
+            Positioned(
+              bottom: 0,
+              child: LessonButton(
+                text: buttonText,
+                onPressed: onButtonPressed,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

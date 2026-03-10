@@ -24,7 +24,9 @@ final List<LessonItem> lessonData = [
         'Learn to quickly recognize abnormal breathing and emergency warning signs.',
     steps: [
       const ReadingStep(
-          id: 'What-is-normal', title: 'What Is Normal?', content: '''
+        id: 'What-is-normal',
+        title: 'What Is Normal?',
+        content: '''
 Normal Breathing
  • 12–20 breaths per minute (adult)
  • Regular rhythm
@@ -35,46 +37,14 @@ Normal Breathing
 Note:
 Normal → No immediate danger
 Concerning → Monitor closely
-Emergency → Immediate action needed'''),
+Emergency → Immediate action needed''',
+      ),
       MultiChoiceStep(
         id: 'Q1',
         title: 'Person breathing 22 times per minute but speaking clearly.',
         instructions: 'Choose the best answer.',
         imageAsset: 'assets/images/test_lesson_image.png',
         choices: const ['Normal', 'Emergency'],
-        correctIndex: 1,
-        disclaimer:
-            'Assume this is a sudden situation and the person was previously stable.',
-        correctExplanation:
-            "22 breaths per minute is above the normal adult range (12–20) and may signal early distress.",
-        incorrectExplanation:
-            "Even if the person can speak clearly, 22 breaths per minute is faster than normal.",
-        hint: "Compare the breathing rate to the normal adult range (12–20).",
-      ),
-      MultiChoiceStep(
-        id: 'Q2',
-        title:
-            'Person breathing 18/min but cannot finish sentences without pausing.',
-        instructions: 'Choose the best answer.',
-        imageAsset: 'assets/images/test_lesson_image.png',
-        choices: const ['Normal', 'Emergency'],
-        correctIndex: 1,
-        disclaimer:
-            'Assume this is a sudden situation and the person was previously stable.',
-        correctExplanation:
-            "Difficulty speaking full sentences suggests breathing distress even if the rate is normal.",
-        incorrectExplanation:
-            "A normal breathing rate does not rule out an emergency if the person cannot speak normally.",
-        hint:
-            "Focus on the person's ability to speak, not just the breathing rate.",
-      ),
-      MultiChoiceStep(
-        id: 'Q3',
-        title:
-            'Person breathing 10/min, awake, answering slowly but correctly.',
-        instructions: 'Choose the best answer.',
-        imageAsset: 'assets/images/test_lesson_image.png',
-        choices: const ['Normal', 'Concerning', 'Emergency'],
         correctIndex: 1,
         disclaimer:
             'Assume this is a sudden situation and the person was previously stable.',
