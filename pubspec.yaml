@@ -24,9 +24,11 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/home.png
-    - assets/icons/setting.png
     - assets/icons/profile.png
     - assets/icons/practice.png
+    - assets/icons/home-not.png
+    - assets/icons/practice-not.png
+    - assets/icons/profile-not.png
     - assets/spritesheet/wave.png
 
   fonts:

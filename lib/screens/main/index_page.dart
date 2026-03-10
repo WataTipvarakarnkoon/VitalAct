@@ -38,14 +38,8 @@ class _IndexPageState extends State<IndexPage> {
         child: BottomBar(
           selectedIndex: selectedIndex,
           onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-
-            _controller.animateToPage(
+            _controller.jumpToPage(
               index,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
             );
           },
         ),
@@ -81,16 +75,19 @@ class BottomBar extends StatelessWidget {
         children: [
           IconItems(
             path: 'assets/icons/profile.png',
+            selectedPath: 'assets/icons/profile-not.png',
             isSelected: selectedIndex == 0,
             onTap: () => onTap(0),
           ),
           IconItems(
             path: 'assets/icons/home.png',
+            selectedPath: 'assets/icons/home-not.png',
             isSelected: selectedIndex == 1,
             onTap: () => onTap(1),
           ),
           IconItems(
             path: 'assets/icons/practice.png',
+            selectedPath: 'assets/icons/practice-not.png',
             isSelected: selectedIndex == 2,
             onTap: () => onTap(2),
           ),
