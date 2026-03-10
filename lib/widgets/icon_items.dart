@@ -23,7 +23,7 @@ class IconItems extends StatelessWidget {
         highlightColor: const Color(0xFFE0E0E0),
         onTap: onTap,
         child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 35),
+            margin: const EdgeInsets.symmetric(horizontal: 30),
             height: 30,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),

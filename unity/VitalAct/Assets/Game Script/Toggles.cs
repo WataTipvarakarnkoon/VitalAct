@@ -6,8 +6,8 @@ public class ToggleColorChange : MonoBehaviour
     private Toggle toggle;
     private Image backgroundImage;
     
-    public Color activeColor = new Color(0.3f, 0.3f, 0.3f); // Dark gray when selected
-    public Color inactiveColor = Color.white; // White when not selected
+    public Color activeColor = new Color(0.3f, 0.3f, 0.3f);
+    public Color inactiveColor = Color.white;
 
     void Start()
     {
@@ -26,10 +26,8 @@ public class ToggleColorChange : MonoBehaviour
             return;
         }
         
-        // Add listener for when toggle value changes
         toggle.onValueChanged.AddListener(OnToggleChanged);
         
-        // Set initial color
         OnToggleChanged(toggle.isOn);
         
         Debug.Log("ToggleColorChange initialized on " + gameObject.name);
