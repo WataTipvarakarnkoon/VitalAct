@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: BalooBhai2-SemiBold Objective
   m_EditorClassIdentifier: 
-  hashCode: -181431372
+  hashCode: -1801605750
   material: {fileID: 2462593867174885946}
-  materialHashCode: -1345496044
+  materialHashCode: 392020970
   m_Version: 1.1.0
   m_SourceFontFileGUID: eb0fbf94cd627974b818c69e1b149584
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: eb0fbf94cd627974b818c69e1b149584, type: 3}

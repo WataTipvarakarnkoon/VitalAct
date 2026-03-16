@@ -1437,8 +1437,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283851262
-  m_fontColor: {r: 0.9960785, g: 0.3803922, b: 0.3372549, a: 1}
+    rgba: 4279379711
+  m_fontColor: {r: 1, g: 0.14901961, b: 0.07058824, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1455,8 +1455,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2133,9 +2133,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Breathing: Normal / Slow / None
+  m_text: 'Breathing: None
 
-    Chest Movement: Rising / Not Rising'
+    Chest Movement: Not Rising'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ba23a9106ca82184bb14aa56668c3a50, type: 2}
   m_sharedMaterial: {fileID: 2462593867174885946, guid: ba23a9106ca82184bb14aa56668c3a50, type: 2}
@@ -6591,9 +6591,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Consciousness: Responsive/Unresponsive
+  m_text: 'Consciousness: Unresponsive
 
-    Airway: Clear/Blocked'
+    Airway:  Blocked'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ba23a9106ca82184bb14aa56668c3a50, type: 2}
   m_sharedMaterial: {fileID: 2462593867174885946, guid: ba23a9106ca82184bb14aa56668c3a50, type: 2}
@@ -6602,8 +6602,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283851262
-  m_fontColor: {r: 0.9960785, g: 0.3803922, b: 0.3372549, a: 1}
+    rgba: 4279379711
+  m_fontColor: {r: 1, g: 0.14901961, b: 0.07058824, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
