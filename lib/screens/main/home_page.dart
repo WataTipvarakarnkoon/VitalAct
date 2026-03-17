@@ -112,7 +112,7 @@ class _LessonState extends State<Lesson> {
       physics: const SlowScrollPhysics(),
       child: Column(
         children: [
-          const Padding(padding: EdgeInsets.only(top: 50)),
+          const Padding(padding: EdgeInsets.only(top: 40)),
           Container(
             padding: EdgeInsets.only(right: width * .25),
             child: const Text(
@@ -125,8 +125,8 @@ class _LessonState extends State<Lesson> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
           ListView.separated(
+            padding: const EdgeInsets.only(top: 10),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: lessonData.length,
@@ -167,31 +167,35 @@ class _LessonState extends State<Lesson> {
                                           : 'assets/images/gray_lesson_box.png',
                                       fit: BoxFit.contain,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 13, horizontal: 16),
+                                    Container(
+                                      height: 105,
+                                      padding: const EdgeInsets.only(left: 20),
                                       child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           if (active)
-                                            Text(
-                                              lesson.title,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 18,
-                                                color: Colors.white,
+                                            SizedBox(
+                                              width: 200,
+                                              child: Text(
+                                                lesson.title,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 23,
+                                                    color: Colors.white,
+                                                    height: 1.1,
+                                                    shadows: [
+                                                      Shadow(
+                                                        color: Color.fromARGB(
+                                                            63, 0, 0, 0),
+                                                        offset: Offset(0, 2.5),
+                                                      )
+                                                    ]),
                                               ),
                                             ),
                                           const SizedBox(height: 3),
-                                          if (active)
-                                            Text(
-                                              lesson.description,
-                                              style: const TextStyle(
-                                                fontSize: 13,
-                                                color: Colors.white,
-                                              ),
-                                            ),
                                         ],
                                       ),
                                     ),
@@ -203,7 +207,7 @@ class _LessonState extends State<Lesson> {
                                 if (active)
                                   Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(25),
                                       border: Border.all(
                                         color: const Color(0xFFCC3838),
                                         width: 2,
@@ -211,19 +215,19 @@ class _LessonState extends State<Lesson> {
                                       boxShadow: const [
                                         BoxShadow(
                                           color: Color(0xFFCC3838),
-                                          offset: Offset(0, 4),
+                                          offset: Offset(0, 3),
                                           blurRadius: 0,
                                         )
                                       ],
                                     ),
                                     child: LinearProgressIndicator(
                                       value: index <= currentStep
-                                          ? (index < currentStep ? 1 : 0.3)
+                                          ? (index < currentStep ? 1 : 0)
                                           : 0,
-                                      minHeight: 10,
+                                      minHeight: 13,
                                       backgroundColor: Colors.white,
                                       color: const Color(0xFFFF4646),
-                                      borderRadius: BorderRadius.circular(18),
+                                      borderRadius: BorderRadius.circular(25),
                                     ),
                                   ),
                               ],

@@ -19,9 +19,7 @@ class PlaceholderPage extends StatelessWidget {
 
 final List<LessonItem> lessonData = [
   LessonItem(
-    title: 'Normal vs abnormal signs',
-    description:
-        'Learn to quickly recognize abnormal breathing and emergency warning signs.',
+    title: 'Normal VS Abnormal signs',
     steps: [
       const ReadingStep(
         id: 'What-is-normal',
@@ -99,9 +97,7 @@ Emergency → Immediate action needed''',
     ],
   ),
   const LessonItem(
-    title: 'Life-threatening red flags',
-    description:
-        'Identify critical signs that require immediate emergency action.',
+    title: 'Life-threatening Red flags',
     steps: [
       ReadingStep(
         id: 'r1',
@@ -111,8 +107,7 @@ Emergency → Immediate action needed''',
     ],
   ),
   const LessonItem(
-    title: 'Breathing Distress Detection',
-    description: 'Recognize early and severe signs of breathing difficulty.',
+    title: 'Breathing distress Detection',
     steps: [
       ReadingStep(
         id: 'r1',
@@ -122,8 +117,7 @@ Emergency → Immediate action needed''',
     ],
   ),
   const LessonItem(
-    title: 'Chest Pain & Stroke Clues',
-    description: 'Spot key symptoms of heart attack and stroke quickly.',
+    title: 'Chest pain & Stroke clues',
     steps: [
       ReadingStep(
         id: 'r1',
@@ -133,9 +127,7 @@ Emergency → Immediate action needed''',
     ],
   ),
   const LessonItem(
-    title: 'Mixed Symptom Recognition Challenge',
-    description:
-        'Practice identifying emergencies when multiple symptoms appear.',
+    title: 'Mixed symptom Recognition Challenge',
     steps: [
       ReadingStep(
         id: 'r1',
