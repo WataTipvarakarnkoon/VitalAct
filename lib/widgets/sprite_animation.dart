@@ -2,22 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 
-class SpriteAnimation extends StatefulWidget {
-  const SpriteAnimation({super.key});
+class SpriteSheet extends StatefulWidget {
+  final String asset;
+  final int columns;
+  final int rows;
+  final int totalFrames;
+  final int fps;
+  final double width;
+  final double height;
+  final bool loop;
+
+  const SpriteSheet({
+    super.key,
+    required this.asset,
+    required this.columns,
+    required this.rows,
+    required this.totalFrames,
+    this.fps = 24,
+    this.width = 200,
+    this.height = 200,
+    this.loop = true,
+  });
 
   @override
-  State<SpriteAnimation> createState() => _SpriteAnimationState();
+  State<SpriteSheet> createState() => _SpriteSheetState();
 }
 
-class _SpriteAnimationState extends State<SpriteAnimation>
+class _SpriteSheetState extends State<SpriteSheet>
     with SingleTickerProviderStateMixin {
-  ui.Image? sprite;
+  ui.Image? image;
   late AnimationController controller;
-
-  final int totalFrames = 60;
-  final int fps = 30;
-
-  static const double userScale = .52;
 
   @override
   void initState() {
@@ -25,14 +39,17 @@ class _SpriteAnimationState extends State<SpriteAnimation>
 
     controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: (1000 * totalFrames ~/ fps)),
-    )..repeat();
+      duration:
+          Duration(milliseconds: (1000 * widget.totalFrames ~/ widget.fps)),
+    );
 
-    loadImage();
+    widget.loop ? controller.repeat() : controller.forward();
+
+    _loadImage();
   }
 
-  Future<void> loadImage() async {
-    final data = await rootBundle.load('assets/spritesheet/wave.png');
+  Future<void> _loadImage() async {
+    final data = await rootBundle.load(widget.asset);
     final bytes = data.buffer.asUint8List();
     final codec = await ui.instantiateImageCodec(bytes);
     final frame = await codec.getNextFrame();
@@ -40,31 +57,22 @@ class _SpriteAnimationState extends State<SpriteAnimation>
     if (!mounted) return;
 
     setState(() {
-      sprite = frame.image;
+      image = frame.image;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (sprite == null) return const SizedBox();
+    if (image == null) return const SizedBox();
 
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    final frameWidth = sprite!.width / totalFrames;
-    final frameHeight = sprite!.height * 0.4;
-    final ratio = frameWidth / frameHeight;
-
-    final drawHeight = screenHeight * userScale;
-    final drawWidth = drawHeight * ratio;
-
-    return Center(
-      child: CustomPaint(
-        size: Size(drawWidth, drawHeight),
-        painter: SpritePainter(
-          image: sprite!,
-          animation: controller,
-          totalFrames: totalFrames,
-        ),
+    return CustomPaint(
+      size: Size(widget.width, widget.height),
+      painter: _SpritePainter(
+        image: image!,
+        animation: controller,
+        columns: widget.columns,
+        rows: widget.rows,
+        totalFrames: widget.totalFrames,
       ),
     );
   }
@@ -76,14 +84,18 @@ class _SpriteAnimationState extends State<SpriteAnimation>
   }
 }
 
-class SpritePainter extends CustomPainter {
+class _SpritePainter extends CustomPainter {
   final ui.Image image;
   final Animation<double> animation;
+  final int columns;
+  final int rows;
   final int totalFrames;
 
-  SpritePainter({
+  _SpritePainter({
     required this.image,
     required this.animation,
+    required this.columns,
+    required this.rows,
     required this.totalFrames,
   }) : super(repaint: animation);
 
@@ -91,25 +103,24 @@ class SpritePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     int frame = (animation.value * totalFrames).floor() % totalFrames;
 
-    double frameWidth = image.width / totalFrames;
-    double frameHeight = image.height.toDouble();
+    double frameWidth = image.width / columns;
+    double frameHeight = image.height / rows;
+
+    int col = frame % columns;
+    int row = frame ~/ columns;
 
     Rect src = Rect.fromLTWH(
-      frame * frameWidth,
-      0,
+      col * frameWidth,
+      row * frameHeight,
       frameWidth,
       frameHeight,
     );
 
     Rect dst = Rect.fromLTWH(0, 0, size.width, size.height);
 
-    final paint = Paint()
-      ..filterQuality = FilterQuality.high
-      ..isAntiAlias = true;
-
-    canvas.drawImageRect(image, src, dst, paint);
+    canvas.drawImageRect(image, src, dst, Paint());
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

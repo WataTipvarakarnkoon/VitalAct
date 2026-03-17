@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
+import 'package:vitalact/widgets/sprite_animation.dart';
 import '../../data/lesson_data.dart';
 import '../lessons/lesson_runner_page.dart';
 
@@ -170,29 +171,44 @@ class _LessonState extends State<Lesson> {
                                     Container(
                                       height: 105,
                                       padding: const EdgeInsets.only(left: 20),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      child: Stack(
                                         children: [
+                                          if (lesson.spriteAsset != null)
+                                            Positioned(
+                                              left: 199,
+                                              child: SpriteSheet(
+                                                asset: lesson.spriteAsset!,
+                                                columns: 50,
+                                                rows: 1,
+                                                totalFrames: 50,
+                                                fps: 30,
+                                                width: 102,
+                                                height: 102,
+                                              ),
+                                            ),
                                           if (active)
-                                            SizedBox(
-                                              width: 200,
-                                              child: Text(
-                                                lesson.title,
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 23,
-                                                    color: Colors.white,
-                                                    height: 1.1,
-                                                    shadows: [
-                                                      Shadow(
-                                                        color: Color.fromARGB(
-                                                            63, 0, 0, 0),
-                                                        offset: Offset(0, 2.5),
-                                                      )
-                                                    ]),
+                                            Align(
+                                              alignment:
+                                                  AlignmentGeometry.centerLeft,
+                                              child: SizedBox(
+                                                width: 200,
+                                                child: Text(
+                                                  lesson.title,
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 23,
+                                                      color: Colors.white,
+                                                      height: 1.1,
+                                                      shadows: [
+                                                        Shadow(
+                                                          color: Color.fromARGB(
+                                                              63, 0, 0, 0),
+                                                          offset:
+                                                              Offset(0, 2.5),
+                                                        )
+                                                      ]),
+                                                ),
                                               ),
                                             ),
                                           const SizedBox(height: 3),

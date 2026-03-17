@@ -30,6 +30,8 @@ flutter:
     - assets/icons/practice-not.png
     - assets/icons/profile-not.png
     - assets/spritesheet/wave.png
+    - assets/spritesheet/NVSA.png
+    - assets/spritesheet/RedFlags.png
 
   fonts:
     - family: BalooBhai2

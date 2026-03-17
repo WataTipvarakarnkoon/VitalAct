@@ -41,7 +41,15 @@ class WelcomePage extends StatelessWidget {
               top: height * 0.21,
               left: 0,
               right: 0,
-              child: const SpriteAnimation()),
+              child: const SpriteSheet(
+                asset: "assets/spritesheet/wave.png",
+                columns: 60,
+                rows: 1,
+                totalFrames: 60,
+                fps: 30,
+                width: 512,
+                height: 512,
+              )),
           Positioned(
             left: 0,
             right: 0,

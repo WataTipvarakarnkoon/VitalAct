@@ -20,6 +20,7 @@ class PlaceholderPage extends StatelessWidget {
 final List<LessonItem> lessonData = [
   LessonItem(
     title: 'Normal VS Abnormal signs',
+    spriteAsset: 'assets/spritesheet/NVSA.png',
     steps: [
       const ReadingStep(
         id: 'What-is-normal',
@@ -98,6 +99,7 @@ Emergency → Immediate action needed''',
   ),
   const LessonItem(
     title: 'Life-threatening Red flags',
+    spriteAsset: 'assets/spritesheet/RedFlags.png',
     steps: [
       ReadingStep(
         id: 'r1',
