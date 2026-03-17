@@ -110,6 +110,7 @@ Emergency → Immediate action needed''',
   ),
   const LessonItem(
     title: 'Breathing distress Detection',
+    spriteAsset: 'assets/spritesheet/Breathing.png',
     steps: [
       ReadingStep(
         id: 'r1',
@@ -120,6 +121,7 @@ Emergency → Immediate action needed''',
   ),
   const LessonItem(
     title: 'Chest pain & Stroke clues',
+    spriteAsset: 'assets/spritesheet/ChestPain.png',
     steps: [
       ReadingStep(
         id: 'r1',

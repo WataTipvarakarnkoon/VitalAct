@@ -32,6 +32,8 @@ flutter:
     - assets/spritesheet/wave.png
     - assets/spritesheet/NVSA.png
     - assets/spritesheet/RedFlags.png
+    - assets/spritesheet/Breathing.png
+    - assets/spritesheet/ChestPain.png
 
   fonts:
     - family: BalooBhai2
