@@ -34,7 +34,7 @@ class _PracticePageState extends State<PracticePage>
 
         return AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          color: themeColor.withOpacity(0.05),
+          color: themeColor.withValues(alpha: 0.05),
           child: Column(
             children: [
               const SizedBox(height: 40),

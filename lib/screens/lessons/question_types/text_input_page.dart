@@ -1,3 +1,5 @@
+import 'package:firebase_ai/firebase_ai.dart';
+import 'package:vitalact/main.dart';
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_text_field.dart';
 import '../../../models/steps/text_input_step.dart';
@@ -22,9 +24,31 @@ class _TextInputPageState extends State<TextInputPage> {
   final FocusNode focusNode = FocusNode();
   bool isTyping = false;
   final TextEditingController controller = TextEditingController();
+  final model =
+      FirebaseAI.googleAI().generativeModel(model: 'gemini-2.5-flash-lite');
 
+  String? aiExplanation;
   bool? isCorrect;
   bool answered = false;
+
+  Future<void> evaluateAnswer(String userAnswer) async {
+    final prompt = [
+      Content.text("In one sentence, explain what the user is doing"
+          "User answer: $userAnswer")
+    ];
+
+    final response = model.generateContentStream(prompt);
+
+    String fullText = "";
+
+    await for (final chunk in response) {
+      fullText += chunk.text ?? "";
+    }
+
+    setState(() {
+      aiExplanation = fullText;
+    });
+  }
 
   void submit() {
     if (answered) return;
@@ -36,9 +60,12 @@ class _TextInputPageState extends State<TextInputPage> {
     setState(() {
       answered = true;
       isCorrect = correct;
+      aiExplanation = "Checking your answer...";
     });
 
     LessonProgressService.recordAnswer(correct);
+
+    evaluateAnswer(input); // CALL GEMINI
   }
 
   @override
@@ -70,9 +97,7 @@ class _TextInputPageState extends State<TextInputPage> {
     return LessonStepScaffold(
       answered: answered,
       isCorrect: isCorrect,
-      explanation: isCorrect == true
-          ? step.correctExplanation
-          : step.incorrectExplanation,
+      explanation: aiExplanation,
       hint: isCorrect == false ? step.hint : null,
       buttonText: answered ? "NEXT" : "ANSWER",
       onButtonPressed: !answered
@@ -103,28 +128,20 @@ class _TextInputPageState extends State<TextInputPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                AnimatedSlide(
-                  duration: const Duration(milliseconds: 350),
-                  offset: isTyping ? const Offset(0, -0.15) : Offset.zero,
-                  child: Transform.scale(
-                    scale: isTyping ? 0.7 : 1,
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      children: [
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.asset(
-                              step.imageAsset,
-                              width: 170,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                Column(
+                  children: [
+                    Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(
+                          step.imageAsset,
+                          width: 170,
+                          fit: BoxFit.cover,
                         ),
-                        const SizedBox(height: 28),
-                      ],
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 28),
+                  ],
                 ),
                 const SizedBox(height: 28),
                 AppTextField(

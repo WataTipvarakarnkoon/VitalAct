@@ -34,7 +34,7 @@ class LessonFeedbackPanel extends StatelessWidget {
       child: TweenAnimationBuilder<double>(
         duration: const Duration(milliseconds: 450),
         tween: Tween(begin: visible ? 0.05 : 0, end: 0),
-        curve: Curves.elasticOut, // 👈 bounce effect
+        curve: Curves.elasticOut, // bounce effect
         builder: (context, bounce, child) {
           return Transform.translate(
             offset: Offset(0, -20 * bounce),

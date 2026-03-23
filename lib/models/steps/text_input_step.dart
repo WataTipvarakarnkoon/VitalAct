@@ -7,8 +7,7 @@ class TextInputStep extends LessonStep {
 
   final List<String> correctAnswers;
 
-  final String correctExplanation;
-  final String incorrectExplanation;
+  final String aiPrompt;
   final String hint;
 
   const TextInputStep({
@@ -17,8 +16,7 @@ class TextInputStep extends LessonStep {
     required this.title,
     required this.imageAsset,
     required this.correctAnswers,
-    required this.correctExplanation,
-    required this.incorrectExplanation,
+    required this.aiPrompt,
     required this.hint,
   });
 }
