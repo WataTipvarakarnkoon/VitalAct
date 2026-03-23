@@ -51,7 +51,10 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
                   isCorrect = selectedIndex == widget.step.correctIndex;
                 });
 
-                LessonProgressService.recordAnswer(isCorrect!);
+                LessonProgressService.recordAnswer(
+                  isCorrect!,
+                  isCorrect! ? 10 : 0,
+                );
               } else {
                 widget.onNext();
               }

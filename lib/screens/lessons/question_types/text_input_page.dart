@@ -1,5 +1,4 @@
 import 'package:firebase_ai/firebase_ai.dart';
-import 'package:vitalact/main.dart';
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_text_field.dart';
 import '../../../models/steps/text_input_step.dart';
@@ -21,6 +20,9 @@ class TextInputPage extends StatefulWidget {
 }
 
 class _TextInputPageState extends State<TextInputPage> {
+  int? aiScore;
+  bool isAnalyzing = false;
+  String? aiHint;
   final FocusNode focusNode = FocusNode();
   bool isTyping = false;
   final TextEditingController controller = TextEditingController();
@@ -33,8 +35,36 @@ class _TextInputPageState extends State<TextInputPage> {
 
   Future<void> evaluateAnswer(String userAnswer) async {
     final prompt = [
-      Content.text("In one sentence, explain what the user is doing"
-          "User answer: $userAnswer")
+      Content.text("""
+You are evaluating a first aid training answer.
+
+Scenario:
+${widget.step.title}
+
+User answer:
+$userAnswer
+
+Instructions:
+${widget.step.aiPrompt}
+
+Respond ONLY in this format:
+
+SCORE: number from 1-10
+CORRECT: true or false
+EXPLANATION: brief explanation of the answer.
+IMPROVEMENT: one short sentence about what could be improved in the answer.
+HINT: short hint to guide the user toward the correct answer.
+
+Scoring rules:
+10 = perfect answer
+7-9 = good answer but missing detail
+4-6 = partially correct
+1-3 = incorrect or unsafe
+
+If the answer is correct:
+- HINT should be "none"
+- IMPROVEMENT should suggest how the answer could be more complete.
+""")
     ];
 
     final response = model.generateContentStream(prompt);
@@ -45,9 +75,42 @@ class _TextInputPageState extends State<TextInputPage> {
       fullText += chunk.text ?? "";
     }
 
+    bool aiCorrect = fullText.toLowerCase().contains("correct: true");
+
+    String explanation = RegExp(r'EXPLANATION:\s*(.*)', caseSensitive: false)
+            .firstMatch(fullText)
+            ?.group(1)
+            ?.trim() ??
+        "";
+
+    String hint = RegExp(r'HINT:\s*(.*)', caseSensitive: false)
+            .firstMatch(fullText)
+            ?.group(1)
+            ?.trim() ??
+        "";
+    String improvement = RegExp(r'IMPROVEMENT:\s*(.*)', caseSensitive: false)
+            .firstMatch(fullText)
+            ?.group(1)
+            ?.trim() ??
+        "";
+    int score = int.tryParse(RegExp(r'SCORE:\s*(\d+)', caseSensitive: false)
+                .firstMatch(fullText)
+                ?.group(1) ??
+            "0") ??
+        0;
+
     setState(() {
-      aiExplanation = fullText;
+      isAnalyzing = false;
+      isCorrect = aiCorrect;
+      aiScore = score;
+
+      aiExplanation =
+          "Score: $score / 10\n\n$explanation${improvement.isNotEmpty ? "\n\nWhat could be improved:\n$improvement" : ""}";
+
+      aiHint = (!aiCorrect && hint != "none") ? hint : null;
     });
+
+    LessonProgressService.recordAnswer(aiCorrect, score);
   }
 
   void submit() {
@@ -62,9 +125,6 @@ class _TextInputPageState extends State<TextInputPage> {
       isCorrect = correct;
       aiExplanation = "Checking your answer...";
     });
-
-    LessonProgressService.recordAnswer(correct);
-
     evaluateAnswer(input); // CALL GEMINI
   }
 
