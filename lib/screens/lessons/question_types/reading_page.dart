@@ -23,7 +23,7 @@ class ReadingPage extends StatelessWidget {
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: SizedBox(
-                  width: double.infinity, // force full width
+                  width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

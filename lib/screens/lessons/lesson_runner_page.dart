@@ -23,17 +23,57 @@ class LessonRunnerPage extends StatefulWidget {
 }
 
 class _LessonRunnerPageState extends State<LessonRunnerPage> {
+  late List<LessonStep> currentSteps;
+  late int totalSteps;
   int currentIndex = 0;
+  int completedSteps = 0;
 
-  double get progress => (currentIndex) / widget.steps.length;
+  @override
+  void initState() {
+    super.initState();
+    currentSteps = List.from(widget.steps);
+    totalSteps = widget.steps.length;
+  }
+
+  double get progress => (completedSteps) / totalSteps;
+
+  List<LessonStep> repeatQueue = [];
+
+  void stepChecked(bool isCorrect) {
+    final step = currentSteps[currentIndex];
+
+    if (!isCorrect) {
+      repeatQueue.add(step);
+    }
+
+    nextStep();
+  }
 
   void nextStep() {
-    if (currentIndex < widget.steps.length - 1) {
+    final step = currentSteps[currentIndex];
+
+    if (step is ReadingStep || step is TextInputStep) {
+      completedSteps++;
+    }
+
+    if (step is MultiChoiceStep) {
+      if (!repeatQueue.contains(step)) {
+        completedSteps++;
+      }
+    }
+
+    if (currentIndex < currentSteps.length - 1) {
       setState(() {
         currentIndex++;
       });
+    } else if (repeatQueue.isNotEmpty) {
+      setState(() {
+        currentSteps = List.from(repeatQueue);
+        repeatQueue.clear();
+        currentIndex = 0;
+      });
     } else {
-      Navigator.pop(context, true); // lesson completed
+      Navigator.pop(context, true);
     }
   }
 
@@ -66,7 +106,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final step = widget.steps[currentIndex];
+    final step = currentSteps[currentIndex];
 
     return PopScope(
       canPop: false,
@@ -184,7 +224,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
     } else if (step is MultiChoiceStep) {
       return MultiChoicePage(
         step: step,
-        onNext: nextStep,
+        onAnswered: stepChecked,
       );
     } else if (step is TextInputStep) {
       return TextInputPage(

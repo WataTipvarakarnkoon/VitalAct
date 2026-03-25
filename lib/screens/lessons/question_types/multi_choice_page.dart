@@ -6,12 +6,12 @@ import '../../../widgets/lesson/lesson_step_scaffold.dart';
 
 class MultiChoicePage extends StatefulWidget {
   final MultiChoiceStep step;
-  final VoidCallback onNext;
+  final Function(bool) onAnswered;
 
   const MultiChoicePage({
     super.key,
     required this.step,
-    required this.onNext,
+    required this.onAnswered,
   });
 
   @override
@@ -56,7 +56,7 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
                   isCorrect! ? 10 : 0,
                 );
               } else {
-                widget.onNext();
+                widget.onAnswered(isCorrect!);
               }
             }
           : null,

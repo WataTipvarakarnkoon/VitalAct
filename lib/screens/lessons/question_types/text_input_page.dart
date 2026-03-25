@@ -99,6 +99,7 @@ If the answer is correct:
             "0") ??
         0;
 
+    if (!mounted) return;
     setState(() {
       isAnalyzing = false;
       isCorrect = aiCorrect;

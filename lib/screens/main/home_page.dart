@@ -131,7 +131,7 @@ class _LessonState extends State<Lesson> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: lessonData.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 60),
+            separatorBuilder: (_, __) => const SizedBox(height: 40),
             itemBuilder: (context, index) {
               final lesson = lessonData[index];
               final active = index <= currentStep;
@@ -217,7 +217,7 @@ class _LessonState extends State<Lesson> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 12),
+                                const SizedBox(height: 8),
 
                                 // Progress Bar
                                 if (active)
