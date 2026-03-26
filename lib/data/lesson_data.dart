@@ -19,7 +19,7 @@ class PlaceholderPage extends StatelessWidget {
 
 final List<LessonItem> lessonData = [
   LessonItem(
-    title: 'Normal VS Abnormal signs',
+    title: 'Breathing Assessment',
     spriteAsset: 'assets/spritesheet/NVSA.png',
     steps: [
       const ReadingStep(
@@ -97,7 +97,7 @@ Emergency → Immediate action needed''',
     ],
   ),
   const LessonItem(
-    title: 'Life-threatening Red flags',
+    title: 'Consciousness Check',
     spriteAsset: 'assets/spritesheet/RedFlags.png',
     steps: [
       ReadingStep(
@@ -108,18 +108,7 @@ Emergency → Immediate action needed''',
     ],
   ),
   const LessonItem(
-    title: 'Breathing distress Detection',
-    spriteAsset: 'assets/spritesheet/Breathing.png',
-    steps: [
-      ReadingStep(
-        id: 'r1',
-        title: 'Title',
-        content: 'Content blah blah blah',
-      ),
-    ],
-  ),
-  const LessonItem(
-    title: 'Chest pain & Stroke clues',
+    title: 'Chest Pain and Heart Attack',
     spriteAsset: 'assets/spritesheet/ChestPain.png',
     steps: [
       ReadingStep(
@@ -130,7 +119,17 @@ Emergency → Immediate action needed''',
     ],
   ),
   const LessonItem(
-    title: 'Mixed symptom Recognition Challenge',
+    title: 'Bleeding / Wound Management',
+    steps: [
+      ReadingStep(
+        id: 'r1',
+        title: 'Title',
+        content: 'Content blah blah blah',
+      ),
+    ],
+  ),
+  const LessonItem(
+    title: 'Shock and Unconscious',
     steps: [
       ReadingStep(
         id: 'r1',

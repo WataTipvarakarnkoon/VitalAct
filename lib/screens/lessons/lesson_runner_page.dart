@@ -27,6 +27,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
   late int totalSteps;
   int currentIndex = 0;
   int completedSteps = 0;
+  int rounds = 0;
 
   @override
   void initState() {
@@ -71,6 +72,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
         currentSteps = List.from(repeatQueue);
         repeatQueue.clear();
         currentIndex = 0;
+        rounds++;
       });
     } else {
       Navigator.pop(context, true);
@@ -204,7 +206,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
                   );
                 },
                 child: Container(
-                  key: ValueKey(currentIndex),
+                  key: ValueKey('$rounds-$currentIndex'),
                   child: _buildStep(step),
                 ),
               ),
