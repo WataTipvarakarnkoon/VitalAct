@@ -1,3 +1,4 @@
+import 'package:gradient_borders/gradient_borders.dart';
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
@@ -14,6 +15,18 @@ class HomePage extends StatelessWidget {
 
     return Stack(
       children: [
+        Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 255, 255, 255),
+              Color.fromARGB(255, 255, 255, 255),
+              Color(0xFFFFEDED)
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          )),
+        ),
         Positioned(
           top: height * -0.4,
           child: Image.asset(
@@ -32,41 +45,107 @@ class HomePage extends StatelessWidget {
           left: 0,
           right: 0,
           child: Center(
-              child: AppButton(
-            onPressed: () {},
-            width: width * 0.9,
-            height: 70,
-            borderRadius: 15,
-            padding: const EdgeInsetsGeometry.symmetric(horizontal: 0),
-            backgroundColor: const Color(0xFFFF4646),
-            borderColor: const Color(0xFFFF4646),
-            shadowColor: const Color(0xFFCC3838),
-            child: const Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: [
-                Text(
-                  "CONTINUE",
-                  style: TextStyle(
-                    fontSize: 15,
-                    height: 1.2,
-                    color: Color(0xB3FFFFFF),
+                AppButton(
+                  onPressed: () {},
+                  width: width * 0.9,
+                  height: 65,
+                  borderRadius: 15,
+                  padding: const EdgeInsetsGeometry.symmetric(horizontal: 0),
+                  backgroundColor: const Color(0xFFFF4646),
+                  borderColor: const Color(0xFFFF4646),
+                  shadowColor: const Color(0xFFCC3838),
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "CONTINUE",
+                        style: TextStyle(
+                          fontSize: 17,
+                          height: 1.2,
+                          color: Color(0xB3FFFFFF),
+                        ),
+                      ),
+                      Text(
+                        "Recognition: Life-threatening red flags",
+                        style: TextStyle(
+                          fontSize: 19,
+                          height: 1.1,
+                          color: Color(0xFFFFFFFF),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  "Recognition: Life-threatening red flags",
-                  style: TextStyle(
-                    fontSize: 17,
-                    height: 1.1,
-                    color: Color(0xFFFFFFFF),
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerRight,
+                              end: Alignment.centerLeft,
+                              colors: [
+                                Color(0x25000000),
+                                Color(0x00000000),
+                              ],
+                              stops: [0.0, 0.1],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Color(0x25000000),
+                                Color(0x00000000),
+                              ],
+                              stops: [0.0, 0.2],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromARGB(34, 255, 255, 255),
+                                Color.fromARGB(0, 255, 255, 255),
+                              ],
+                              stops: [0.0, 0.15],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Color.fromARGB(36, 255, 255, 255),
+                                Color.fromARGB(0, 255, 255, 255),
+                              ],
+                              stops: [0.0, 0.05],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-          )),
+          ),
         ),
         Positioned.fill(
-          top: height * 0.162,
+          top: height * 0.157,
           child: const Lesson(),
         ),
       ],
@@ -221,30 +300,63 @@ class _LessonState extends State<Lesson> {
 
                                 // Progress Bar
                                 if (active)
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      border: Border.all(
-                                        color: const Color(0xFFCC3838),
-                                        width: 2,
+                                  Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(20)),
+                                              border: Border.all(
+                                                width: 3,
+                                                color: const Color(0xFFFFA3A3),
+                                              ),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                    color: Color.fromARGB(
+                                                        44, 128, 0, 0),
+                                                    offset: Offset(0, 7),
+                                                    blurRadius: .5)
+                                              ]),
+                                        ),
                                       ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Color(0xFFCC3838),
-                                          offset: Offset(0, 3),
-                                          blurRadius: 0,
-                                        )
-                                      ],
-                                    ),
-                                    child: LinearProgressIndicator(
-                                      value: index <= currentStep
-                                          ? (index < currentStep ? 1 : 0)
-                                          : 0,
-                                      minHeight: 13,
-                                      backgroundColor: Colors.white,
-                                      color: const Color(0xFFFF4646),
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
+                                      Container(
+                                        margin: const EdgeInsets.all(3.5),
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
+                                          border: GradientBoxBorder(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Color(0xFFFFFFFF),
+                                                Color(0xFFFFD0D0),
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
+                                            width: 1.5,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0xAAAD3D3D),
+                                              offset: Offset(0, 2),
+                                              blurRadius: 5,
+                                            ),
+                                          ],
+                                        ),
+                                        child: LinearProgressIndicator(
+                                          value: index <= currentStep
+                                              ? (index < currentStep ? 1 : 0)
+                                              : 0,
+                                          minHeight: 13,
+                                          backgroundColor: Colors.white,
+                                          color: const Color(0xFFFF4646),
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                               ],
                             ),
