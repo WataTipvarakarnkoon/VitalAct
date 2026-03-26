@@ -10,6 +10,7 @@ class PracticePage extends StatefulWidget {
 
 class _PracticePageState extends State<PracticePage>
     with SingleTickerProviderStateMixin {
+  bool isPressed = false;
   late final TabController _tabController;
 
   @override
@@ -26,6 +27,8 @@ class _PracticePageState extends State<PracticePage>
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return AnimatedBuilder(
       animation: _tabController.animation!,
       builder: (context, _) {
@@ -60,19 +63,56 @@ class _PracticePageState extends State<PracticePage>
                   children: [
                     Center(
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
+                          const SizedBox(
+                            height: 25,
+                          ),
                           Text(
-                            "Mental Content",
+                            "Practice",
                             style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w800,
                               color: themeColor,
                             ),
                           ),
-                          const SizedBox(height: 12),
-                          ElevatedButton(
-                            onPressed: () {
+                          const Text('Sharpen your emergency skills',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 116, 116, 116),
+                              )),
+                        ],
+                      ),
+                    ),
+                    Center(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            "Practice",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w800,
+                              color: themeColor,
+                            ),
+                          ),
+                          const Text('Sharpen your emergency skills',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 116, 116, 116),
+                              )),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          GestureDetector(
+                            onTapDown: (_) => setState(() => isPressed = true),
+                            onTapUp: (_) => setState(() => isPressed = false),
+                            onTapCancel: () =>
+                                setState(() => isPressed = false),
+                            onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -80,19 +120,14 @@ class _PracticePageState extends State<PracticePage>
                                 ),
                               );
                             },
-                            child: const Text("Open Unity Test"),
-                          ),
+                            child: AnimatedScale(
+                              scale: isPressed ? 0.8 : 0.9,
+                              duration: const Duration(milliseconds: 100),
+                              child: Image.asset(
+                                  'assets/images/Emergency Simulator.png'),
+                            ),
+                          )
                         ],
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        "Physical Content",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: themeColor,
-                        ),
                       ),
                     ),
                   ],

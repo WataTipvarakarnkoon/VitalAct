@@ -25,17 +25,8 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/icons/home.png
-    - assets/icons/profile.png
-    - assets/icons/practice.png
-    - assets/icons/home-not.png
-    - assets/icons/practice-not.png
-    - assets/icons/profile-not.png
-    - assets/spritesheet/wave.png
-    - assets/spritesheet/NVSA.png
-    - assets/spritesheet/RedFlags.png
-    - assets/spritesheet/Breathing.png
-    - assets/spritesheet/ChestPain.png
+    - assets/icons/
+    - assets/spritesheet/
 
   fonts:
     - family: BalooBhai2

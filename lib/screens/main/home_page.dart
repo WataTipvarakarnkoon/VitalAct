@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
                       Text(
                         "CONTINUE",
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 16,
                           height: 1.2,
                           color: Color(0xB3FFFFFF),
                         ),
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
                       Text(
                         "Recognition: Life-threatening red flags",
                         style: TextStyle(
-                          fontSize: 19,
+                          fontSize: 17,
                           height: 1.1,
                           color: Color(0xFFFFFFFF),
                         ),
