@@ -254,7 +254,7 @@ class _LessonState extends State<Lesson> {
                                         children: [
                                           if (lesson.spriteAsset != null)
                                             Positioned(
-                                              left: 199,
+                                              left: 195,
                                               child: SpriteSheet(
                                                 asset: lesson.spriteAsset!,
                                                 columns: 50,
@@ -281,6 +281,7 @@ class _LessonState extends State<Lesson> {
                                                       height: 1.1,
                                                       shadows: [
                                                         Shadow(
+                                                          blurRadius: 5,
                                                           color: Color.fromARGB(
                                                               63, 0, 0, 0),
                                                           offset:
