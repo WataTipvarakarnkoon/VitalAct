@@ -100,7 +100,7 @@ class _PracticePageState extends State<PracticePage>
                           ),
                           const Text('Sharpen your emergency skills',
                               style: TextStyle(
-                                fontSize: 17,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 116, 116, 116),
                               )),
