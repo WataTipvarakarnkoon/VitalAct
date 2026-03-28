@@ -48,7 +48,13 @@ class AppButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
-          boxShadow: const [],
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromARGB(56, 128, 0, 0),
+              offset: Offset(6, 6),
+              blurRadius: 3,
+            )
+          ],
         ),
         child: Stack(
           children: [
@@ -95,8 +101,11 @@ class AppButton extends StatelessWidget {
                             gradient: LinearGradient(
                               begin: Alignment.centerRight,
                               end: Alignment.centerLeft,
-                              colors: [Color(0x25000000), Color(0x00000000)],
-                              stops: [0.0, 0.1],
+                              colors: [
+                                Color.fromARGB(61, 0, 0, 0),
+                                Color(0x00000000)
+                              ],
+                              stops: [0.0, 0.075],
                             ),
                           ),
                         ),
@@ -105,8 +114,11 @@ class AppButton extends StatelessWidget {
                             gradient: LinearGradient(
                               begin: Alignment.bottomCenter,
                               end: Alignment.topCenter,
-                              colors: [Color(0x25000000), Color(0x00000000)],
-                              stops: [0.0, 0.2],
+                              colors: [
+                                Color.fromARGB(57, 0, 0, 0),
+                                Color(0x00000000)
+                              ],
+                              stops: [0.0, 0.3],
                             ),
                           ),
                         ),
@@ -116,10 +128,10 @@ class AppButton extends StatelessWidget {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                Color.fromARGB(34, 255, 255, 255),
+                                Color.fromARGB(62, 255, 255, 255),
                                 Color.fromARGB(0, 255, 255, 255),
                               ],
-                              stops: [0.0, 0.15],
+                              stops: [0.0, 0.3],
                             ),
                           ),
                         ),
@@ -129,10 +141,10 @@ class AppButton extends StatelessWidget {
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                               colors: [
-                                Color.fromARGB(36, 255, 255, 255),
+                                Color.fromARGB(62, 255, 255, 255),
                                 Color.fromARGB(0, 255, 255, 255),
                               ],
-                              stops: [0.0, 0.05],
+                              stops: [0.0, 0.06],
                             ),
                           ),
                         ),
