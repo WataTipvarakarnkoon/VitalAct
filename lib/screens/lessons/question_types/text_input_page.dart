@@ -178,7 +178,7 @@ If the answer is correct:
       buttonText: answered ? "NEXT" : "ANSWER",
       onButtonPressed: (!answered && controller.text.isNotEmpty && !isAnalyzing)
           ? submit
-          : (answered ? widget.onNext : null),
+          : (answered && !isAnalyzing ? widget.onNext : null),
       child: Column(
         children: [
           Expanded(
