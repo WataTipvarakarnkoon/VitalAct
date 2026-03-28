@@ -3,14 +3,14 @@ import 'dart:math';
 
 class LessonFeedbackPanel extends StatelessWidget {
   final bool visible;
-  final bool isCorrect;
+  final bool? isCorrect;
   final String? explanation;
   final String? hint;
 
   const LessonFeedbackPanel({
     super.key,
     required this.visible,
-    required this.isCorrect,
+    this.isCorrect,
     this.explanation,
     this.hint,
   });
@@ -19,11 +19,17 @@ class LessonFeedbackPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomSafe = MediaQuery.of(context).padding.bottom;
 
-    final Color background =
-        isCorrect ? const Color(0xFFDFF6DD) : const Color(0xFFFFE5E5);
+    final Color background = isCorrect == null
+        ? const Color(0xFFF0F0F0)
+        : isCorrect!
+            ? const Color(0xFFDFF6DD)
+            : const Color(0xFFFFE5E5);
 
-    final Color accent =
-        isCorrect ? const Color(0xFF2E7D32) : const Color(0xFFF83B3B);
+    final Color accent = isCorrect == null
+        ? const Color(0xFF757575)
+        : isCorrect!
+            ? const Color(0xFF2E7D32)
+            : const Color(0xFFF83B3B);
 
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 350),
@@ -63,12 +69,12 @@ class LessonFeedbackPanel extends StatelessWidget {
                       double scale = 1.0;
                       double dx = 0;
 
-                      if (isCorrect) {
+                      if (isCorrect == true) {
                         // success pulse
                         scale = 1 +
                             (sin(value * pi) *
                                 0.3); // pulse between 100% and 130%
-                      } else {
+                      } else if (isCorrect == false) {
                         // shake animation
                         dx = sin(value * 8 * pi) *
                             4; // shake left-right 4 times with 4px amplitude
@@ -83,14 +89,22 @@ class LessonFeedbackPanel extends StatelessWidget {
                       );
                     },
                     child: Icon(
-                      isCorrect ? Icons.check_circle : Icons.cancel,
+                      isCorrect == null
+                          ? Icons.psychology
+                          : isCorrect!
+                              ? Icons.check_circle
+                              : Icons.cancel,
                       color: accent,
                       size: 35,
                     ),
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    isCorrect ? "Correct!" : "Not quite",
+                    isCorrect == null
+                        ? "Analyzing..."
+                        : isCorrect!
+                            ? "Correct!"
+                            : "Not quite",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -107,9 +121,11 @@ class LessonFeedbackPanel extends StatelessWidget {
                     fontSize: 15,
                     height: 1.4,
                     fontWeight: FontWeight.w600,
-                    color: isCorrect
-                        ? const Color(0xFF2E7D32)
-                        : const Color(0xFFF83B3B),
+                    color: isCorrect == null
+                        ? const Color(0xFF757575)
+                        : isCorrect!
+                            ? const Color(0xFF2E7D32)
+                            : const Color(0xFFF83B3B),
                   ),
                 ),
               ],

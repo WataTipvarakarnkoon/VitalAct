@@ -4,9 +4,16 @@ import 'screens/main/index_page.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/auth/auth_gate.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Set the system UI mode to hide the status bar
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+    SystemUiOverlay.bottom
+  ]); // Hides status bar, keeps bottom nav bar
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

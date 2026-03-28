@@ -124,6 +124,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
           leading: IconButton(
             padding: const EdgeInsets.only(bottom: 2),
             icon: const Icon(Icons.clear_rounded, color: Color(0xFFBDBDBD)),

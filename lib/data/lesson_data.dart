@@ -88,11 +88,11 @@ Emergency → Immediate action needed''',
       ),
       const TextInputStep(
           id: 'Q4',
-          instructions: 'instructions',
-          title: 'title',
-          aiPrompt: 'Explain the answer in one sentence.',
+          instructions: 'Scenario',
+          title:
+              'A 58-year-old man suddenly clutches his chest and says he feels severe pressure. He looks pale and sweaty.',
+          aiPrompt: 'Give a brief explanation of the answer',
           imageAsset: 'assets/images/test_lesson_image.png',
-          correctAnswers: ['correctAnswers'],
           hint: 'hint')
     ],
   ),
