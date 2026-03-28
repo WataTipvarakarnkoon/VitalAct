@@ -38,7 +38,7 @@ class LessonStepScaffold extends StatelessWidget {
             /// FEEDBACK PANEL
             LessonFeedbackPanel(
               visible: answered,
-              isCorrect: isCorrect ?? false,
+              isCorrect: isCorrect,
               explanation: explanation,
               hint: hint,
             ),

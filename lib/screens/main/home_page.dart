@@ -45,102 +45,36 @@ class HomePage extends StatelessWidget {
           left: 0,
           right: 0,
           child: Center(
-            child: Stack(
-              children: [
-                AppButton(
-                  onPressed: () {},
-                  width: width * 0.9,
-                  height: 65,
-                  borderRadius: 15,
-                  padding: const EdgeInsetsGeometry.symmetric(horizontal: 0),
-                  backgroundColor: const Color(0xFFFF4646),
-                  borderColor: const Color(0xFFFF4646),
-                  shadowColor: const Color(0xFFCC3838),
-                  child: const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "CONTINUE",
-                        style: TextStyle(
-                          fontSize: 16,
-                          height: 1.2,
-                          color: Color(0xB3FFFFFF),
-                        ),
-                      ),
-                      Text(
-                        "Recognition: Life-threatening red flags",
-                        style: TextStyle(
-                          fontSize: 17,
-                          height: 1.1,
-                          color: Color(0xFFFFFFFF),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned.fill(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Stack(
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft,
-                              colors: [
-                                Color(0x25000000),
-                                Color(0x00000000),
-                              ],
-                              stops: [0.0, 0.1],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Color(0x25000000),
-                                Color(0x00000000),
-                              ],
-                              stops: [0.0, 0.2],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color.fromARGB(34, 255, 255, 255),
-                                Color.fromARGB(0, 255, 255, 255),
-                              ],
-                              stops: [0.0, 0.15],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                Color.fromARGB(36, 255, 255, 255),
-                                Color.fromARGB(0, 255, 255, 255),
-                              ],
-                              stops: [0.0, 0.05],
-                            ),
-                          ),
-                        ),
-                      ],
+            child: AppButton(
+              onPressed: () {},
+              width: width * 0.9,
+              height: 65,
+              borderRadius: 15,
+              padding: const EdgeInsetsGeometry.symmetric(horizontal: 0),
+              backgroundColor: const Color(0xFFFF4646),
+              borderColor: const Color(0xFFFF4646),
+              child: const Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "CONTINUE",
+                    style: TextStyle(
+                      fontSize: 16,
+                      height: 1.2,
+                      color: Color(0xB3FFFFFF),
                     ),
                   ),
-                ),
-              ],
+                  Text(
+                    "Recognition: Life-threatening red flags",
+                    style: TextStyle(
+                      fontSize: 17,
+                      height: 1.1,
+                      color: Color(0xFFFFFFFF),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

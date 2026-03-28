@@ -5,8 +5,6 @@ class TextInputStep extends LessonStep {
   final String title;
   final String imageAsset;
 
-  final List<String> correctAnswers;
-
   final String aiPrompt;
   final String hint;
 
@@ -15,7 +13,6 @@ class TextInputStep extends LessonStep {
     required this.instructions,
     required this.title,
     required this.imageAsset,
-    required this.correctAnswers,
     required this.aiPrompt,
     required this.hint,
   });

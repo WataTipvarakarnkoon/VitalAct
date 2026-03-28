@@ -111,7 +111,6 @@ class ProfilePage extends StatelessWidget {
                   backgroundColor: const Color.fromARGB(255, 132, 132, 132),
                   foregroundColor: Colors.white,
                   borderColor: const Color.fromARGB(255, 132, 132, 132),
-                  shadowColor: const Color.fromARGB(255, 92, 88, 88),
                   child: const Text(
                     "LOG OUT",
                     style: TextStyle(

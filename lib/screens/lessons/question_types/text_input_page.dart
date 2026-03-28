@@ -34,8 +34,9 @@ class _TextInputPageState extends State<TextInputPage> {
   bool answered = false;
 
   Future<void> evaluateAnswer(String userAnswer) async {
-    final prompt = [
-      Content.text("""
+    try {
+      final prompt = [
+        Content.text("""
 You are evaluating a first aid training answer.
 
 Scenario:
@@ -65,65 +66,80 @@ If the answer is correct:
 - HINT should be "none"
 - IMPROVEMENT should suggest how the answer could be more complete.
 """)
-    ];
+      ];
 
-    final response = model.generateContentStream(prompt);
+      final response = model.generateContentStream(prompt);
 
-    String fullText = "";
+      String fullText = "";
 
-    await for (final chunk in response) {
-      fullText += chunk.text ?? "";
+      await for (final chunk in response) {
+        fullText += chunk.text ?? "";
+      }
+
+      // --- parsing (UNCHANGED) ---
+      bool aiCorrect = fullText.toLowerCase().contains("correct: true");
+
+      String explanation = RegExp(r'EXPLANATION:\s*(.*)', caseSensitive: false)
+              .firstMatch(fullText)
+              ?.group(1)
+              ?.trim() ??
+          "";
+
+      String hint = RegExp(r'HINT:\s*(.*)', caseSensitive: false)
+              .firstMatch(fullText)
+              ?.group(1)
+              ?.trim() ??
+          "";
+
+      String improvement = RegExp(r'IMPROVEMENT:\s*(.*)', caseSensitive: false)
+              .firstMatch(fullText)
+              ?.group(1)
+              ?.trim() ??
+          "";
+
+      int score = int.tryParse(RegExp(r'SCORE:\s*(\d+)', caseSensitive: false)
+                  .firstMatch(fullText)
+                  ?.group(1) ??
+              "0") ??
+          0;
+
+      if (!mounted) return;
+
+      setState(() {
+        isCorrect = aiCorrect;
+        aiScore = score;
+
+        aiExplanation =
+            "Score: $score / 10\n\n$explanation${improvement.isNotEmpty ? "\n\nWhat could be improved:\n$improvement" : ""}";
+
+        aiHint = (!aiCorrect && hint != "none") ? hint : null;
+      });
+
+      LessonProgressService.recordAnswer(aiCorrect, score);
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        aiExplanation =
+            "Something went wrong. Please try again.\n\n\nError details:\n$e";
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          isAnalyzing = false;
+        });
+      }
     }
-
-    bool aiCorrect = fullText.toLowerCase().contains("correct: true");
-
-    String explanation = RegExp(r'EXPLANATION:\s*(.*)', caseSensitive: false)
-            .firstMatch(fullText)
-            ?.group(1)
-            ?.trim() ??
-        "";
-
-    String hint = RegExp(r'HINT:\s*(.*)', caseSensitive: false)
-            .firstMatch(fullText)
-            ?.group(1)
-            ?.trim() ??
-        "";
-    String improvement = RegExp(r'IMPROVEMENT:\s*(.*)', caseSensitive: false)
-            .firstMatch(fullText)
-            ?.group(1)
-            ?.trim() ??
-        "";
-    int score = int.tryParse(RegExp(r'SCORE:\s*(\d+)', caseSensitive: false)
-                .firstMatch(fullText)
-                ?.group(1) ??
-            "0") ??
-        0;
-
-    if (!mounted) return;
-    setState(() {
-      isAnalyzing = false;
-      isCorrect = aiCorrect;
-      aiScore = score;
-
-      aiExplanation =
-          "Score: $score / 10\n\n$explanation${improvement.isNotEmpty ? "\n\nWhat could be improved:\n$improvement" : ""}";
-
-      aiHint = (!aiCorrect && hint != "none") ? hint : null;
-    });
-
-    LessonProgressService.recordAnswer(aiCorrect, score);
   }
 
   void submit() {
     if (answered) return;
 
-    final input = controller.text.trim().toLowerCase();
-    final correct =
-        widget.step.correctAnswers.map((e) => e.toLowerCase()).contains(input);
+    final input = controller.text.trim();
 
     setState(() {
       answered = true;
-      isCorrect = correct;
+      isAnalyzing = true;
       aiExplanation = "Checking your answer...";
     });
     evaluateAnswer(input); // CALL GEMINI
@@ -159,11 +175,11 @@ If the answer is correct:
       answered: answered,
       isCorrect: isCorrect,
       explanation: aiExplanation,
-      hint: isCorrect == false ? step.hint : null,
+      hint: isCorrect == false ? aiHint ?? step.hint : null,
       buttonText: answered ? "NEXT" : "ANSWER",
-      onButtonPressed: !answered
-          ? (controller.text.isNotEmpty ? submit : null)
-          : widget.onNext,
+      onButtonPressed: (!answered && controller.text.isNotEmpty && !isAnalyzing)
+          ? submit
+          : (answered && !isAnalyzing ? widget.onNext : null),
       child: Column(
         children: [
           Expanded(
