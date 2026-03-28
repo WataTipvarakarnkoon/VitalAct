@@ -1,4 +1,3 @@
-import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
 
 class PracticePage extends StatefulWidget {
@@ -27,8 +26,6 @@ class _PracticePageState extends State<PracticePage>
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     return AnimatedBuilder(
       animation: _tabController.animation!,
       builder: (context, _) {
@@ -113,12 +110,13 @@ class _PracticePageState extends State<PracticePage>
                             onTapCancel: () =>
                                 setState(() => isPressed = false),
                             onTap: () {
+                              /*
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => TestUnity(),
                                 ),
-                              );
+                              );*/
                             },
                             child: AnimatedScale(
                               scale: isPressed ? 0.8 : 0.9,
