@@ -131,6 +131,7 @@ Emergency → Immediate action needed''',
   ),
   const LessonItem(
     title: 'Shock and Unconscious',
+    spriteAsset: 'assets/spritesheet/Shocked.png',
     steps: [
       ReadingStep(
         id: 'r1',
