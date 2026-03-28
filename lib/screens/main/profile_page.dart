@@ -59,13 +59,26 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Container(
             width: double.infinity,
-            height: 150,
+            height: 200,
             color: const Color(0xFFFF4646),
+          ),
+          Positioned(
+            top: 149,
+            child: Container(
+              height: 677,
+              width: width,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(40)),
+                  border: Border.all(color: const Color(0xFFFFA3A3), width: 5),
+                  gradient: const LinearGradient(
+                      colors: [Colors.white, Color(0xFFFFE8E8)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter)),
+            ),
           ),
           Container(
             width: double.infinity,
@@ -74,10 +87,11 @@ class ProfilePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 125,
-                  height: 125,
+                  width: 135,
+                  height: 135,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 4),
+                    border:
+                        Border.all(color: const Color(0xFFFFA3A3), width: 5),
                     color: const Color.fromARGB(255, 155, 38, 38),
                     shape: BoxShape.circle,
                   ),
@@ -108,9 +122,8 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () => _signOut(context),
                   width: 140,
                   height: 35,
-                  backgroundColor: const Color.fromARGB(255, 132, 132, 132),
+                  backgroundColor: const Color(0xFFFF4646),
                   foregroundColor: Colors.white,
-                  borderColor: const Color.fromARGB(255, 132, 132, 132),
                   child: const Text(
                     "LOG OUT",
                     style: TextStyle(

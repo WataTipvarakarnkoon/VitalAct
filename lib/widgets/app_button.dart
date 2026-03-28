@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 enum ButtonVariant { filled, outlined }
 
+enum Shadowstyle { gray, red }
+
 class AppButton extends StatelessWidget {
   final Widget child;
+  final bool Dropshadow;
   final VoidCallback? onPressed;
   final ButtonVariant variant;
   final double? width;
@@ -22,6 +25,7 @@ class AppButton extends StatelessWidget {
     required this.child,
     required this.onPressed,
     this.variant = ButtonVariant.filled,
+    this.Dropshadow = false,
     this.width,
     this.height = 60,
     this.backgroundColor,
@@ -47,18 +51,20 @@ class AppButton extends StatelessWidget {
       height: height,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromARGB(56, 128, 0, 0),
-              offset: Offset(6, 6),
-              blurRadius: 3,
-            )
-          ],
-        ),
+            borderRadius: BorderRadius.circular(borderRadius),
+            boxShadow: [
+              Dropshadow
+                  ? const BoxShadow(
+                      color: Color.fromARGB(56, 128, 0, 0),
+                      offset: Offset(6, 6),
+                      blurRadius: 5)
+                  : const BoxShadow(
+                      color: Color.fromARGB(25, 0, 0, 0),
+                      offset: Offset(6, 6),
+                      blurRadius: 4)
+            ]),
         child: Stack(
           children: [
-            // Base button fills the stack
             Positioned.fill(
               child: OutlinedButton(
                 onPressed: onPressed,

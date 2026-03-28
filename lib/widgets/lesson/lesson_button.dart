@@ -26,6 +26,7 @@ class LessonButton extends StatelessWidget {
 
     if (type == LessonButtonType.option) {
       return AppButton(
+        Dropshadow: false,
         height: 56,
         onPressed: onPressed,
         borderRadius: 15,
@@ -50,6 +51,7 @@ class LessonButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: AppButton(
+        Dropshadow: false,
         borderRadius: 15,
         height: 50,
         onPressed: onPressed,
