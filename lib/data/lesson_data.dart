@@ -120,6 +120,7 @@ Emergency → Immediate action needed''',
   ),
   const LessonItem(
     title: 'Bleeding / Wound Management',
+    spriteAsset: 'assets/spritesheet/Bleeding.png',
     steps: [
       ReadingStep(
         id: 'r1',
