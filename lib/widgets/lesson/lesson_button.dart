@@ -24,25 +24,24 @@ class LessonButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool enabled = onPressed != null;
 
-// OPTION BUTTON MODE
     if (type == LessonButtonType.option) {
       return AppButton(
         height: 56,
         onPressed: onPressed,
         borderRadius: 15,
+        variant: selected ? ButtonVariant.filled : ButtonVariant.outlined,
         borderColor:
-            selected ? const Color(0xFFC42F2F) : const Color(0xFF7C7C7C),
-        shadowColor:
-            selected ? const Color(0xFFC42F2F) : const Color(0xFF7C7C7C),
-        shadowElevation: 3,
+            selected ? const Color(0xFFC42F2F) : const Color(0xFFD0D0D0),
         backgroundColor: selected ? const Color(0xFFFF4646) : Colors.white,
+        borderWidth: 3,
         child: Text(
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: selected ? Colors.white : const Color(0xFF7C7C7C)),
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: selected ? Colors.white : const Color(0xFF7C7C7C),
+          ),
         ),
       );
     }
@@ -55,8 +54,6 @@ class LessonButton extends StatelessWidget {
         height: 50,
         onPressed: onPressed,
         borderColor:
-            enabled ? const Color(0xFFCC3838) : const Color(0xFF8A8A8A),
-        shadowColor:
             enabled ? const Color(0xFFCC3838) : const Color(0xFF8A8A8A),
         backgroundColor:
             enabled ? const Color(0xFFFF4646) : const Color(0xFFBDBDBD),

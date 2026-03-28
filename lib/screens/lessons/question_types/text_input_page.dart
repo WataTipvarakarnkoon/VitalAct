@@ -120,7 +120,8 @@ If the answer is correct:
       if (!mounted) return;
 
       setState(() {
-        aiExplanation = "Something went wrong. Please try again.";
+        aiExplanation =
+            "Something went wrong. Please try again.\n\n\nError details:\n$e";
       });
     } finally {
       if (mounted) {
