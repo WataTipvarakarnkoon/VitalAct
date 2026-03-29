@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
 
@@ -18,7 +19,7 @@ class WelcomePage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: Stack(
         children: [
           Positioned(
@@ -62,7 +63,7 @@ class WelcomePage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 70,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    color: AppColors.background,
                     height: 0.65,
                   ),
                 ),
@@ -72,7 +73,7 @@ class WelcomePage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    color: AppColors.background,
                     height: 0.65,
                   ),
                 ),
@@ -85,7 +86,7 @@ class WelcomePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AppButton(
-                  Dropshadow: true,
+                  dropShadow: true,
                   width: width * 0.9,
                   onPressed: onSignup,
                   height: 60,
@@ -93,7 +94,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 23),
                 AppButton(
-                  Dropshadow: true,
+                  dropShadow: true,
                   width: width * 0.9,
                   variant: ButtonVariant.outlined,
                   onPressed: onLogin,

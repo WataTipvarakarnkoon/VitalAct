@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 
 class IconItems extends StatelessWidget {
   final String path;
@@ -20,7 +21,7 @@ class IconItems extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(7),
         splashColor: Colors.transparent,
-        highlightColor: const Color(0xFFE0E0E0),
+        highlightColor: AppColors.highlight,
         onTap: onTap,
         child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),

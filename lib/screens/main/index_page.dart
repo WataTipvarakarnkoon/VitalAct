@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'home_page.dart';
 import 'profile_page.dart';
 import 'practice_page.dart';
-import '../../widgets/icon_items.dart';
+import 'package:vitalact/widgets/icon_items.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -24,7 +25,7 @@ class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: PageView(
         controller: _controller,
         onPageChanged: (index) {
@@ -67,7 +68,7 @@ class BottomBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: width * 0.09),
       decoration: const BoxDecoration(
         border: Border(
-          top: BorderSide(color: Color(0xFFFF4646), width: 3.5),
+          top: BorderSide(color: AppColors.primary, width: 3.5),
         ),
       ),
       child: Row(

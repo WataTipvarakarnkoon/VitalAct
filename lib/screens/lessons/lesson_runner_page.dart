@@ -3,10 +3,11 @@ import 'package:vitalact/models/steps/multi_choice_step.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
 import 'package:vitalact/screens/lessons/question_types/multi_choice_page.dart';
 import 'package:vitalact/screens/lessons/question_types/text_input_page.dart';
-import '../../models/lesson_step.dart';
-import '../../models/steps/reading_step.dart';
-import 'question_types/reading_page.dart';
+import 'package:vitalact/models/lesson_step.dart';
+import 'package:vitalact/models/steps/reading_step.dart';
+import 'package:vitalact/screens/lessons/question_types/reading_page.dart';
 import 'package:animations/animations.dart';
+import 'package:vitalact/theme/app_colors.dart';
 
 class LessonRunnerPage extends StatefulWidget {
   final String title;
@@ -94,7 +95,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFF4646),
+              backgroundColor: AppColors.primary,
             ),
             onPressed: () => Navigator.pop(context, true),
             child: const Text("Leave"),
@@ -121,13 +122,13 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
+          backgroundColor: AppColors.background,
+          surfaceTintColor: AppColors.background,
           leading: IconButton(
             padding: const EdgeInsets.only(bottom: 2),
-            icon: const Icon(Icons.clear_rounded, color: Color(0xFFBDBDBD)),
+            icon: const Icon(Icons.clear_rounded, color: AppColors.disabled),
             onPressed: () async {
               final shouldLeave = await _confirmExit();
               if (shouldLeave && context.mounted) {
@@ -139,7 +140,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
             widget.title,
             style: const TextStyle(
               fontSize: 20,
-              color: Color(0xFFBDBDBD),
+              color: AppColors.disabled,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -147,7 +148,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(1),
             child: Divider(
-              color: Color(0xFFBDBDBD),
+              color: AppColors.disabled,
               height: 1,
               thickness: 1,
             ),
@@ -169,8 +170,8 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
                   return LinearProgressIndicator(
                     value: value,
                     minHeight: 12,
-                    backgroundColor: const Color(0xFFBDBDBD),
-                    color: const Color(0xFFFF4646),
+                    backgroundColor: AppColors.disabled,
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(6),
                   );
                 },

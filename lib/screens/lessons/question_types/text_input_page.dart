@@ -1,9 +1,9 @@
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_text_field.dart';
-import '../../../models/steps/text_input_step.dart';
-import '../../../services/lesson_progress_service.dart';
-import '../../../widgets/lesson/lesson_step_scaffold.dart';
+import 'package:vitalact/models/steps/text_input_step.dart';
+import 'package:vitalact/services/lesson_progress_service.dart';
+import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
 
 class TextInputPage extends StatefulWidget {
   final TextInputStep step;

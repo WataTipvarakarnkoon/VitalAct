@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 
 enum ButtonVariant { filled, outlined }
 
-enum Shadowstyle { gray, red }
+enum ShadowStyle { gray, red }
 
 class AppButton extends StatelessWidget {
   final Widget child;
-  final bool Dropshadow;
+  final bool dropShadow;
   final VoidCallback? onPressed;
   final ButtonVariant variant;
   final double? width;
@@ -25,7 +26,7 @@ class AppButton extends StatelessWidget {
     required this.child,
     required this.onPressed,
     this.variant = ButtonVariant.filled,
-    this.Dropshadow = false,
+    this.dropShadow = false,
     this.width,
     this.height = 60,
     this.backgroundColor,
@@ -40,10 +41,10 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isFilled = variant == ButtonVariant.filled;
 
-    final defaultBackground = isFilled ? const Color(0xFFFF4646) : Colors.white;
-    final defaultForeground = isFilled ? Colors.white : const Color(0xFFFF4646);
-    final defaultBorder =
-        isFilled ? const Color(0xFFCC3838) : const Color(0xFFFF9393);
+    final defaultBackground =
+        isFilled ? AppColors.primary : AppColors.background;
+    final defaultForeground =
+        isFilled ? AppColors.background : AppColors.primary;
     const defaultBorderWidth = 3.0;
 
     return SizedBox(
@@ -53,7 +54,7 @@ class AppButton extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius),
             boxShadow: [
-              Dropshadow
+              dropShadow
                   ? const BoxShadow(
                       color: Color.fromARGB(56, 128, 0, 0),
                       offset: Offset(6, 6),
@@ -75,7 +76,7 @@ class AppButton extends StatelessWidget {
                   side: BorderSide(
                     color: isFilled
                         ? Colors.transparent
-                        : (borderColor ?? defaultBorder),
+                        : (borderColor ?? AppColors.primaryLight),
                     width: borderWidth ?? defaultBorderWidth,
                   ),
                   shape: RoundedRectangleBorder(

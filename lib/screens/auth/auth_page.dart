@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/app_text_field.dart';
 import 'package:vitalact/services/auth_service.dart';
@@ -120,7 +121,7 @@ class _AuthPageState extends State<AuthPage> {
                 ? widget.onBack!
                 : () => Navigator.pop(context)),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -136,7 +137,7 @@ class _AuthPageState extends State<AuthPage> {
                       style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 30,
-                        color: Color.fromARGB(255, 52, 52, 52),
+                        color: AppColors.textPrimaryDark,
                       ),
                     ),
                     const SizedBox(height: 25),
@@ -166,7 +167,7 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                     const SizedBox(height: 25),
                     AppButton(
-                      Dropshadow: true,
+                      dropShadow: true,
                       height: 55,
                       onPressed: submit,
                       child: Text(primaryText),

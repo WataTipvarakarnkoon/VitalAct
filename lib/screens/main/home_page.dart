@@ -1,9 +1,10 @@
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
-import '../../data/lesson_data.dart';
-import '../lessons/lesson_runner_page.dart';
+import 'package:vitalact/data/lesson_data.dart';
+import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,9 +20,9 @@ class HomePage extends StatelessWidget {
           decoration: const BoxDecoration(
               gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 255, 255, 255),
-              Color.fromARGB(255, 255, 255, 255),
-              Color(0xFFFFEDED)
+              AppColors.background,
+              AppColors.background,
+              AppColors.gradient
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -51,9 +52,9 @@ class HomePage extends StatelessWidget {
               height: 65,
               borderRadius: 15,
               padding: const EdgeInsetsGeometry.symmetric(horizontal: 0),
-              backgroundColor: const Color(0xFFFF4646),
-              borderColor: const Color(0xFFFF4646),
-              child: const Column(
+              backgroundColor: AppColors.primary,
+              borderColor: AppColors.primary,
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,15 +63,15 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       height: 1.2,
-                      color: Color(0xB3FFFFFF),
+                      color: AppColors.background.withValues(alpha: 0.7),
                     ),
                   ),
-                  Text(
+                  const Text(
                     "Recognition: Life-threatening red flags",
                     style: TextStyle(
                       fontSize: 17,
                       height: 1.1,
-                      color: Color(0xFFFFFFFF),
+                      color: AppColors.background,
                     ),
                   ),
                 ],
@@ -134,7 +135,7 @@ class _LessonState extends State<Lesson> {
               style: TextStyle(
                 fontSize: 35,
                 fontWeight: FontWeight.w800,
-                color: Color(0xFFFF4646),
+                color: AppColors.primary,
                 height: 0.65,
               ),
             ),
@@ -211,7 +212,8 @@ class _LessonState extends State<Lesson> {
                                                       fontWeight:
                                                           FontWeight.w700,
                                                       fontSize: 23,
-                                                      color: Colors.white,
+                                                      color:
+                                                          AppColors.background,
                                                       height: 1.1,
                                                       shadows: [
                                                         Shadow(
@@ -245,7 +247,7 @@ class _LessonState extends State<Lesson> {
                                                       Radius.circular(20)),
                                               border: Border.all(
                                                 width: 3,
-                                                color: const Color(0xFFFFA3A3),
+                                                color: AppColors.borderColored,
                                               ),
                                               boxShadow: const [
                                                 BoxShadow(
@@ -264,8 +266,8 @@ class _LessonState extends State<Lesson> {
                                           border: GradientBoxBorder(
                                             gradient: LinearGradient(
                                               colors: [
-                                                Color(0xFFFFFFFF),
-                                                Color(0xFFFFD0D0),
+                                                AppColors.background,
+                                                AppColors.gradient,
                                               ],
                                               begin: Alignment.topLeft,
                                               end: Alignment.bottomRight,
@@ -286,7 +288,7 @@ class _LessonState extends State<Lesson> {
                                               : 0,
                                           minHeight: 13,
                                           backgroundColor: Colors.white,
-                                          color: const Color(0xFFFF4646),
+                                          color: AppColors.primary,
                                           borderRadius:
                                               BorderRadius.circular(25),
                                         ),

@@ -1,5 +1,6 @@
 import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key});
@@ -33,7 +34,8 @@ class _PracticePageState extends State<PracticePage>
       animation: _tabController.animation!,
       builder: (context, _) {
         final double t = _tabController.animation!.value;
-        final Color themeColor = Color.lerp(Colors.red, Colors.blue, t)!;
+        final Color themeColor =
+            Color.lerp(AppColors.primary, AppColors.secondary, t)!;
 
         return AnimatedContainer(
           duration: const Duration(milliseconds: 150),
@@ -47,7 +49,7 @@ class _PracticePageState extends State<PracticePage>
                 controller: _tabController,
                 indicatorColor: themeColor,
                 labelColor: themeColor,
-                unselectedLabelColor: Colors.grey,
+                unselectedLabelColor: AppColors.textPrimary,
                 labelStyle:
                     const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 unselectedLabelStyle:
@@ -79,7 +81,7 @@ class _PracticePageState extends State<PracticePage>
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 116, 116, 116),
+                                color: AppColors.textPrimary,
                               )),
                         ],
                       ),
@@ -102,7 +104,7 @@ class _PracticePageState extends State<PracticePage>
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 116, 116, 116),
+                                color: AppColors.textPrimary,
                               )),
                           const SizedBox(
                             height: 40,

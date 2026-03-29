@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/widgets/app_button.dart';
+import 'package:vitalact/theme/app_colors.dart';
 
 enum LessonButtonType { continueButton, option }
 
@@ -26,14 +27,13 @@ class LessonButton extends StatelessWidget {
 
     if (type == LessonButtonType.option) {
       return AppButton(
-        Dropshadow: false,
+        dropShadow: false,
         height: 56,
         onPressed: onPressed,
         borderRadius: 15,
         variant: selected ? ButtonVariant.filled : ButtonVariant.outlined,
-        borderColor:
-            selected ? const Color(0xFFC42F2F) : const Color(0xFFD0D0D0),
-        backgroundColor: selected ? const Color(0xFFFF4646) : Colors.white,
+        borderColor: AppColors.border, // only for outlined variant
+        backgroundColor: selected ? AppColors.primary : AppColors.background,
         borderWidth: 3,
         child: Text(
           text,
@@ -41,7 +41,7 @@ class LessonButton extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18,
-            color: selected ? Colors.white : const Color(0xFF7C7C7C),
+            color: selected ? AppColors.background : AppColors.textPrimary,
           ),
         ),
       );
@@ -51,15 +51,12 @@ class LessonButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: AppButton(
-        Dropshadow: false,
+        dropShadow: false,
         borderRadius: 15,
         height: 50,
         onPressed: onPressed,
-        borderColor:
-            enabled ? const Color(0xFFCC3838) : const Color(0xFF8A8A8A),
-        backgroundColor:
-            enabled ? const Color(0xFFFF4646) : const Color(0xFFBDBDBD),
-        foregroundColor: Colors.white,
+        backgroundColor: enabled ? AppColors.primary : AppColors.disabled,
+        foregroundColor: AppColors.background,
         child: Text(
           text,
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

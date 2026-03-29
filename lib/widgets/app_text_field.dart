@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 
 class AppTextField extends StatefulWidget {
   final String hintText;
@@ -27,7 +28,7 @@ class AppTextField extends StatefulWidget {
     this.autofillHints,
     this.borderRadius = 50,
     this.shadowOffset = const Offset(0, 3),
-    this.shadowColor = const Color(0xFFC4C4C4),
+    this.shadowColor = AppColors.border,
     this.shadowEnabled = true,
     this.contentPadding = const EdgeInsets.symmetric(
       horizontal: 20,
@@ -88,11 +89,11 @@ class _AppTextFieldState extends State<AppTextField> {
         },
         decoration: InputDecoration(
           filled: true,
-          fillColor: const Color(0xFFF7F7F7),
+          fillColor: AppColors.surface,
           hintStyle: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 17,
-            color: Color(0xFF777777),
+            color: AppColors.textPrimary,
           ),
           hintText: widget.hintText,
           contentPadding: widget.contentPadding,
@@ -111,28 +112,28 @@ class _AppTextFieldState extends State<AppTextField> {
           errorBorder: OutlineInputBorder(
             borderRadius: radius,
             borderSide: const BorderSide(
-              color: Color(0xFFC62828),
+              color: AppColors.error,
               width: 2,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: radius,
             borderSide: const BorderSide(
-              color: Color(0xFFC62828),
+              color: AppColors.error,
               width: 2,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: radius,
             borderSide: const BorderSide(
-              color: Color(0xFFC4C4C4),
+              color: AppColors.border,
               width: 2,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: radius,
             borderSide: const BorderSide(
-              color: Color(0xFFC4C4C4),
+              color: AppColors.border,
               width: 2,
             ),
           ),

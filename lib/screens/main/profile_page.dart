@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/services/auth_service.dart';
 import 'package:vitalact/screens/auth/auth_gate.dart';
@@ -22,7 +23,7 @@ class ProfileRow extends StatelessWidget {
             style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
-              color: Color.fromARGB(255, 132, 132, 132),
+              color: AppColors.textPrimary,
             ),
           ),
           Expanded(
@@ -32,7 +33,7 @@ class ProfileRow extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 132, 132, 132),
+                color: AppColors.textPrimary,
               ),
             ),
           ),
@@ -64,7 +65,7 @@ class ProfilePage extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 200,
-            color: const Color(0xFFFF4646),
+            color: AppColors.primary,
           ),
           Positioned(
             top: 149,
@@ -73,9 +74,9 @@ class ProfilePage extends StatelessWidget {
               width: width,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(40)),
-                  border: Border.all(color: const Color(0xFFFFA3A3), width: 5),
+                  border: Border.all(color: AppColors.borderColored, width: 5),
                   gradient: const LinearGradient(
-                      colors: [Colors.white, Color(0xFFFFE8E8)],
+                      colors: [AppColors.background, AppColors.gradient],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter)),
             ),
@@ -91,8 +92,8 @@ class ProfilePage extends StatelessWidget {
                   height: 135,
                   decoration: BoxDecoration(
                     border:
-                        Border.all(color: const Color(0xFFFFA3A3), width: 5),
-                    color: const Color.fromARGB(255, 155, 38, 38),
+                        Border.all(color: AppColors.borderColored, width: 5),
+                    color: AppColors.primaryDark,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -102,7 +103,7 @@ class ProfilePage extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFFFF4646)),
+                      color: AppColors.primary),
                 ),
                 const SizedBox(height: 50),
                 const ProfileRow(label: 'Email:', value: 'X'),
@@ -112,7 +113,7 @@ class ProfilePage extends StatelessWidget {
                 Container(
                   width: width * .8,
                   height: 1.5,
-                  color: const Color.fromARGB(255, 132, 132, 132),
+                  color: AppColors.textPrimary,
                 ),
                 const SizedBox(height: 10),
                 const ProfileRow(label: 'Dark Mode:', value: 'Switch'),
@@ -122,8 +123,8 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () => _signOut(context),
                   width: 140,
                   height: 35,
-                  backgroundColor: const Color(0xFFFF4646),
-                  foregroundColor: Colors.white,
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.background,
                   child: const Text(
                     "LOG OUT",
                     style: TextStyle(

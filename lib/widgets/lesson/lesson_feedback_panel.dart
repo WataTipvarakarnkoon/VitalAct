@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:vitalact/theme/app_colors.dart';
 
 class LessonFeedbackPanel extends StatelessWidget {
   final bool visible;
@@ -20,16 +21,16 @@ class LessonFeedbackPanel extends StatelessWidget {
     final bottomSafe = MediaQuery.of(context).padding.bottom;
 
     final Color background = isCorrect == null
-        ? const Color(0xFFF0F0F0)
+        ? AppColors.surface
         : isCorrect!
-            ? const Color(0xFFDFF6DD)
-            : const Color(0xFFFFE5E5);
+            ? AppColors.correctBackground
+            : AppColors.incorrectBackground;
 
     final Color accent = isCorrect == null
-        ? const Color(0xFF757575)
+        ? AppColors.textPrimary
         : isCorrect!
-            ? const Color(0xFF2E7D32)
-            : const Color(0xFFF83B3B);
+            ? AppColors.correct
+            : AppColors.incorrect;
 
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 350),
@@ -122,10 +123,10 @@ class LessonFeedbackPanel extends StatelessWidget {
                     height: 1.4,
                     fontWeight: FontWeight.w600,
                     color: isCorrect == null
-                        ? const Color(0xFF757575)
+                        ? AppColors.textPrimary
                         : isCorrect!
-                            ? const Color(0xFF2E7D32)
-                            : const Color(0xFFF83B3B),
+                            ? AppColors.correct
+                            : AppColors.incorrect,
                   ),
                 ),
               ],
@@ -137,7 +138,7 @@ class LessonFeedbackPanel extends StatelessWidget {
                     fontSize: 14,
                     height: 1.4,
                     fontStyle: FontStyle.italic,
-                    color: Color(0xFF616161),
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart';
 import 'screens/main/index_page.dart';
+import 'screens/auth/auth_gate.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/auth/auth_gate.dart';
 import 'package:flutter/services.dart';
 
 void main() async {

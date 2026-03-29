@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/lesson/lesson_button.dart';
-import '../../../models/steps/multi_choice_step.dart';
-import '../../../services/lesson_progress_service.dart';
-import '../../../widgets/lesson/lesson_step_scaffold.dart';
+import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
+import 'package:vitalact/models/steps/multi_choice_step.dart';
+import 'package:vitalact/services/lesson_progress_service.dart';
 
 class MultiChoicePage extends StatefulWidget {
   final MultiChoiceStep step;
@@ -117,9 +118,9 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
                   Text(
                     step.disclaimer,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
-                      color: Color(0xFF9E9E9E),
+                      color: AppColors.textPrimary.withValues(alpha: 0.7),
                       fontWeight: FontWeight.w500,
                     ),
                   ),

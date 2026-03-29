@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'lesson_button.dart';
 import 'lesson_feedback_panel.dart';
 
@@ -28,7 +29,7 @@ class LessonStepScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Stack(
           children: [

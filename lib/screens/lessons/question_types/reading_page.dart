@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/lesson/lesson_button.dart';
-import '../../../models/steps/reading_step.dart';
+import 'package:vitalact/models/steps/reading_step.dart';
 
 class ReadingPage extends StatelessWidget {
   final ReadingStep step;
@@ -15,7 +16,7 @@ class ReadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -36,11 +37,11 @@ class ReadingPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(step.content,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             height: 1.6,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFFA7A7A7),
+                            color: AppColors.textPrimary.withValues(alpha: 0.8),
                           )),
                       const SizedBox(height: 40),
                     ],

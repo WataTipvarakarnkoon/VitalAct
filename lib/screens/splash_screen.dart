@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -139,7 +140,7 @@ class _SplashScreenState extends State<SplashScreen>
                 height: 80,
                 width: 80,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFF4646),
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
@@ -152,7 +153,7 @@ class _SplashScreenState extends State<SplashScreen>
                 child: const Text(
                   'VitalAct',
                   style: TextStyle(
-                    color: Color(0xFFFF4646),
+                    color: AppColors.primary,
                     fontFamily: 'BalooBhai2',
                     fontSize: 70,
                     fontWeight: FontWeight.bold,
