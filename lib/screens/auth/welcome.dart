@@ -85,7 +85,7 @@ class WelcomePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AppButton(
-                  Dropshadow: true,
+                  dropshadow: true,
                   width: width * 0.9,
                   onPressed: onSignup,
                   height: 60,
@@ -93,7 +93,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 23),
                 AppButton(
-                  Dropshadow: true,
+                  dropshadow: true,
                   width: width * 0.9,
                   variant: ButtonVariant.outlined,
                   onPressed: onLogin,

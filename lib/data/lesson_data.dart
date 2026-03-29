@@ -42,7 +42,7 @@ Emergency → Immediate action needed''',
         id: 'Q1',
         title: 'Person breathing 22 times per minute but speaking clearly.',
         instructions: 'Choose the best answer.',
-        imageAsset: 'assets/images/test_lesson_image.png',
+        spriteAsset: 'assets/spritesheet/BreathingO.png',
         choices: const ['Normal', 'Emergency'],
         correctIndex: 1,
         disclaimer:
@@ -58,7 +58,7 @@ Emergency → Immediate action needed''',
         title:
             'Person breathing 18/min but cannot finish sentences without pausing.',
         instructions: 'Choose the best answer.',
-        imageAsset: 'assets/images/test_lesson_image.png',
+        spriteAsset: 'assets/spritesheet/BreathingO.png',
         choices: const ['Normal', 'Emergency'],
         correctIndex: 1,
         disclaimer:
@@ -75,7 +75,7 @@ Emergency → Immediate action needed''',
         title:
             'Person breathing 10/min, awake, answering slowly but correctly.',
         instructions: 'Choose the best answer.',
-        imageAsset: 'assets/images/test_lesson_image.png',
+        spriteAsset: 'assets/spritesheet/BreathingT.png',
         choices: const ['Normal', 'Concerning', 'Emergency'],
         correctIndex: 1,
         disclaimer:
@@ -92,7 +92,7 @@ Emergency → Immediate action needed''',
           title:
               'A 58-year-old man suddenly clutches his chest and says he feels severe pressure. He looks pale and sweaty.',
           aiPrompt: 'Give a brief explanation of the answer',
-          imageAsset: 'assets/images/test_lesson_image.png',
+          spriteAsset: 'assets/spritesheet/BreathingO.png',
           hint: 'hint')
     ],
   ),

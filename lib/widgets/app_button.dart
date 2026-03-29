@@ -6,7 +6,7 @@ enum Shadowstyle { gray, red }
 
 class AppButton extends StatelessWidget {
   final Widget child;
-  final bool Dropshadow;
+  final bool dropshadow;
   final VoidCallback? onPressed;
   final ButtonVariant variant;
   final double? width;
@@ -25,7 +25,7 @@ class AppButton extends StatelessWidget {
     required this.child,
     required this.onPressed,
     this.variant = ButtonVariant.filled,
-    this.Dropshadow = false,
+    this.dropshadow = false,
     this.width,
     this.height = 60,
     this.backgroundColor,
@@ -53,7 +53,7 @@ class AppButton extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius),
             boxShadow: [
-              Dropshadow
+              dropshadow
                   ? const BoxShadow(
                       color: Color.fromARGB(56, 128, 0, 0),
                       offset: Offset(6, 6),

@@ -3,7 +3,7 @@ import 'package:vitalact/models/lesson_step.dart';
 class TextInputStep extends LessonStep {
   final String instructions;
   final String title;
-  final String imageAsset;
+  final String spriteAsset;
 
   final String aiPrompt;
   final String hint;
@@ -12,7 +12,7 @@ class TextInputStep extends LessonStep {
     required super.id,
     required this.instructions,
     required this.title,
-    required this.imageAsset,
+    required this.spriteAsset,
     required this.aiPrompt,
     required this.hint,
   });
