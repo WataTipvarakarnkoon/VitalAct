@@ -4,6 +4,7 @@ import 'package:vitalact/widgets/app_text_field.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
 import 'package:vitalact/services/lesson_progress_service.dart';
 import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
+import 'package:vitalact/widgets/sprite_animation.dart';
 
 class TextInputPage extends StatefulWidget {
   final TextInputStep step;
@@ -209,13 +210,24 @@ If the answer is correct:
                   children: [
                     Center(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.asset(
-                          step.imageAsset,
-                          width: 170,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(16),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'assets/icons/redRectangle.png',
+                                width: 170,
+                              ),
+                              SpriteSheet(
+                                asset: step.spriteAsset,
+                                columns: 50,
+                                rows: 1,
+                                totalFrames: 50,
+                                fps: 25,
+                                height: 172,
+                                width: 172,
+                              )
+                            ],
+                          )),
                     ),
                     const SizedBox(height: 28),
                   ],

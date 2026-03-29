@@ -3,7 +3,7 @@ import '../lesson_step.dart';
 class MultiChoiceStep extends LessonStep {
   final String instructions;
   final String title;
-  final String imageAsset;
+  final String spriteAsset;
   final String disclaimer;
   final int correctIndex;
 
@@ -17,7 +17,7 @@ class MultiChoiceStep extends LessonStep {
   MultiChoiceStep({
     required this.instructions,
     required this.title,
-    required this.imageAsset,
+    required this.spriteAsset,
     required this.disclaimer,
     required this.correctIndex,
     required this.choices,

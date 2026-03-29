@@ -28,8 +28,6 @@ class _PracticePageState extends State<PracticePage>
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     return AnimatedBuilder(
       animation: _tabController.animation!,
       builder: (context, _) {
@@ -107,7 +105,7 @@ class _PracticePageState extends State<PracticePage>
                                 color: AppColors.textPrimary,
                               )),
                           const SizedBox(
-                            height: 40,
+                            height: 30,
                           ),
                           GestureDetector(
                             onTapDown: (_) => setState(() => isPressed = true),
