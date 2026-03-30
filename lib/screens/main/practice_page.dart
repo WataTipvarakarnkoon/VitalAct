@@ -1,6 +1,7 @@
 import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
 import 'package:vitalact/theme/app_colors.dart';
+import 'package:vitalact/widgets/sprite_animation.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key});
@@ -123,8 +124,22 @@ class _PracticePageState extends State<PracticePage>
                             child: AnimatedScale(
                               scale: isPressed ? 0.8 : 0.9,
                               duration: const Duration(milliseconds: 100),
-                              child: Image.asset(
-                                  'assets/images/Emergency Simulator.png'),
+                              child: Stack(
+                                children: [
+                                  Image.asset(
+                                      'assets/images/Emergency Simulator.png'),
+                                  const Center(
+                                      child: SpriteSheet(
+                                    asset: 'assets/spritesheet/CPR.png',
+                                    columns: 20,
+                                    rows: 1,
+                                    totalFrames: 20,
+                                    fps: 30,
+                                    height: 150,
+                                    width: 150,
+                                  ))
+                                ],
+                              ),
                             ),
                           )
                         ],
