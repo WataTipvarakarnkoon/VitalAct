@@ -80,7 +80,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         Positioned.fill(
-          top: height * 0.15,
+          top: height * 0.157,
           child: const Lesson(),
         ),
       ],
