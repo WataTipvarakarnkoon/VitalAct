@@ -1,8 +1,17 @@
 @echo off
-echo Fixing unityLibrary build.gradle...
+echo Fixing unityLibrary after Unity export...
 
-powershell -Command "(gc unityLibrary\build.gradle) -replace 'commandLineArgs.add\(\"--tool-chain-path=\" \+ android.ndkDirectory\)', 'commandLineArgs.add(\"--tool-chain-path=C:/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Data/PlaybackEngines/AndroidPlayer/NDK\")' | Out-File -encoding ASCII unityLibrary\build.gradle"
+set GRADLE=D:\Code Stuffs\VSCode Study\Flutter\Project\VitalAct\android\unityLibrary\build.gradle
 
-powershell -Command "(gc unityLibrary\build.gradle) -replace 'ndkPath.*', '' | Out-File -encoding ASCII unityLibrary\build.gradle"
+echo Removing mobilenotifications.androidlib dependency...
+powershell -Command "(gc '%GRADLE%') -replace \".*implementation project\('mobilenotifications.androidlib'\).*\", '' | Out-File -encoding ASCII '%GRADLE%'"
 
-echo Done! Now run flutter build apk
+echo Removing ndkPath line...
+powershell -Command "(gc '%GRADLE%') -replace '.*ndkPath.*', '' | Out-File -encoding ASCII '%GRADLE%'"
+
+echo Fixing IL2CPP toolchain path...
+powershell -Command "(gc '%GRADLE%') -replace 'commandLineArgs\.add\(""--tool-chain-path="" \+ android\.ndkDirectory\)', 'commandLineArgs.add(""--tool-chain-path=C:/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Data/PlaybackEngines/AndroidPlayer/NDK"")' | Out-File -encoding ASCII '%GRADLE%'"
+
+echo All fixes applied!
+echo You can now run: flutter build apk
+pause
