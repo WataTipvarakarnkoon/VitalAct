@@ -11,6 +11,12 @@ class TestUnity extends StatefulWidget {
 class _TestUnityState extends State<TestUnity> {
   UnityWidgetController? _unityWidgetController;
 
+  void onUnityMessage(message) {
+    if (message == "quit") {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,12 +24,12 @@ class _TestUnityState extends State<TestUnity> {
         color: Colors.yellow,
         child: UnityWidget(
           onUnityCreated: onUnityCreated,
+          onUnityMessage: onUnityMessage,
         ),
       ),
     );
   }
 
-  // Callback that connects the created controller to the unity controller
   void onUnityCreated(UnityWidgetController controller) {
     _unityWidgetController = controller;
   }

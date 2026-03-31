@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/models/steps/multi_choice_step.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
+import 'package:vitalact/screens/lessons/question_types/four_choice_page.dart';
 import 'package:vitalact/screens/lessons/question_types/multi_choice_page.dart';
 import 'package:vitalact/screens/lessons/question_types/text_input_page.dart';
 import 'package:vitalact/models/lesson_step.dart';
@@ -226,9 +227,15 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
         onNext: nextStep,
       );
     } else if (step is MultiChoiceStep) {
+      if (step.choices.length == 4) {
+        return FourChoicePage(
+          step: step,
+          onAnswered: (isCorrect) => nextStep(),
+        );
+      }
       return MultiChoicePage(
         step: step,
-        onAnswered: stepChecked,
+        onAnswered: (isCorrect) => nextStep(),
       );
     } else if (step is TextInputStep) {
       return TextInputPage(

@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: e6f576650c6196048a155f6b925edd8c
+  - enabled: 1
     path: Assets/Scenes/Room.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Road.unity
+    guid: 05ed7d41f5f4f314285a79b3f776a283
   m_configObjects:
     com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 2583e106a9f9e704e800783acd55a2a6, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 9f1c262cb6c28dd4199553aa60b535d7, type: 2}

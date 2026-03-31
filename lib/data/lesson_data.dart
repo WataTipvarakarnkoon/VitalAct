@@ -96,14 +96,28 @@ Emergency → Immediate action needed''',
           hint: 'hint')
     ],
   ),
-  const LessonItem(
+  LessonItem(
     title: 'Consciousness Check',
     spriteAsset: 'assets/spritesheet/RedFlags.png',
     steps: [
-      ReadingStep(
-        id: 'r1',
-        title: 'Title',
-        content: 'Content blah blah blah',
+      MultiChoiceStep(
+        id: 'test',
+        instructions: "Choose the best answer.",
+        title: "Person breathing 22 times per minute but speaking clearly.",
+        choices: [
+          "Normal",
+          "Emergency",
+          "Monitor only",
+          "Call immediately",
+        ],
+        correctIndex: 0,
+        correctExplanation:
+            "Breathing slightly fast but speaking clearly is usually normal.",
+        incorrectExplanation: "This is not immediately life-threatening.",
+        hint: "Look for inability to speak or severe distress.",
+        disclaimer:
+            "Assume this is a sudden situation and the person was previously stable.",
+        spriteAsset: 'assets/spritesheet/BreathingO.png',
       ),
     ],
   ),
