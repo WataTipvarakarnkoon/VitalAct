@@ -41,6 +41,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
   double get progress => (completedSteps) / totalSteps;
 
   List<LessonStep> repeatQueue = [];
+  //Step Checked
 
   void stepChecked(bool isCorrect) {
     final step = currentSteps[currentIndex];
@@ -52,33 +53,38 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
     nextStep();
   }
 
+  //Next Step
   void nextStep() {
-    final step = currentSteps[currentIndex];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
 
-    if (step is ReadingStep || step is TextInputStep) {
-      completedSteps++;
-    }
+      final step = currentSteps[currentIndex];
 
-    if (step is MultiChoiceStep) {
-      if (!repeatQueue.contains(step)) {
+      if (step is ReadingStep) {
         completedSteps++;
       }
-    }
 
-    if (currentIndex < currentSteps.length - 1) {
-      setState(() {
-        currentIndex++;
-      });
-    } else if (repeatQueue.isNotEmpty) {
-      setState(() {
-        currentSteps = List.from(repeatQueue);
-        repeatQueue.clear();
-        currentIndex = 0;
-        rounds++;
-      });
-    } else {
-      Navigator.pop(context, true);
-    }
+      if (step is MultiChoiceStep || step is TextInputStep) {
+        if (!repeatQueue.contains(step)) {
+          completedSteps++;
+        }
+      }
+
+      if (currentIndex < currentSteps.length - 1) {
+        setState(() {
+          currentIndex++;
+        });
+      } else if (repeatQueue.isNotEmpty) {
+        setState(() {
+          currentSteps = List.from(repeatQueue);
+          repeatQueue.clear();
+          currentIndex = 0;
+          rounds++;
+        });
+      } else {
+        Navigator.pop(context, true);
+      }
+    });
   }
 
   Future<bool> _confirmExit() async {
@@ -220,6 +226,7 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
     );
   }
 
+//next step thing
   Widget _buildStep(LessonStep step) {
     if (step is ReadingStep) {
       return ReadingPage(
@@ -230,17 +237,17 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
       if (step.choices.length == 4) {
         return FourChoicePage(
           step: step,
-          onAnswered: (isCorrect) => nextStep(),
+          onAnswered: stepChecked,
         );
       }
       return MultiChoicePage(
         step: step,
-        onAnswered: (isCorrect) => nextStep(),
+        onAnswered: stepChecked,
       );
     } else if (step is TextInputStep) {
       return TextInputPage(
         step: step,
-        onNext: nextStep,
+        onAnswered: stepChecked,
       );
     }
 
