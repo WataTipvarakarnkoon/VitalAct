@@ -8,12 +8,12 @@ import 'package:vitalact/widgets/sprite_animation.dart';
 
 class TextInputPage extends StatefulWidget {
   final TextInputStep step;
-  final VoidCallback onNext;
+  final Function(bool) onAnswered;
 
   const TextInputPage({
     super.key,
     required this.step,
-    required this.onNext,
+    required this.onAnswered,
   });
 
   @override
@@ -180,7 +180,9 @@ If the answer is correct:
       buttonText: answered ? "NEXT" : "ANSWER",
       onButtonPressed: (!answered && controller.text.isNotEmpty && !isAnalyzing)
           ? submit
-          : (answered && !isAnalyzing ? widget.onNext : null),
+          : (answered && !isAnalyzing
+              ? () => widget.onAnswered(isCorrect ?? false)
+              : null),
       child: Column(
         children: [
           Expanded(

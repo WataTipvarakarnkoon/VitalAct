@@ -25,6 +25,8 @@ class _TestUnityState extends State<TestUnity> {
         child: UnityWidget(
           onUnityCreated: onUnityCreated,
           onUnityMessage: onUnityMessage,
+          useAndroidViewSurface: true,
+          fullscreen: false,
         ),
       ),
     );
