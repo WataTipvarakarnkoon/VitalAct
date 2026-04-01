@@ -4,34 +4,26 @@ public class CPRObject : MonoBehaviour
 {
     [Header("CPR Settings")]
     public float pressDepth = 0.3f;
-    public float springForce = 8f;
-    public float damping = 4f;
+    public float springForce = 12f;
+    public float damping = 6f;
 
-    [Header("Feedback")]
-    public Color normalColor = Color.white;
-    public Color pressColor = new Color(1f, 0.3f, 0.3f);
+    [Header("Bone Target")]
+    public Transform chestBone;
 
     private Vector3 originalScale;
-    private Vector3 originalPos;
     private float currentDepth = 0f;
     private float velocity = 0f;
     private float targetDepth = 0f;
-    private Renderer rend;
 
     void Start()
     {
-        originalScale = transform.localScale;
-        originalPos = transform.position;
-        rend = GetComponent<Renderer>();
-
-        if (rend) rend.material.color = normalColor;
+        if (chestBone != null)
+            originalScale = chestBone.localScale;
     }
 
-    // 🔥 ใช้ตำแหน่งตรง ไม่ใช้ delta แล้ว
-    public void ApplyPress(float handY)
+    public void ApplyPress(float amount)
     {
-        float depth = originalPos.y - handY;
-        targetDepth = Mathf.Clamp(depth, 0f, pressDepth);
+        targetDepth = Mathf.Clamp(amount, 0f, pressDepth);
     }
 
     public void ReleasePress()
@@ -41,28 +33,28 @@ public class CPRObject : MonoBehaviour
 
     void Update()
     {
-        float springAcc = (targetDepth - currentDepth) * springForce
-                          - velocity * damping;
-
-        velocity += springAcc * Time.deltaTime;
+        float spring = (targetDepth - currentDepth) * springForce;
+        float damp = velocity * damping;
+        velocity += (spring - damp) * Time.deltaTime;
         currentDepth += velocity * Time.deltaTime;
         currentDepth = Mathf.Clamp(currentDepth, 0f, pressDepth);
 
-        float ratio = currentDepth / pressDepth;
+        if (chestBone != null)
+        {
+            float ratio = currentDepth / pressDepth;
+            // ยุบแค่แกน Z (ความหนาของอก) ไม่ขยับ position
+            chestBone.localScale = new Vector3(
+                originalScale.x,
+                originalScale.y,
+                Mathf.Lerp(originalScale.z, originalScale.z * 0.7f, ratio)
+            );
+        }
+    }
 
-        // scale
-        float scaleY = Mathf.Lerp(originalScale.y, originalScale.y * 0.7f, ratio);
-        transform.localScale = new Vector3(originalScale.x, scaleY, originalScale.z);
-
-        // position
-        transform.position = new Vector3(
-            originalPos.x,
-            originalPos.y - currentDepth * 0.5f,
-            originalPos.z
-        );
-
-        // color
-        if (rend)
-            rend.material.color = Color.Lerp(normalColor, pressColor, ratio);
+    public float GetTopY()
+    {
+        if (chestBone != null)
+            return chestBone.position.y;
+        return transform.position.y;
     }
 }

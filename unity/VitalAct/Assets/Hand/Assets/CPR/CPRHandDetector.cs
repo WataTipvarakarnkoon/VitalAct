@@ -5,11 +5,17 @@ using Mediapipe.Unity.Sample.HandLandmarkDetection;
 public class CPRHandDetector : MonoBehaviour
 {
     [Header("Settings")]
-    public float handDepth = 3f;       // ต้อง = |Camera.z - Object.z|
-    public float detectRadius = 0.5f;  // เพิ่มให้ติดง่าย
+    public float maxRayDistance = 50f;
+    public LayerMask cprLayer;          // เลือก Layer CPR ใน Inspector
+
+    [Header("Press Sensitivity")]
+    public float pressSpeed = 3f;   // ความเร็วสะสมแรงกด
+    public float releaseSpeed = 5f;   // ความเร็วคืนค่า
+    public float pressThreshold = 0.3f; // ค่าที่ถือว่ากดพอ
 
     private HandLandmarkerResult latestResult;
     private bool hasResult = false;
+    private float pressValue = 0f;     // 0 = ไม่กด, 1 = กดเต็ม
 
     void Start()
     {
@@ -21,7 +27,7 @@ public class CPRHandDetector : MonoBehaviour
         HandLandmarkerRunner.OnHandLandmarkResult -= OnReceiveResult;
     }
 
-    private void OnReceiveResult(HandLandmarkerResult result)
+    void OnReceiveResult(HandLandmarkerResult result)
     {
         latestResult = result;
         hasResult = true;
@@ -29,52 +35,61 @@ public class CPRHandDetector : MonoBehaviour
 
     void Update()
     {
-        if (!hasResult || latestResult.handLandmarks == null) return;
-
         var cprObjects = FindObjectsOfType<CPRObject>();
-        if (cprObjects.Length == 0) return;
 
-        // reset ทุก object ก่อน
+        bool isHandOverChest = CheckHandOverChest();
+
+        if (isHandOverChest)
+        {
+            // สะสมแรงกดขึ้นเรื่อยๆ
+            pressValue = Mathf.MoveTowards(pressValue, 1f, pressSpeed * Time.deltaTime);
+        }
+        else
+        {
+            // ปล่อยแรงกด
+            pressValue = Mathf.MoveTowards(pressValue, 0f, releaseSpeed * Time.deltaTime);
+        }
+
         foreach (var obj in cprObjects)
-            obj.ReleasePress();
+        {
+            if (pressValue > pressThreshold)
+                obj.ApplyPress(pressValue);
+            else
+                obj.ReleasePress();
+        }
+    }
+
+    bool CheckHandOverChest()
+    {
+        if (!hasResult || latestResult.handLandmarks == null) return false;
+        if (latestResult.handLandmarks.Count == 0) return false;
 
         for (int h = 0; h < latestResult.handLandmarks.Count; h++)
         {
             var landmarks = latestResult.handLandmarks[h].landmarks;
-            if (landmarks == null || landmarks.Count < 21) continue;
+            if (landmarks == null || landmarks.Count < 10) continue;
 
             var wrist = landmarks[0];
-            var middleMCP = landmarks[9];
+            var middle = landmarks[9];
 
-            // ตำแหน่งฝ่ามือ (world)
-            Vector3 palmWorld = Camera.main.ViewportToWorldPoint(new Vector3(
-                (wrist.x + middleMCP.x) / 2f,
-                1f - (wrist.y + middleMCP.y) / 2f,
-                handDepth
-            ));
+            // จุดกึ่งกลางฝ่ามือบนหน้าจอ
+            Vector2 palmScreen = new Vector2(
+                (wrist.x + middle.x) / 2f,
+                1f - (wrist.y + middle.y) / 2f
+            );
 
-            // เอา Y ของข้อมือ
-            Vector3 wristWorld = Camera.main.ViewportToWorldPoint(
-                new Vector3(wrist.x, 1f - wrist.y, handDepth));
+            // ยิง Ray จากกล้องผ่านตำแหน่งมือบนหน้าจอ
+            Ray ray = Camera.main.ViewportPointToRay(
+                new Vector3(palmScreen.x, palmScreen.y, 0f));
 
-            foreach (var obj in cprObjects)
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, maxRayDistance, cprLayer))
             {
-                Vector3 objPos = obj.transform.position;
-
-                float horizDist = Vector2.Distance(
-                    new Vector2(palmWorld.x, palmWorld.z),
-                    new Vector2(objPos.x, objPos.z)
-                );
-
-                // 🔥 ตัดเงื่อนไข Y ออก ให้ติดก่อน
-                if (horizDist < detectRadius)
-                {
-                    obj.ApplyPress(wristWorld.y);
-
-                    // debug เส้น
-                    Debug.DrawLine(palmWorld, objPos, Color.red);
-                }
+                // โดน Collider ที่อยู่ใน Layer CPR
+                return true;
             }
         }
+
+        return false;
     }
 }
