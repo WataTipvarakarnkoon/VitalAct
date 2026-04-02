@@ -550,15 +550,132 @@ Emergency → Immediate action needed'''),
       LESSON 5
 
   */
-  const LessonItem(
+  LessonItem(
     title: 'Shock and Unconscious',
     spriteAsset: 'assets/spritesheet/Shocked.png',
     steps: [
-      ReadingStep(
-        id: 'r1',
-        title: 'Title',
-        content: 'Content blah blah blah',
+      const ReadingStep(
+        id: 'R1',
+        title: 'What Is Shock & Unconsciousness?',
+        content: '''
+Shock is a condition where the body is not getting enough blood and oxygen.
+
+Unconsciousness means the person is not awake and cannot respond.
+
+These are serious conditions that can quickly become life-threatening.''',
       ),
+      const ReadingStep(id: 'R2', title: 'Basic Observation', content: '''
+Normal
+• Awake
+• Responds clearly
+• Aware of surroundings
+
+Normal
+• Pale or sweaty
+• Weak or slow response
+• No response at all
+
+Note:
+Normal → No immediate danger
+Not Normal → Something is wrong'''),
+      MultiChoiceStep(
+        id: 'Q1',
+        instructions: "Choose the best answer.",
+        title: "Person is awake and responds clearly.",
+        choices: [
+          "Normal",
+          "Not Normal",
+        ],
+        correctIndex: 0,
+        correctExplanation:
+            "Clear response and awareness indicate normal condition.",
+        incorrectExplanation: "Responding clearly is a sign of normal state.",
+        hint: "Check if the person responds clearly",
+        disclaimer:
+            "Assume this is a sudden situation and the person was previously stable.",
+        spriteAsset: 'assets/spritesheet/BreathingO.png',
+      ),
+      MultiChoiceStep(
+        id: 'Q2',
+        instructions: "Choose the best answer.",
+        title: "Person is pale and sweating.",
+        choices: [
+          "Normal",
+          "Not Normal",
+        ],
+        correctIndex: 1,
+        correctExplanation:
+            "Pale skin and sweating are signs something is wrong.",
+        incorrectExplanation:
+            "These are not normal signs of a healthy condition.",
+        hint: "Look at physical signs",
+        disclaimer:
+            "Assume this is a sudden situation and the person was previously stable.",
+        spriteAsset: 'assets/spritesheet/BreathingO.png',
+      ),
+      const TextInputStep(
+          id: "Q3",
+          instructions: "Name one sign that shows this is not normal.",
+          title: "Person responds slowly and seems weak.",
+          aiPrompt: 'Give a brief explanation of the answer',
+          spriteAsset: 'assets/spritesheet/BreathingO.png',
+          hint: 'Look at how the person responds.'),
+      const ReadingStep(id: 'R2', title: 'Basic Observation', content: '''
+Concerning
+• Pale or sweaty
+• Weak or slow response
+
+Emergency
+• No response at all
+
+Note:
+Concerning → Monitor closely
+Emergency → Immediate action needed'''),
+      MultiChoiceStep(
+        id: 'Q4',
+        instructions: "Choose the best answer.",
+        title: "Person is pale and sweating.",
+        choices: [
+          "Normal",
+          "Concerning",
+          "Emergency",
+        ],
+        correctIndex: 1,
+        correctExplanation:
+            "The person is not normal but still responsive, so it is concerning.",
+        incorrectExplanation:
+            "Since the person still responds, it is not an emergency.",
+        hint: "The person is still responding",
+        disclaimer:
+            "Assume this is a sudden situation and the person was previously stable.",
+        spriteAsset: 'assets/spritesheet/BreathingO.png',
+      ),
+      MultiChoiceStep(
+        id: 'Q5',
+        instructions: "Choose the best answer.",
+        title: "Person does not respond at all.",
+        choices: [
+          "Normal",
+          "Not Normal",
+          "Concerning",
+          "Emergency",
+        ],
+        correctIndex: 1,
+        correctExplanation:
+            "No response indicates a life-threatening emergency.",
+        incorrectExplanation: "Unresponsiveness is always an emergency.",
+        hint: "No response means?",
+        disclaimer:
+            "Assume this is a sudden situation and the person was previously stable.",
+        spriteAsset: 'assets/spritesheet/BreathingO.png',
+      ),
+      const TextInputStep(
+          id: "Q6",
+          instructions: "How serious is the situation?",
+          title: "Person is not awake and does not respond.",
+          aiPrompt: 'Give a brief explanation of the answer',
+          spriteAsset: 'assets/spritesheet/BreathingO.png',
+          hint: 'Check if there is any response.'),
     ],
   ),
 ];
