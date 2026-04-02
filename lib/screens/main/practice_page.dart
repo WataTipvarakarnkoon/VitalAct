@@ -2,6 +2,11 @@ import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
+import 'package:vitalact/screens/lessons/rapid_response.dart';
+import 'package:vitalact/models/lesson_step.dart';
+import 'package:vitalact/models/steps/reading_step.dart';
+import 'package:vitalact/data/lesson_data.dart';
+import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key});
@@ -82,6 +87,32 @@ class _PracticePageState extends State<PracticePage>
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.textPrimary,
                               )),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              final steps = pickRandomQuestions(lessonData)
+                                  .map((q) => q.qs as LessonStep)
+                                  .where((step) => step is! ReadingStep)
+                                  .toList();
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LessonRunnerPage(
+                                    title: "Rapid Response",
+                                    steps: steps,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: 67,
+                              height: 67,
+                              color: Colors.red,
+                            ),
+                          )
                         ],
                       ),
                     ),

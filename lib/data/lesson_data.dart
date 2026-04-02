@@ -523,8 +523,8 @@ Emergency → Immediate action needed'''),
         title: "Heavy bleeding that does not stop.",
         choices: [
           "Normal",
-          "Not Normal"
-              "Concerning",
+          "Not Normal",
+          "Concerning",
           "Emergency",
         ],
         correctIndex: 3,
