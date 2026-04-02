@@ -91,6 +91,10 @@ class _PracticePageState extends State<PracticePage>
                             height: 30,
                           ),
                           GestureDetector(
+                            onTapDown: (_) => setState(() => isPressed = true),
+                            onTapUp: (_) => setState(() => isPressed = false),
+                            onTapCancel: () =>
+                                setState(() => isPressed = false),
                             onTap: () {
                               final steps = pickRandomQuestions(lessonData)
                                   .map((q) => q.qs as LessonStep)
@@ -107,10 +111,41 @@ class _PracticePageState extends State<PracticePage>
                                 ),
                               );
                             },
-                            child: Container(
-                              width: 67,
-                              height: 67,
-                              color: Colors.red,
+                            child: AnimatedScale(
+                              scale: isPressed ? 0.8 : 0.9,
+                              duration: const Duration(milliseconds: 100),
+                              child: Stack(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/rapid_response.png',
+                                    height: 320,
+                                  ),
+                                  const Positioned(
+                                    top: 242,
+                                    right: 65,
+                                    child: Text(
+                                      'Rapid Response',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  const Positioned(
+                                    top: 55,
+                                    right: 70,
+                                    child: SpriteSheet(
+                                      asset: 'assets/spritesheet/NVSA.png',
+                                      columns: 50,
+                                      rows: 1,
+                                      totalFrames: 50,
+                                      fps: 30,
+                                      height: 140,
+                                      width: 140,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           )
                         ],
