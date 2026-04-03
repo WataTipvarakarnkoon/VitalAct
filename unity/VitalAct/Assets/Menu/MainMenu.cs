@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using FlutterUnityIntegration; 
+using FlutterUnityIntegration;
+using UnityEditor;
 public class MenuManager : MonoBehaviour
 {
     public string[] scenes = {"Room", "Road"};
@@ -15,6 +16,11 @@ public class MenuManager : MonoBehaviour
     public void Quit()
     {
         SendMessageToFlutter("quit");
+    }
+
+    public void Return()
+    {
+        SceneManager.LoadScene("Menu");
     }
     
     private void SendMessageToFlutter(string message)
