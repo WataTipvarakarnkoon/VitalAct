@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/models/steps/multi_choice_step.dart';
+import 'package:vitalact/models/steps/order_question.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
 import 'package:vitalact/screens/lessons/question_types/four_choice_page.dart';
 import 'package:vitalact/screens/lessons/question_types/multi_choice_page.dart';
 import 'package:vitalact/screens/lessons/question_types/text_input_page.dart';
+import 'package:vitalact/screens/lessons/question_types/order_page.dart';
 import 'package:vitalact/models/lesson_step.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
 import 'package:vitalact/screens/lessons/question_types/reading_page.dart';
@@ -246,6 +248,11 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
       );
     } else if (step is TextInputStep) {
       return TextInputPage(
+        step: step,
+        onAnswered: stepChecked,
+      );
+    } else if (step is OrderQuestionStep) {
+      return OrderPage(
         step: step,
         onAnswered: stepChecked,
       );
