@@ -8,27 +8,25 @@ public class CameraController : MonoBehaviour
 {
     [Header("Camera Settings")]
     public Transform cameraTarget;
-    public float rotateSpeed = 150f;
-    public float smoothSpeed = 8f;
+    public float rotateSpeed = 120f;
+    public float smoothSpeed = 6f;
 
     [Header("Gesture Settings")]
-    public float fistEnter = 0.07f;   // ต้องกำจริงถึงเข้า
-    public float fistExit = 0.11f;    // ต้องแบจริงถึงออก
-    public float deadzone = 0.01f;    // กัน jitter
+    public float spreadThreshold = 0.08f; // 2 นิ้ว
+    public float palmThreshold = 0.15f;   // แบมือ
 
     private HandLandmarkerResult latestResult;
     private bool hasResult = false;
 
-    private bool isFist = false;
-    private bool isPalm = false;
-
-    private Vector2 lastHandPos = Vector2.zero;
+    private Vector2 lastPos = Vector2.zero;
     private bool hasLastPos = false;
 
     private float targetYaw = 0f;
     private float targetPitch = 0f;
     private float currentYaw = 0f;
     private float currentPitch = 0f;
+
+    private Vector2 smoothDelta = Vector2.zero;
 
     void Start()
     {
@@ -45,7 +43,7 @@ public class CameraController : MonoBehaviour
         HandLandmarkerRunner.OnHandLandmarkResult -= OnReceiveResult;
     }
 
-    private void OnReceiveResult(HandLandmarkerResult result)
+    void OnReceiveResult(HandLandmarkerResult result)
     {
         latestResult = result;
         hasResult = true;
@@ -55,7 +53,7 @@ public class CameraController : MonoBehaviour
     {
         if (!hasResult || latestResult.handLandmarks == null)
         {
-            hasLastPos = false;
+            ResetTracking();
             ApplyRotation();
             return;
         }
@@ -63,86 +61,110 @@ public class CameraController : MonoBehaviour
         var landmarks = GetHandLandmarks();
         if (landmarks == null || landmarks.Count < 21)
         {
-            hasLastPos = false;
+            ResetTracking();
             ApplyRotation();
             return;
         }
 
-        // ===== ตรวจ gesture =====
-        int extendedCount = CountExtendedFingers(landmarks);
-        float avgDist = AverageFingerDistance(landmarks);
+        bool isPalm = IsOpenPalm(landmarks);
+        bool isTwoFinger = IsTwoFingerGesture(landmarks);
 
-        // ✋ แบมือ (CPR mode)
-        isPalm = extendedCount >= 3;
-
-        // ✊ กำปั้น (ใช้ hysteresis กันเด้ง)
-        if (!isFist && avgDist < fistEnter && extendedCount <= 1)
-            isFist = true;
-        else if (isFist && avgDist > fistExit)
-            isFist = false;
-
-        // ===== ตำแหน่งมือ =====
-        var wrist = landmarks[0];
-        var middleMCP = landmarks[9];
-
-        Vector2 handPos = new Vector2(
-            (wrist.x + middleMCP.x) / 2f,
-            (wrist.y + middleMCP.y) / 2f
-        );
-
-        // ===== logic =====
+        // 🔥 ถ้าเป็นฝ่ามือ → ล็อกกล้องทันที (กัน CPR ไปขยับกล้อง)
         if (isPalm)
         {
-            // 🔥 CPR = ล็อคกล้อง
-            hasLastPos = false;
+            ResetTracking();
+            ApplyRotation();
+            return;
         }
-        else if (isFist)
+
+        Vector2 fingerCenter = GetTwoFingerCenter(landmarks);
+
+        if (isTwoFinger)
         {
             if (hasLastPos)
             {
-                Vector2 delta = handPos - lastHandPos;
+                Vector2 rawDelta = fingerCenter - lastPos;
 
-                if (delta.magnitude > deadzone)
-                {
-                    targetYaw -= delta.x * rotateSpeed;
-                    targetPitch -= delta.y * rotateSpeed;
-                    targetPitch = Mathf.Clamp(targetPitch, -80f, 80f);
-                }
+                smoothDelta = Vector2.Lerp(smoothDelta, rawDelta, Time.deltaTime * 15f);
+
+                targetYaw -= smoothDelta.x * rotateSpeed;
+                targetPitch -= smoothDelta.y * rotateSpeed;
+                targetPitch = Mathf.Clamp(targetPitch, -80f, 80f);
+            }
+            else
+            {
+                smoothDelta = Vector2.zero;
             }
 
-            lastHandPos = handPos;
+            lastPos = fingerCenter;
             hasLastPos = true;
         }
         else
         {
-            hasLastPos = false;
+            ResetTracking();
+
+            // inertia
+            smoothDelta = Vector2.Lerp(smoothDelta, Vector2.zero, Time.deltaTime * 8f);
+
+            targetYaw -= smoothDelta.x * rotateSpeed;
+            targetPitch -= smoothDelta.y * rotateSpeed;
+            targetPitch = Mathf.Clamp(targetPitch, -80f, 80f);
         }
 
         ApplyRotation();
     }
 
-    // ===== Helper =====
-
-    int CountExtendedFingers(IList<NormalizedLandmark> lm)
+    // ------------------------
+    // ✋ ตรวจจับแบมือ (CPR mode)
+    // ------------------------
+    bool IsOpenPalm(IList<NormalizedLandmark> lm)
     {
-        int count = 0;
+        var wrist = lm[0];
 
-        if (lm[8].y < lm[6].y) count++;   // index
-        if (lm[12].y < lm[10].y) count++; // middle
-        if (lm[16].y < lm[14].y) count++; // ring
-        if (lm[20].y < lm[18].y) count++; // pinky
+        float index = Vector2.Distance(ToVec2(lm[8]), ToVec2(wrist));
+        float middle = Vector2.Distance(ToVec2(lm[12]), ToVec2(wrist));
+        float ring = Vector2.Distance(ToVec2(lm[16]), ToVec2(wrist));
+        float pinky = Vector2.Distance(ToVec2(lm[20]), ToVec2(wrist));
 
-        return count;
+        return index > palmThreshold &&
+               middle > palmThreshold &&
+               ring > palmThreshold &&
+               pinky > palmThreshold;
     }
 
-    float AverageFingerDistance(IList<NormalizedLandmark> lm)
+    // ------------------------
+    // ✌️ ตรวจจับ 2 นิ้ว (หมุนกล้อง)
+    // ------------------------
+    bool IsTwoFingerGesture(IList<NormalizedLandmark> lm)
     {
-        float index = Vector2.Distance(ToVec2(lm[8]), ToVec2(lm[5]));
-        float middle = Vector2.Distance(ToVec2(lm[12]), ToVec2(lm[9]));
-        float ring = Vector2.Distance(ToVec2(lm[16]), ToVec2(lm[13]));
-        float pinky = Vector2.Distance(ToVec2(lm[20]), ToVec2(lm[17]));
+        var index = lm[8];
+        var middle = lm[12];
+        var ring = lm[16];
+        var wrist = lm[0];
 
-        return (index + middle + ring + pinky) / 4f;
+        float indexDist = Vector2.Distance(ToVec2(index), ToVec2(wrist));
+        float middleDist = Vector2.Distance(ToVec2(middle), ToVec2(wrist));
+        float ringDist = Vector2.Distance(ToVec2(ring), ToVec2(wrist));
+
+        float spread = Vector2.Distance(ToVec2(index), ToVec2(middle));
+
+        return spread > spreadThreshold &&
+               indexDist > ringDist &&
+               middleDist > ringDist;
+    }
+
+    // ------------------------
+    // 🎯 จุดกลาง 2 นิ้ว
+    // ------------------------
+    Vector2 GetTwoFingerCenter(IList<NormalizedLandmark> lm)
+    {
+        var index = lm[8];
+        var middle = lm[12];
+
+        return new Vector2(
+            (index.x + middle.x) / 2f,
+            (index.y + middle.y) / 2f
+        );
     }
 
     Vector2 ToVec2(NormalizedLandmark lm)
@@ -154,7 +176,13 @@ public class CameraController : MonoBehaviour
     {
         if (latestResult.handLandmarks == null || latestResult.handLandmarks.Count == 0)
             return null;
+
         return latestResult.handLandmarks[0].landmarks;
+    }
+
+    void ResetTracking()
+    {
+        hasLastPos = false;
     }
 
     void ApplyRotation()
@@ -162,12 +190,16 @@ public class CameraController : MonoBehaviour
         currentYaw = Mathf.Lerp(currentYaw, targetYaw, Time.deltaTime * smoothSpeed);
         currentPitch = Mathf.Lerp(currentPitch, targetPitch, Time.deltaTime * smoothSpeed);
 
-        transform.rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
-
         if (cameraTarget != null)
         {
+            transform.rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
+
             float dist = Vector3.Distance(transform.position, cameraTarget.position);
             transform.position = cameraTarget.position - transform.forward * dist;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
         }
     }
 }

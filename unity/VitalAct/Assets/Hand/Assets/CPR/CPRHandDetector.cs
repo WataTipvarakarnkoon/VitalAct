@@ -6,16 +6,15 @@ public class CPRHandDetector : MonoBehaviour
 {
     [Header("Settings")]
     public float maxRayDistance = 50f;
-    public LayerMask cprLayer;          // เลือก Layer CPR ใน Inspector
+    public LayerMask cprLayer;
+    public Animator victimAnimator;
 
     [Header("Press Sensitivity")]
-    public float pressSpeed = 3f;   // ความเร็วสะสมแรงกด
-    public float releaseSpeed = 5f;   // ความเร็วคืนค่า
-    public float pressThreshold = 0.3f; // ค่าที่ถือว่ากดพอ
+    public float cooldown = 0.8f;
 
     private HandLandmarkerResult latestResult;
     private bool hasResult = false;
-    private float pressValue = 0f;     // 0 = ไม่กด, 1 = กดเต็ม
+    private float cooldownTimer = 0f;
 
     void Start()
     {
@@ -35,35 +34,37 @@ public class CPRHandDetector : MonoBehaviour
 
     void Update()
     {
-        var cprObjects = FindObjectsOfType<CPRObject>();
+        cooldownTimer -= Time.deltaTime;
+
+        if (!hasResult || latestResult.handLandmarks == null) return;
+        if (latestResult.handLandmarks.Count == 0) return;
+        if (cooldownTimer > 0f) return;
 
         bool isHandOverChest = CheckHandOverChest();
 
         if (isHandOverChest)
         {
-            // สะสมแรงกดขึ้นเรื่อยๆ
-            pressValue = Mathf.MoveTowards(pressValue, 1f, pressSpeed * Time.deltaTime);
+            Debug.Log("CPR PRESS!");
+
+            if (victimAnimator != null)
+                victimAnimator.SetTrigger("compress");
+
+            var cprObjects = FindObjectsOfType<CPRObject>();
+            foreach (var obj in cprObjects)
+                obj.ApplyPress(1f);
+
+            cooldownTimer = cooldown;
         }
         else
         {
-            // ปล่อยแรงกด
-            pressValue = Mathf.MoveTowards(pressValue, 0f, releaseSpeed * Time.deltaTime);
-        }
-
-        foreach (var obj in cprObjects)
-        {
-            if (pressValue > pressThreshold)
-                obj.ApplyPress(pressValue);
-            else
+            var cprObjects = FindObjectsOfType<CPRObject>();
+            foreach (var obj in cprObjects)
                 obj.ReleasePress();
         }
     }
 
     bool CheckHandOverChest()
     {
-        if (!hasResult || latestResult.handLandmarks == null) return false;
-        if (latestResult.handLandmarks.Count == 0) return false;
-
         for (int h = 0; h < latestResult.handLandmarks.Count; h++)
         {
             var landmarks = latestResult.handLandmarks[h].landmarks;
@@ -72,24 +73,23 @@ public class CPRHandDetector : MonoBehaviour
             var wrist = landmarks[0];
             var middle = landmarks[9];
 
-            // จุดกึ่งกลางฝ่ามือบนหน้าจอ
             Vector2 palmScreen = new Vector2(
                 (wrist.x + middle.x) / 2f,
                 1f - (wrist.y + middle.y) / 2f
             );
 
-            // ยิง Ray จากกล้องผ่านตำแหน่งมือบนหน้าจอ
             Ray ray = Camera.main.ViewportPointToRay(
                 new Vector3(palmScreen.x, palmScreen.y, 0f));
+
+            Debug.DrawRay(ray.origin, ray.direction * maxRayDistance, Color.green);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, maxRayDistance, cprLayer))
             {
-                // โดน Collider ที่อยู่ใน Layer CPR
+                Debug.Log("HIT: " + hit.collider.name);
                 return true;
             }
         }
-
         return false;
     }
 }

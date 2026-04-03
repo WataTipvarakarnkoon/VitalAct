@@ -157,8 +157,7 @@ MonoBehaviour:
   pressDepth: 0.3
   springForce: 8
   damping: 4
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  pressColor: {r: 1, g: 0.3, b: 0.3, a: 1}
+  chestBone: {fileID: 0}
 --- !u!65 &69245487
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -708,10 +707,10 @@ MonoBehaviour:
   smoothSpeed: 20
   skinColor: {r: 0.9, g: 0.72, b: 0.62, a: 1}
   jointColor: {r: 0.8, g: 0.6, b: 0.52, a: 1}
-  thumbWidth: 0.038
-  fingerWidth: 0.03
-  tipWidth: 0.024
-  palmWidth: 0.048
+  thumbWidth: 0.1
+  fingerWidth: 0.1
+  tipWidth: 0.1
+  palmWidth: 0.1
 --- !u!1 &984977522
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,8 +740,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1abfa42b2a11a74aa00a2f88ea1d6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handDepth: 3
-  detectRadius: 2
+  maxRayDistance: 50
+  cprLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  pressSpeed: 3
+  releaseSpeed: 5
+  pressThreshold: 0.3
 --- !u!4 &984977524
 Transform:
   m_ObjectHideFlags: 0
