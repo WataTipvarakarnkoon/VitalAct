@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    public Failed fail;
     public ChecklistUI checklist;
     public Camera playerCamera;
     public float lookSpeed = 2f;
@@ -23,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (checklist.IsOpen)
+        if (checklist.IsOpen || fail.shouldFade == true)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;

@@ -1,17 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimerBar : MonoBehaviour
 {
-    public RectTransform fill;
-    public float duration = 5f;
+    public Image fillImage;
+    public float duration;
 
-    float timer;
-    float startWidth;
-
-    void Start()
-    {
-        startWidth = fill.sizeDelta.x;
-    }
+    public float timer;
 
     void Update()
     {
@@ -19,6 +14,6 @@ public class TimerBar : MonoBehaviour
 
         float t = Mathf.Clamp01(1 - timer / duration);
 
-        fill.sizeDelta = new Vector2(startWidth * t, fill.sizeDelta.y);
+        fillImage.fillAmount = t;
     }
 }
