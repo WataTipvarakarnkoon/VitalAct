@@ -34,6 +34,8 @@ class _PracticePageState extends State<PracticePage>
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return AnimatedBuilder(
       animation: _tabController.animation!,
       builder: (context, _) {
@@ -116,32 +118,28 @@ class _PracticePageState extends State<PracticePage>
                               duration: const Duration(milliseconds: 100),
                               child: Stack(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/rapid_response.png',
-                                    height: 320,
-                                  ),
-                                  const Positioned(
-                                    top: 242,
-                                    right: 65,
-                                    child: Text(
-                                      'Rapid Response',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.white),
+                                  Align(
+                                    alignment: const Alignment(.1, 0),
+                                    child: Image.asset(
+                                      'assets/images/rapid_response.png',
+                                      height: 320,
                                     ),
                                   ),
-                                  const Positioned(
-                                    top: 55,
-                                    right: 70,
-                                    child: SpriteSheet(
-                                      asset: 'assets/spritesheet/NVSA.png',
-                                      columns: 50,
-                                      rows: 1,
-                                      totalFrames: 50,
-                                      fps: 30,
-                                      height: 140,
-                                      width: 140,
+                                  Positioned(
+                                    top: height * .06,
+                                    left: 0,
+                                    right: 0,
+                                    child: const Align(
+                                      alignment: Alignment.center,
+                                      child: SpriteSheet(
+                                        asset: 'assets/spritesheet/NVSA.png',
+                                        columns: 50,
+                                        rows: 1,
+                                        totalFrames: 50,
+                                        fps: 30,
+                                        height: 140,
+                                        width: 140,
+                                      ),
                                     ),
                                   )
                                 ],
@@ -183,7 +181,7 @@ class _PracticePageState extends State<PracticePage>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TestUnity(),
+                                  builder: (context) => const TestUnity(),
                                 ),
                               );
                             },
