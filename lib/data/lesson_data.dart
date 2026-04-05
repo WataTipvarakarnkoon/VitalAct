@@ -3,6 +3,7 @@ import 'package:vitalact/models/steps/reading_step.dart';
 import 'package:vitalact/models/steps/multi_choice_step.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
 import '../models/lesson_item.dart';
+import 'package:vitalact/models/steps/order_question_step.dart';
 
 class PlaceholderPage extends StatelessWidget {
   final String title;
@@ -17,665 +18,300 @@ class PlaceholderPage extends StatelessWidget {
   }
 }
 
+final String sprite = 'assets/spritesheet/NVSA.png';
+
 final List<LessonItem> lessonData = [
-  /*
+/* =========================================================
+   LESSON 1: First Aid Basics
+========================================================= */
 
-      LESSON 1 Breathing
-
-  */
   LessonItem(
-    title: 'Breathing Assessment',
-    spriteAsset: 'assets/spritesheet/NVSA.png',
+    id: 'L1',
+    title: 'First Aid Basics',
+    spriteAsset: sprite,
     steps: [
       const ReadingStep(
-        id: 'R1',
-        title: 'Breathing Assessment',
+        id: 'L1_R1',
+        title: 'What is First Aid?',
         content: '''
-Normal
-• Breathing regular and effortless
-• Can speak full sentences
-• No visible distress
+First aid is the immediate help given before professionals arrive.
 
-Not Normal
-• Breathing slightly irregular or labored
-• Pauses while speaking
-• Mild anxiety or restlessness
-
-Note:
-Normal → No immediate danger
-Not Normal → Something is wrong''',
+Goals:
+• Save life
+• Prevent worsening
+• Promote recovery''',
       ),
       MultiChoiceStep(
-        id: 'Q1',
-        title:
-            'Person breathing 16/min, regular rhythm, chest rising evenly, speaking full sentences.',
+        id: 'L1_Q1',
+        title: 'What is the main purpose of first aid?',
         instructions: 'Choose the best answer.',
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-        choices: const ['Normal', 'Not Normal'],
-        correctIndex: 0,
-        disclaimer:
-            'Assume this is a sudden situation and the person was previously stable.',
+        spriteAsset: sprite,
+        choices: const [
+          'Replace doctors',
+          'Provide immediate help',
+          'Perform surgery',
+        ],
+        correctIndex: 1,
+        disclaimer: '',
         correctExplanation:
-            "All key signs are normal: breathing rate is within 12–20, rhythm is regular, chest movement is even, and the person can speak clearly.",
+            'First aid provides immediate care before professionals arrive.',
         incorrectExplanation:
-            "All signs match normal breathing: correct rate, steady rhythm, even chest movement, and ability to speak clearly..",
-        hint:
-            "Check all signs: rate, rhythm, chest movement, and speaking ability.",
+            'First aid is not meant to replace doctors or perform surgery.',
+        hint: 'Think about timing.',
       ),
       MultiChoiceStep(
-        id: 'Q2',
-        title: 'Person breathing 18/min but cannot speak full sentences.',
+        id: 'L1_Q2',
+        title: 'Which is NOT a goal of first aid?',
         instructions: 'Choose the best answer.',
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-        choices: const ['Normal', 'Not Normal'],
-        correctIndex: 1,
-        disclaimer:
-            'Assume this is a sudden situation and the person was previously stable.',
-        correctExplanation:
-            "Even with a normal breathing rate, difficulty speaking indicates breathing is not functioning normally.",
-        incorrectExplanation:
-            "If a person cannot speak full sentences, their breathing is not normal even if the rate looks fine.",
-        hint: "Normal breathing should allow the person to speak comfortably.",
-      ),
-      const ReadingStep(
-        id: 'R2',
-        title: 'Urgency Assessment',
-        content: '''
-Concerning
-• Breathing fast or slow beyond normal range
-• Struggling to speak
-• Noticeable chest movement or effort
-
-Emergency
-• No breathing or gasping irregularly
-• Cannot speak or respond properly
-• Cyanosis (bluish lips or fingers)
-• Collapse or fainting
-
-Note:
-Concerning → Monitor closely
-Emergency → Immediate action needed''',
-      ),
-      MultiChoiceStep(
-        id: 'Q3',
-        title: 'Breathing 14/min, chest not rising, cannot speak.',
-        instructions: 'Choose the best answer.',
-        spriteAsset: 'assets/spritesheet/BreathingT.png',
-        choices: const ['Normal', 'Concerning', 'Emergency'],
-        correctIndex: 2,
-        disclaimer:
-            'Assume this is a sudden situation and the person was previously stable.',
-        correctExplanation:
-            "Even though the rate appears normal, the chest is not rising and the person cannot speak, meaning breathing is not effective — this is an emergency.",
-        incorrectExplanation:
-            "Without chest movement and the ability to speak, the person is not breathing properly, which is life-threatening.",
-        hint: "Breathing must include chest movement and ability to speak.",
-      ),
-      MultiChoiceStep(
-        id: 'Q4',
-        title: 'Person breathing 21/min, regular rhythm, speaking clearly.',
-        instructions: 'Choose the best answer.',
-        spriteAsset: 'assets/spritesheet/BreathingT.png',
-        choices: const ['Normal', 'Concerning', 'Emergency'],
-        correctIndex: 1,
-        disclaimer:
-            'Assume this is a sudden situation and the person was previously stable.',
-        correctExplanation:
-            "Breathing above 20/min is outside the normal range, but since other signs are stable, it is concerning—not an emergency.",
-        incorrectExplanation:
-            "The rate is too fast to be normal, but there are no severe danger signs, so it is not an emergency.",
-        hint: "Pay attention to the breathing rate range (12–20).",
-      ),
-      const TextInputStep(
-          id: 'Q5',
-          instructions: 'Describe the person’s breathing condition?',
-          title:
-              'Person breathing 20/min, regular rhythm, chest rising evenly, but the person cannot speak full sentences without stopping.',
-          aiPrompt: 'Give a brief explanation of the answer',
-          spriteAsset: 'assets/spritesheet/BreathingO.png',
-          hint: 'Check if all normal breathing signs are present.')
-    ],
-  ),
-  /*
-
-      LESSON 2 Consciousness
-
-  */
-  LessonItem(
-    title: 'Consciousness Check',
-    spriteAsset: 'assets/spritesheet/RedFlags.png',
-    steps: [
-      const ReadingStep(id: ' R1', title: 'What Is Consciousness?', content: '''
-Consciousness means:
-• Awake
-• Aware of their surroundings
-• Able to respond'''),
-      const ReadingStep(id: 'R2', title: 'Basic Observation', content: '''
-Normal
-• Responds clearly
-• Answers questions correctly
-• Follows instructions
-
-Not Normal
-• Slow or confused response
-• Cannot answer properly
-• No response at all
-
-
-Note:
-Normal → No immediate danger
-Not Normal → Something is wrong'''),
-      MultiChoiceStep(
-        id: 'Q1',
-        instructions: "Choose the best answer.",
-        title: "Person responds but is slow and confused.",
-        choices: [
-          "Normal",
-          "Not Normal",
-        ],
-        correctIndex: 1,
-        correctExplanation:
-            "A slow or confused response means the person is not in a normal state.",
-        incorrectExplanation:
-            "Normal consciousness requires clear and appropriate responses.",
-        hint: "Normal responses should be clear and appropriate.",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-      ),
-      MultiChoiceStep(
-        id: 'Q2',
-        instructions: "Choose the best answer.",
-        title: "Person responds when spoken to and answers questions clearly.",
-        choices: ["Normal", "Not Normal"],
-        correctIndex: 0,
-        correctExplanation:
-            "Responding clearly when spoken to is a key sign of normal consciousness.",
-        incorrectExplanation:
-            "Clear and appropriate responses indicate normal consciousness.",
-        hint: "Look for inability to speak or severe distress.",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-      ),
-      const TextInputStep(
-          id: "Q3",
-          instructions: "How would you describe this condition?",
-          title: "Person does not respond when spoken to.",
-          aiPrompt: 'Give a brief explanation of the answer',
-          spriteAsset: 'assets/spritesheet/BreathingO.png',
-          hint: "Is the person able to respond?"),
-      const ReadingStep(id: ' R3', title: 'Urgency Assessment', content: '''
-Concerning
-• Responds but confused or slow
-• Answers incorrectly
-• Not fully aware
-
-Emergency
-• No response at all
-
-
-Note:
-Concerning → Monitor closely
-Emergency → Immediate action needed'''),
-      MultiChoiceStep(
-        id: 'Q4',
-        instructions: "Choose the best answer.",
-        title: "Person responds but seems confused and slow.",
-        choices: [
-          "Normal",
-          "Concerning",
-          "Emergency",
-        ],
-        correctIndex: 1,
-        correctExplanation:
-            "The person is still responding, but not clearly, which makes it concerning.",
-        incorrectExplanation:
-            "Since the person can still respond, it is not an emergency, but also not normal.",
-        hint: "Is the person still responding?",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-      ),
-      MultiChoiceStep(
-        id: 'Q5',
-        instructions: "Choose the best answer.",
-        title: "Person does not respond at all.",
-        choices: [
-          "Normal",
-          "Not Normal",
-          "Concerning",
-          "Emergency",
-        ],
-        correctIndex: 3,
-        correctExplanation:
-            "No response at all means the person is in an emergency condition.",
-        incorrectExplanation:
-            "Lack of response indicates a life-threatening condition requiring immediate action.",
-        hint: "What does no response indicate?",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-      ),
-      const TextInputStep(
-          id: "Q6",
-          instructions: "How serious is this condition?",
-          title: "Person answers clearly and follows instructions.",
-          aiPrompt: 'Give a brief explanation of the answer',
-          spriteAsset: 'assets/spritesheet/BreathingO.png',
-          hint: 'Check if the response is clear and correct.')
-    ],
-  ),
-  /*
-
-      LESSON 3 Chest Pain
-
-  */
-  LessonItem(
-    title: 'Chest Pain and Heart Attack',
-    spriteAsset: 'assets/spritesheet/ChestPain.png',
-    steps: [
-      const ReadingStep(
-        id: 'R1',
-        title: 'Observation Signs',
-        content: '''
-Normal
-• Calm and relaxed
-• No sweating or pallor
-• Moves normally
-
-Not Normal
-• Anxious or uneasy
-• Mild facial grimacing or clutching chest briefly
-• Slight sweating or nausea observable
-• Shifts position frequently
-
-
-Note:
-Normal → No immediate danger
-Not → Normal Something is wrong''',
-      ),
-      MultiChoiceStep(
-        id: 'Q1',
-        instructions: "Choose the best answer.",
-        title:
-            "Person sitting calmly, relaxed posture, skin color normal, no sweating.",
-        choices: [
-          "Normal",
-          "Not Normal",
-        ],
-        correctIndex: 0,
-        correctExplanation:
-            "Calm appearance with no signs of distress indicates stability.",
-        incorrectExplanation:
-            "Any signs of distress are absent, so immediate concern is not required.",
-        hint: "Look for any observable abnormal signs.",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-      ),
-      MultiChoiceStep(
-        id: 'Q2',
-        instructions: "Choose the best answer.",
-        title:
-            "Person shifting position frequently, mild facial grimacing, slightly sweaty.",
-        choices: [
-          "Normal",
-          "Not Normal",
-        ],
-        correctIndex: 1,
-        correctExplanation:
-            "Observable anxiety or mild discomfort suggests the person may be at risk.",
-        incorrectExplanation:
-            "Lack of severe distress means life-threatening risk is low.",
-        hint: "Are there any visible indications of discomfort?",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-      ),
-      const ReadingStep(
-        id: 'R2',
-        title: 'Urgency Assessment',
-        content: '''
-Concerning
-• Mild chest discomfort
-• Anxious or uneasy
-• Slight sweating or nausea
-• Shifts position frequently
-
-Emergency
-• Repeatedly clutching chest
-• Pain gestures toward arm, neck, jaw, or back
-• Pale, sweaty, or nauseous
-• Fainting or collapse
-
-
-Note:
-Concerning – Monitor closely and be ready to assist
-Emergency – Call emergency services immediately and prepare to act''',
-      ),
-      MultiChoiceStep(
-        id: 'Q3',
-        instructions: "Choose the best answer.",
-        title:
-            "Person clutching chest repeatedly, leaning forward, pale and sweaty.",
-        choices: [
-          "Normal",
-          "Concerning",
-          "Emergency",
+        spriteAsset: sprite,
+        choices: const [
+          'Save life',
+          'Prevent worsening',
+          'Perform surgery',
         ],
         correctIndex: 2,
-        correctExplanation:
-            "Sudden severe chest distress with pallor and sweating indicates a life-threatening condition requiring immediate action.",
+        disclaimer: '',
+        correctExplanation: 'Surgery is not part of first aid.',
         incorrectExplanation:
-            "Mild or absent visual signs indicate the condition is not immediately life-threatening.",
-        hint: "Look for severe observable distress or collapse.",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
+            'Saving life and preventing worsening are core goals.',
+        hint: 'Basic vs advanced care.',
       ),
-      MultiChoiceStep(
-        id: 'Q4',
-        instructions: "Choose the best answer.",
-        title:
-            "Person rubbing their chest occasionally, mildly anxious, slightly sweaty but still able to speak normally.",
-        choices: [
-          "Normal",
-          "Concerning",
-          "Emergency",
+      OrderQuestionStep(
+        id: 'L1_Q3',
+        title: 'Arrange first aid priorities',
+        instructions: 'Put in correct order.',
+        spriteAsset: sprite,
+        choices: const [
+          'Promote recovery',
+          'Save life',
+          'Prevent worsening',
         ],
-        correctIndex: 1,
+        correctOrder: const [1, 2, 0],
         correctExplanation:
-            "Mild chest discomfort with slight sweating are early warning signs — not yet an emergency but worth monitoring.",
-        incorrectExplanation:
-            "Chest rubbing and sweating are too mild for emergency, but not normal either.",
-        hint: "Look for mild discomfort signs, not calm nor collapsing.",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-      ),
-      const TextInputStep(
-          id: "Q6",
-          instructions:
-              "List three observable signs indicating a possible heart attack.",
-          title:
-              "Person suddenly collapses, clutching chest, pale, sweating, leaning forward.",
-          aiPrompt: 'Give a brief explanation of the answer',
-          spriteAsset: 'assets/spritesheet/BreathingO.png',
-          hint: 'Focus on visual signs only.')
-    ],
-  ),
-  /*
-
-      LESSON 4 Bleeding
-
-  */
-  LessonItem(
-    title: 'Bleeding / Wound Management',
-    spriteAsset: 'assets/spritesheet/Bleeding.png',
-    steps: [
-      const ReadingStep(
-        id: 'R1',
-        title: 'What is bleeding?',
-        content: '''
-Bleeding happens when blood flows out of the body due to a wound.
-
-It can be:
-• Minor (small cut)
-• Moderate
-• Severe (heavy bleeding)
-
-Check:
-• Amount of blood
-• Speed of bleeding
-• Where the bleeding is''',
-      ),
-      const ReadingStep(id: 'R2', title: 'Basic Observation', content: '''
-Normal
-• No bleeding
-• Skin is intact (no open wound)
-
-Not Normal
-• Any visible bleeding
-• Open wound or cut
-• Blood coming out of the body
-
-
-Note:
-Normal → No immediate danger
-Not Normal → Something is wrong'''),
-      MultiChoiceStep(
-        id: 'Q1',
-        instructions: "Choose the best answer.",
-        title: "Small cut with slow bleeding.",
-        choices: [
-          "Normal",
-          "Not Normal",
-        ],
-        correctIndex: 1,
-        correctExplanation:
-            "Even small bleeding means the condition is not normal.",
-        incorrectExplanation: "Normal means no bleeding at all.",
-        hint: "Any bleeding is not fully normal",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
+            'Correct order: save life → prevent worsening → promote recovery.',
+        incorrectExplanation: 'Life-threatening issues must always come first.',
+        hint: 'What is most urgent?',
       ),
       MultiChoiceStep(
-        id: 'Q2',
-        instructions: "Choose the best answer.",
-        title: "No bleeding is seen.",
-        choices: [
-          "Normal",
-          "Not Normal",
+        id: 'L1_Q4',
+        title: 'Why is early recognition important?',
+        instructions: 'Choose the best answer.',
+        spriteAsset: sprite,
+        choices: const [
+          'It helps you act faster',
+          'It replaces treatment',
+          'It is optional',
         ],
         correctIndex: 0,
+        disclaimer: '',
         correctExplanation:
-            "No bleeding means there is no injury involving blood.",
-        incorrectExplanation: "Without bleeding, the situation is normal.",
-        hint: "Is there any blood?",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
+            'Recognizing problems early allows faster and correct action.',
+        incorrectExplanation: 'Recognition is essential, not optional.',
+        hint: 'Think speed.',
       ),
       const TextInputStep(
-          id: "Q3",
-          instructions: "Describe the condition.",
-          title: "Small wound with slow bleeding that stops easily.",
-          aiPrompt: 'Give a brief explanation of the answer',
-          spriteAsset: 'assets/spritesheet/BreathingO.png',
-          hint: 'Is it severe or mild?'),
-      const ReadingStep(id: 'R3', title: 'Basic Observation', content: '''
-Concerning
-• Small or slow bleeding
-• Blood is controlled
-
-Emergency
-• Heavy bleeding
-• Blood flowing continuously
-• Cannot be controlled
-
-Note:
-Concerning → Monitor closely
-Emergency → Immediate action needed'''),
-      MultiChoiceStep(
-        id: 'Q4',
-        instructions: "Choose the best answer.",
-        title: "Bleeding steadily from a cut but not heavy.",
-        choices: [
-          "Normal",
-          "Concerning",
-          "Emergency",
-        ],
-        correctIndex: 1,
-        correctExplanation:
-            "Moderate bleeding that is not severe is concerning but not an emergency.",
-        incorrectExplanation:
-            "It is not normal, but also not severe enough to be an emergency.",
-        hint: "Check the amount and speed",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
+        id: 'L1_Q5',
+        title: 'Why must first aid be immediate?',
+        instructions: 'Explain briefly.',
+        aiPrompt: 'Give a short explanation',
+        spriteAsset: 'assets/spritesheet/NVSA.png',
+        hint: 'Think about delays and risk.',
       ),
-      MultiChoiceStep(
-        id: 'Q4',
-        instructions: "Choose the best answer.",
-        title: "Heavy bleeding that does not stop.",
-        choices: [
-          "Normal",
-          "Not Normal",
-          "Concerning",
-          "Emergency",
-        ],
-        correctIndex: 3,
-        correctExplanation:
-            "Uncontrolled heavy bleeding is life-threatening and requires immediate action.",
-        incorrectExplanation: "Severe, uncontrolled bleeding is an emergency.",
-        hint: "Can the bleeding be controlled?",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
-      ),
-      const TextInputStep(
-          id: "Q6",
-          instructions: "How urgent is this situation?",
-          title: "Blood is flowing quickly from a wound and does not stop.",
-          aiPrompt: 'Give a brief explanation of the answer',
-          spriteAsset: 'assets/spritesheet/BreathingO.png',
-          hint: 'Check the speed and whether the bleeding stops.'),
     ],
   ),
-  /*
 
-      LESSON 5
+/* =========================================================
+   LESSON 2: Scene Safety
+========================================================= */
 
-  */
   LessonItem(
-    title: 'Shock and Unconscious',
-    spriteAsset: 'assets/spritesheet/Shocked.png',
+    id: 'L2',
+    title: 'Scene Safety',
+    spriteAsset: sprite,
     steps: [
       const ReadingStep(
-        id: 'R1',
-        title: 'What Is Shock & Unconsciousness?',
+        id: 'L2_R1',
+        title: 'Stay Safe First',
         content: '''
-Shock is a condition where the body is not getting enough blood and oxygen.
+Before helping, always check the scene.
 
-Unconsciousness means the person is not awake and cannot respond.
+Possible dangers:
+• Fire
+• Traffic
+• Electricity
 
-These are serious conditions that can quickly become life-threatening.''',
+Rule:
+Do not become the second victim.''',
       ),
-      const ReadingStep(id: 'R2', title: 'Basic Observation', content: '''
-Normal
-• Awake
-• Responds clearly
-• Aware of surroundings
-
-Normal
-• Pale or sweaty
-• Weak or slow response
-• No response at all
-
-Note:
-Normal → No immediate danger
-Not Normal → Something is wrong'''),
       MultiChoiceStep(
-        id: 'Q1',
-        instructions: "Choose the best answer.",
-        title: "Person is awake and responds clearly.",
-        choices: [
-          "Normal",
-          "Not Normal",
+        id: 'L2_Q1',
+        title: 'What should you check first?',
+        instructions: 'Choose the best answer.',
+        spriteAsset: sprite,
+        choices: const [
+          'Victim condition',
+          'Scene safety',
+          'Call for help',
+        ],
+        correctIndex: 1,
+        disclaimer: '',
+        correctExplanation: 'Your safety always comes first.',
+        incorrectExplanation:
+            'You must ensure the scene is safe before helping.',
+        hint: 'Think about your own safety.',
+      ),
+      MultiChoiceStep(
+        id: 'L2_Q2',
+        title: 'Why is scene safety important?',
+        instructions: 'Choose the best answer.',
+        spriteAsset: sprite,
+        choices: const [
+          'To avoid injury',
+          'To delay action',
+          'To observe longer',
         ],
         correctIndex: 0,
-        correctExplanation:
-            "Clear response and awareness indicate normal condition.",
-        incorrectExplanation: "Responding clearly is a sign of normal state.",
-        hint: "Check if the person responds clearly",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
+        disclaimer: '',
+        correctExplanation: 'You cannot help others if you are injured.',
+        incorrectExplanation: 'Safety ensures you can continue helping.',
+        hint: 'Self-protection first.',
+      ),
+      OrderQuestionStep(
+        id: 'L2_Q3',
+        title: 'Arrange safety steps',
+        instructions: 'Put in correct order.',
+        spriteAsset: sprite,
+        choices: const [
+          'Help the victim',
+          'Check surroundings',
+          'Ensure personal safety',
+        ],
+        correctOrder: const [1, 2, 0],
+        correctExplanation: 'Check surroundings → ensure safety → help victim.',
+        incorrectExplanation: 'Helping without checking can be dangerous.',
+        hint: 'Safety before action.',
       ),
       MultiChoiceStep(
-        id: 'Q2',
-        instructions: "Choose the best answer.",
-        title: "Person is pale and sweating.",
-        choices: [
-          "Normal",
-          "Not Normal",
+        id: 'L2_Q4',
+        title: 'You see danger nearby. What do you do?',
+        instructions: 'Choose the best answer.',
+        spriteAsset: sprite,
+        choices: const [
+          'Rush immediately',
+          'Assess the situation',
+          'Ignore the danger',
         ],
         correctIndex: 1,
-        correctExplanation:
-            "Pale skin and sweating are signs something is wrong.",
+        disclaimer: '',
+        correctExplanation: 'You must assess before acting to avoid harm.',
         incorrectExplanation:
-            "These are not normal signs of a healthy condition.",
-        hint: "Look at physical signs",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
+            'Rushing or ignoring danger can make things worse.',
+        hint: 'Pause and check.',
       ),
       const TextInputStep(
-          id: "Q3",
-          instructions: "Name one sign that shows this is not normal.",
-          title: "Person responds slowly and seems weak.",
-          aiPrompt: 'Give a brief explanation of the answer',
-          spriteAsset: 'assets/spritesheet/BreathingO.png',
-          hint: 'Look at how the person responds.'),
-      const ReadingStep(id: 'R2', title: 'Basic Observation', content: '''
-Concerning
-• Pale or sweaty
-• Weak or slow response
+        id: 'L2_Q5',
+        title: 'Give one example of a hazard.',
+        instructions: 'Short answer.',
+        aiPrompt: 'Give one example of a dangerous situation',
+        spriteAsset: 'assets/spritesheet/NVSA.png',
+        hint: 'Think environmental risks.',
+      ),
+    ],
+  ),
 
-Emergency
-• No response at all
+/* =========================================================
+   LESSON 3: First Response Flow
+========================================================= */
 
-Note:
-Concerning → Monitor closely
-Emergency → Immediate action needed'''),
-      MultiChoiceStep(
-        id: 'Q4',
-        instructions: "Choose the best answer.",
-        title: "Person is pale and sweating.",
-        choices: [
-          "Normal",
-          "Concerning",
-          "Emergency",
+  LessonItem(
+    id: 'L3',
+    title: 'First Response Flow',
+    spriteAsset: sprite,
+    steps: [
+      const ReadingStep(
+        id: 'L3_R1',
+        title: 'Basic Response Steps',
+        content: '''
+Follow this order:
+1. Check safety
+2. Check the person
+3. Call for help
+4. Take action''',
+      ),
+      OrderQuestionStep(
+        id: 'L3_Q1',
+        title: 'Arrange the response steps',
+        instructions: 'Put in correct order.',
+        spriteAsset: sprite,
+        choices: const [
+          'Call for help',
+          'Check safety',
+          'Take action',
+          'Check the person',
         ],
-        correctIndex: 1,
-        correctExplanation:
-            "The person is not normal but still responsive, so it is concerning.",
-        incorrectExplanation:
-            "Since the person still responds, it is not an emergency.",
-        hint: "The person is still responding",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
+        correctOrder: const [1, 3, 0, 2],
+        correctExplanation: 'Correct order: safety → person → call → action.',
+        incorrectExplanation: 'Following the correct order prevents mistakes.',
+        hint: 'Start with safety.',
       ),
       MultiChoiceStep(
-        id: 'Q5',
-        instructions: "Choose the best answer.",
-        title: "Person does not respond at all.",
-        choices: [
-          "Normal",
-          "Not Normal",
-          "Concerning",
-          "Emergency",
+        id: 'L3_Q2',
+        title: 'When should you call for help?',
+        instructions: 'Choose the best answer.',
+        spriteAsset: sprite,
+        choices: const [
+          'Before checking anything',
+          'After checking the person',
+          'At the very end only',
         ],
         correctIndex: 1,
+        disclaimer: '',
         correctExplanation:
-            "No response indicates a life-threatening emergency.",
-        incorrectExplanation: "Unresponsiveness is always an emergency.",
-        hint: "No response means?",
-        disclaimer:
-            "Assume this is a sudden situation and the person was previously stable.",
-        spriteAsset: 'assets/spritesheet/BreathingO.png',
+            'You need to understand the situation before calling.',
+        incorrectExplanation:
+            'Calling too early or too late can be ineffective.',
+        hint: 'Assess first.',
+      ),
+      MultiChoiceStep(
+        id: 'L3_Q3',
+        title: 'Why follow a sequence?',
+        instructions: 'Choose the best answer.',
+        spriteAsset: sprite,
+        choices: const [
+          'Avoid mistakes',
+          'Look professional',
+          'Save time randomly',
+        ],
+        correctIndex: 0,
+        disclaimer: '',
+        correctExplanation: 'A proper sequence reduces errors and confusion.',
+        incorrectExplanation: 'Sequence ensures safe and correct actions.',
+        hint: 'Think safety.',
+      ),
+      MultiChoiceStep(
+        id: 'L3_Q4',
+        title: 'What happens if you skip safety?',
+        instructions: 'Choose the best answer.',
+        spriteAsset: sprite,
+        choices: const [
+          'Nothing',
+          'You may get injured',
+          'You act faster',
+        ],
+        correctIndex: 1,
+        disclaimer: '',
+        correctExplanation: 'Ignoring safety can put you in danger.',
+        incorrectExplanation: 'Safety is always critical.',
+        hint: 'Risk matters.',
       ),
       const TextInputStep(
-          id: "Q6",
-          instructions: "How serious is the situation?",
-          title: "Person is not awake and does not respond.",
-          aiPrompt: 'Give a brief explanation of the answer',
-          spriteAsset: 'assets/spritesheet/BreathingO.png',
-          hint: 'Check if there is any response.'),
+        id: 'L3_Q5',
+        title: 'Why is order important?',
+        instructions: 'Explain briefly.',
+        aiPrompt: 'Short explanation',
+        spriteAsset: 'assets/spritesheet/NVSA.png',
+        hint: 'Think mistakes and safety.',
+      ),
     ],
   ),
 ];

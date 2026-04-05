@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/models/steps/multi_choice_step.dart';
-import 'package:vitalact/models/steps/order_question.dart';
+import 'package:vitalact/models/steps/order_question_step.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
 import 'package:vitalact/screens/lessons/question_types/four_choice_page.dart';
 import 'package:vitalact/screens/lessons/question_types/multi_choice_page.dart';
