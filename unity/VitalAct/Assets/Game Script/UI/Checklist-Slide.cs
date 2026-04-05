@@ -1,20 +1,40 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChecklistUI : MonoBehaviour
 {
     GameManager gameManager;
     public Animator animator;
+    public Button button;
     bool isOpen = false;
     public bool IsOpen => isOpen;
 
-    void Update()
+  void Start()
+  {
+    button.onClick.AddListener(() =>
+    {  if(!isOpen || GameManager.instance.CurrentState == GameManager.GameState.Identify)
     {
-        if ((GameManager.instance.CurrentState == GameManager.GameState.Identify || isOpen) && Input.GetKeyDown(KeyCode.Tab))
-        {
-          Debug.Log("Tab");
-            isOpen = !isOpen;
-            if (isOpen)
+      Toggle();
+    }
+    else if (isOpen)
+    { 
+        Toggle();
+    }
+    });
+  }
+
+  void Update()
+  {
+    if (Input.GetKeyDown(KeyCode.Tab) && GameManager.instance.CurrentState == GameManager.GameState.Identify)
+    {
+      Toggle();
+    }
+  }
+  void Toggle()
+    {
+      isOpen = !isOpen;
+      if (isOpen)
       {
         animator.SetTrigger("SlideUP");
       }
@@ -22,7 +42,6 @@ public class ChecklistUI : MonoBehaviour
       {
         animator.SetTrigger("SlideDown");
       }
-            
-        }
+
     }
 }

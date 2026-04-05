@@ -35,7 +35,7 @@ public class ButtonUI : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.CurrentState == GameManager.GameState.Choose && Input.GetKeyDown(KeyCode.Tab))
+        if (GameManager.instance.CurrentState == GameManager.GameState.Choose && !isOpen)
         {
             OpenButtons();
         }
