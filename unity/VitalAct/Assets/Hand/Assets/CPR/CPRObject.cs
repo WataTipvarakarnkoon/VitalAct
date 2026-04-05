@@ -5,7 +5,7 @@ public class CPRObject : MonoBehaviour
     public Transform chestBone;
 
     [Header("Settings")]
-    public float pressDepth = 0.04f;
+    public float pressDepth = 0.05f;
     public float speed = 15f;
 
     private Vector3 originalPos;
@@ -20,7 +20,7 @@ public class CPRObject : MonoBehaviour
 
     public void ApplyPress(float value)
     {
-        target = 1f; // กดสุดทีเดียว
+        target = Mathf.Clamp01(value);
     }
 
     public void ReleasePress()
@@ -31,11 +31,7 @@ public class CPRObject : MonoBehaviour
     void Update()
     {
         current = Mathf.Lerp(current, target, Time.deltaTime * speed);
-
         if (chestBone != null)
-        {
-            chestBone.localPosition =
-                originalPos + new Vector3(0, -current * pressDepth, 0);
-        }
+            chestBone.localPosition = originalPos + new Vector3(0, -current * pressDepth, 0);
     }
 }
