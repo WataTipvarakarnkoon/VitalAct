@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Mediapipe.Tasks.Vision.HandLandmarker;
 using Mediapipe.Unity.Sample.HandLandmarkDetection;
-using System.Collections.Generic;
 
 public class ProceduralHand : MonoBehaviour
 {
@@ -11,12 +10,12 @@ public class ProceduralHand : MonoBehaviour
 
     [Header("Appearance")]
     public Color skinColor = new Color(1f, 0.75f, 0.6f);
-    public Color jointColor = new Color(0.9f, 0.4f, 0.4f);
+    public Color jointColor = new Color(1f, 0.75f, 0.6f);
 
     [Header("Thickness")]
     public float thumbWidth = 0.035f;
     public float fingerWidth = 0.025f;
-    public float tipWidth = 0.02f;
+    public float tipWidth = 0.018f;
     public float palmWidth = 0.045f;
 
     private static readonly int[][] bones = {
@@ -29,13 +28,15 @@ public class ProceduralHand : MonoBehaviour
         new int[]{17,18,2}, new int[]{18,19,2}, new int[]{19,20,3},
     };
 
-    private HandData hand;
+    private HandData leftHand;
+    private HandData rightHand;
     private HandLandmarkerResult latestResult;
     private bool hasResult = false;
 
     void Start()
     {
-        hand = CreateHand();
+        leftHand = CreateHand("Left");
+        rightHand = CreateHand("Right");
         HandLandmarkerRunner.OnHandLandmarkResult += OnReceiveResult;
     }
 
@@ -50,10 +51,10 @@ public class ProceduralHand : MonoBehaviour
         hasResult = true;
     }
 
-    HandData CreateHand()
+    HandData CreateHand(string side)
     {
         var data = new HandData();
-        var root = new GameObject("ProceduralHand");
+        var root = new GameObject(side + "_ProceduralHand");
         root.transform.parent = transform;
 
         data.positions = new Vector3[21];
@@ -62,17 +63,40 @@ public class ProceduralHand : MonoBehaviour
         var jointMat = CreateMat(jointColor);
 
         data.joints = new GameObject[21];
-
         for (int i = 0; i < 21; i++)
         {
+            bool isTip = (i == 4 || i == 8 || i == 12 || i == 16 || i == 20);
+            bool isThumb = (i >= 1 && i <= 4);
+            bool isPalm = (i == 0);
+
+            float size;
+            if (isPalm) size = palmWidth * 1.8f;
+            else if (isThumb) size = thumbWidth * 1.6f;
+            else if (isTip) size = tipWidth * 1.6f;
+            else size = fingerWidth * 1.6f;
+
             var s = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            s.name = side + "_Joint_" + i;
             s.transform.parent = root.transform;
-            s.transform.localScale = Vector3.one * 0.04f;
+            s.transform.localScale = Vector3.one * size;
             s.GetComponent<Renderer>().material = jointMat;
+            s.SetActive(false);
+            s.layer = LayerMask.NameToLayer("Hand");
 
             var rb = s.AddComponent<Rigidbody>();
             rb.isKinematic = true;
             rb.useGravity = false;
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+
+            if (isTip)
+            {
+                var col = s.GetComponent<SphereCollider>();
+                col.radius = 0.5f;
+            }
+            else
+            {
+                Destroy(s.GetComponent<SphereCollider>());
+            }
 
             s.tag = "Hand";
             data.joints[i] = s;
@@ -82,9 +106,12 @@ public class ProceduralHand : MonoBehaviour
         for (int i = 0; i < bones.Length; i++)
         {
             var c = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            c.name = side + "_Bone_" + i;
             c.transform.parent = root.transform;
             c.GetComponent<Renderer>().material = skinMat;
+            c.layer = LayerMask.NameToLayer("Hand");
             Destroy(c.GetComponent<CapsuleCollider>());
+            c.SetActive(false);
             data.capsules[i] = c;
         }
 
@@ -94,65 +121,88 @@ public class ProceduralHand : MonoBehaviour
 
     Material CreateMat(Color color)
     {
-        var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        var shader = Shader.Find("Shader Graphs/ToonShade");
+        if (shader == null) shader = Shader.Find("Universal Render Pipeline/Lit");
+        var mat = new Material(shader);
         mat.color = color;
-        mat.SetFloat("_Smoothness", 0.4f);
-        mat.SetFloat("_Metallic", 0f);
         return mat;
     }
 
     void Update()
     {
-        if (!hasResult) return;
-        if (latestResult.handLandmarks == null) return;
-        if (latestResult.handLandmarks.Count == 0) return;
+        SetHandActive(leftHand, false);
+        SetHandActive(rightHand, false);
 
-        var landmarks = latestResult.handLandmarks[0].landmarks;
+        if (!hasResult || latestResult.handLandmarks == null) return;
 
-        // 🔥 กัน error index out of range
-        if (landmarks == null || landmarks.Count < 21) return;
-
-        for (int i = 0; i < 21; i++)
+        for (int h = 0; h < latestResult.handLandmarks.Count; h++)
         {
-            var lm = landmarks[i];
+            bool isLeft = false;
+            if (latestResult.handedness != null && h < latestResult.handedness.Count)
+                isLeft = latestResult.handedness[h].categories[0].categoryName == "Left";
 
-            Vector3 target = Camera.main.ViewportToWorldPoint(
-                new Vector3(lm.x, 1f - lm.y, handDepth));
+            var hand = isLeft ? leftHand : rightHand;
+            var landmarks = latestResult.handLandmarks[h].landmarks;
 
-            hand.positions[i] = Vector3.Lerp(
-                hand.positions[i],
-                target,
-                Time.deltaTime * smoothSpeed);
+            if (landmarks == null || landmarks.Count < 21) continue;
 
-            hand.joints[i].transform.position = hand.positions[i];
-        }
+            SetHandActive(hand, true);
 
-        for (int i = 0; i < bones.Length; i++)
-        {
-            int a = bones[i][0];
-            int b = bones[i][1];
+            for (int i = 0; i < 21; i++)
+            {
+                var lm = landmarks[i];
+                Vector3 target = Camera.main.ViewportToWorldPoint(
+                    new Vector3(lm.x, 1f - lm.y, handDepth));
 
-            if (a >= 21 || b >= 21) continue;
+                hand.positions[i] = Vector3.Lerp(
+                    hand.positions[i], target, Time.deltaTime * smoothSpeed);
 
-            UpdateCapsule(
-                hand.capsules[i],
-                hand.positions[a],
-                hand.positions[b],
-                fingerWidth);
+                var rb = hand.joints[i].GetComponent<Rigidbody>();
+                if (rb != null)
+                    rb.MovePosition(hand.positions[i]);
+                else
+                    hand.joints[i].transform.position = hand.positions[i];
+            }
+
+            for (int i = 0; i < bones.Length; i++)
+            {
+                int a = bones[i][0];
+                int b = bones[i][1];
+                if (a >= 21 || b >= 21) continue;
+
+                float width = bones[i][2] switch
+                {
+                    0 => palmWidth,
+                    1 => thumbWidth,
+                    3 => tipWidth,
+                    _ => fingerWidth
+                };
+
+                UpdateCapsule(
+                    hand.capsules[i],
+                    hand.positions[a],
+                    hand.positions[b],
+                    width);
+            }
         }
     }
 
     void UpdateCapsule(GameObject cap, Vector3 a, Vector3 b, float width)
     {
         cap.transform.position = (a + b) * 0.5f;
-
         Vector3 dir = b - a;
         float len = dir.magnitude;
-
         if (len > 0.0001f)
             cap.transform.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        cap.transform.localScale = new Vector3(width * 2f, len * 0.5f, width * 2f);
+    }
 
-        cap.transform.localScale = new Vector3(width, len * 0.5f, width);
+    void SetHandActive(HandData hand, bool active)
+    {
+        foreach (var j in hand.joints)
+            if (j) j.SetActive(active);
+        foreach (var c in hand.capsules)
+            if (c) c.SetActive(active);
     }
 
     class HandData

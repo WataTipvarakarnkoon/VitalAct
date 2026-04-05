@@ -2,59 +2,36 @@
 
 public class CPRObject : MonoBehaviour
 {
-    [Header("CPR Settings")]
-    public float pressDepth = 0.3f;
-    public float springForce = 12f;
-    public float damping = 6f;
-
-    [Header("Bone Target")]
     public Transform chestBone;
 
-    private Vector3 originalScale;
-    private float currentDepth = 0f;
-    private float velocity = 0f;
-    private float targetDepth = 0f;
+    [Header("Settings")]
+    public float pressDepth = 0.05f;
+    public float speed = 15f;
+
+    private Vector3 originalPos;
+    private float current = 0f;
+    private float target = 0f;
 
     void Start()
     {
         if (chestBone != null)
-            originalScale = chestBone.localScale;
+            originalPos = chestBone.localPosition;
     }
 
-    public void ApplyPress(float amount)
+    public void ApplyPress(float value)
     {
-        targetDepth = Mathf.Clamp(amount, 0f, pressDepth);
+        target = Mathf.Clamp01(value);
     }
 
     public void ReleasePress()
     {
-        targetDepth = 0f;
+        target = 0f;
     }
 
     void Update()
     {
-        float spring = (targetDepth - currentDepth) * springForce;
-        float damp = velocity * damping;
-        velocity += (spring - damp) * Time.deltaTime;
-        currentDepth += velocity * Time.deltaTime;
-        currentDepth = Mathf.Clamp(currentDepth, 0f, pressDepth);
-
+        current = Mathf.Lerp(current, target, Time.deltaTime * speed);
         if (chestBone != null)
-        {
-            float ratio = currentDepth / pressDepth;
-            // ยุบแค่แกน Z (ความหนาของอก) ไม่ขยับ position
-            chestBone.localScale = new Vector3(
-                originalScale.x,
-                originalScale.y,
-                Mathf.Lerp(originalScale.z, originalScale.z * 0.7f, ratio)
-            );
-        }
-    }
-
-    public float GetTopY()
-    {
-        if (chestBone != null)
-            return chestBone.position.y;
-        return transform.position.y;
+            chestBone.localPosition = originalPos + new Vector3(0, -current * pressDepth, 0);
     }
 }
