@@ -100,5 +100,4 @@ public class Raycast : MonoBehaviour
         }
 
         return true;
-    }
-}
+    }}

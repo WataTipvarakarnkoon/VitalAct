@@ -3,19 +3,11 @@ using UnityEngine;
 public class HeadUI : MonoBehaviour
 {
   public GameObject Head;
-    void Start()
+    void Awake()
   {
     Head.SetActive(false);
   }
-  public void ToggleUI()
-{
-    if (Head.activeSelf)
-    {
-        Head.SetActive(false);
-    }
-    else
-    {
-        Head.SetActive(true);
-    }
-}
+  public void ShowUI()   => Head.SetActive(true);
+  public void HideUI()   => Head.SetActive(false);
+  public void ToggleUI() => Head.SetActive(!Head.activeSelf);
 }

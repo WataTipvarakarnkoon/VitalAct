@@ -18,6 +18,7 @@ public class CPRHandDetector : MonoBehaviour
 
     void Start()
     {
+        // Always subscribe — NoCameraMode may be auto-enabled after camera failure
         HandLandmarkerRunner.OnHandLandmarkResult += OnReceiveResult;
     }
 
@@ -34,6 +35,12 @@ public class CPRHandDetector : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.NoCameraMode)
+        {
+            HandleKeyboardInput();
+            return;
+        }
+
         cooldownTimer -= Time.deltaTime;
 
         if (!hasResult || latestResult.handLandmarks == null) return;
@@ -61,6 +68,11 @@ public class CPRHandDetector : MonoBehaviour
             foreach (var obj in cprObjects)
                 obj.ReleasePress();
         }
+    }
+
+    void HandleKeyboardInput()
+    {
+        // No camera mode CPR is handled by Mouseraycast.cs (click on chest)
     }
 
     bool CheckHandOverChest()

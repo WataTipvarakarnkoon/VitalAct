@@ -2,6 +2,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public static bool NoCameraMode = false;
     public Objective objective;
 
     public enum GameState
@@ -17,6 +18,14 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        NoCameraMode = PlayerPrefs.GetInt("NoCameraMode", 0) == 1;
+    }
+
+    public static void SetNoCameraMode(bool value)
+    {
+        NoCameraMode = value;
+        PlayerPrefs.SetInt("NoCameraMode", value ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     public void SetState(GameState NewState)

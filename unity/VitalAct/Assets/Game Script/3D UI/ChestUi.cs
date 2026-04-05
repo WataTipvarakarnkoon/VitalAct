@@ -3,22 +3,11 @@ using UnityEngine;
 public class ChestUI : MonoBehaviour
 {
   public GameObject Chest;
-    void Start()
+    void Awake()
   {
     Chest.SetActive(false);
   }
-  public void ToggleUI()
-{
-    if (Chest.activeSelf)
-    {
-        Chest.SetActive(false);
-    }
-    else
-    {
-        Chest.SetActive(true);
-    }
+  public void ShowUI()   => Chest.SetActive(true);
+  public void HideUI()   => Chest.SetActive(false);
+  public void ToggleUI() => Chest.SetActive(!Chest.activeSelf);
 }
-}
-
-
-
