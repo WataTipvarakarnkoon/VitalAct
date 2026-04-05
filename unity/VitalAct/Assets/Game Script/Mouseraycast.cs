@@ -58,8 +58,7 @@ public class Raycast : MonoBehaviour
 
         if (scannedCount >= requiredScans)
         {
-            GameManager.instance.CurrentState = GameManager.GameState.Identify;
-            objective.SetObjective("Press TAB, and fill the checklist.");
+            GameManager.instance.ScanCompleted();
         }
     }
 
@@ -74,8 +73,7 @@ public class Raycast : MonoBehaviour
 
         if (AreAllTogglersSelected())
         {
-            GameManager.instance.CurrentState = GameManager.GameState.CPR;
-            objective.SetObjective("Perform CPR");
+            GameManager.instance.AllTogglesSeleted();
         }
     }
 

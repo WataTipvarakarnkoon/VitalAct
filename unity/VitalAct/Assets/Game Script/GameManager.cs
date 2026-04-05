@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
     {
         Assess,
         Identify,
-        CPR
+        Choose,
+        Do
     }
 
     public GameState CurrentState;
@@ -18,8 +19,10 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    void Update()
+    public void SetState(GameState NewState)
     {
+        CurrentState = NewState;
+
         switch (CurrentState)
         {
             case GameState.Assess:
@@ -30,10 +33,24 @@ public class GameManager : MonoBehaviour
                 Debug.Log("GameState2");    
                 objective.SetObjective("Press TAB, and fill the checklist.");
                 break;
-            case GameState.CPR:
+                case GameState.Choose:
                 Debug.Log("GameState3");  
+                objective.SetObjective("Select the button.");
+                break;
+            case GameState.Do:
+                Debug.Log("GameState4");  
                 objective.SetObjective("Perform CPR.");
                 break;
         }
+    }
+
+    public void ScanCompleted()
+    {
+        SetState(GameState.Identify);
+    }
+
+       public void AllTogglesSeleted()
+    {
+        SetState(GameState.Choose);
     }
 }
