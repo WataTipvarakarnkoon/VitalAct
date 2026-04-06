@@ -9,6 +9,7 @@ class OrderQuestionStep extends LessonStep {
   final String incorrectExplanation;
   final String hint;
   final String spriteAsset;
+  final String disclaimer;
 
   OrderQuestionStep({
     required super.id,
@@ -20,5 +21,6 @@ class OrderQuestionStep extends LessonStep {
     required this.incorrectExplanation,
     required this.hint,
     required this.spriteAsset,
+    this.disclaimer = '',
   });
 }

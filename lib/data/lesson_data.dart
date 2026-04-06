@@ -18,7 +18,7 @@ class PlaceholderPage extends StatelessWidget {
   }
 }
 
-final String sprite = 'assets/spritesheet/NVSA.png';
+const String sprite = 'assets/spritesheet/NVSA.png';
 
 final List<LessonItem> lessonData = [
 /* =========================================================

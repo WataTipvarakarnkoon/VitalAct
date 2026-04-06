@@ -7,6 +7,7 @@ class TextInputStep extends LessonStep {
   final String aiPrompt;
   final String hint;
   final String spriteAsset;
+  final String disclaimer;
 
   const TextInputStep({
     required super.id,
@@ -15,5 +16,6 @@ class TextInputStep extends LessonStep {
     required this.aiPrompt,
     required this.hint,
     required this.spriteAsset,
+    this.disclaimer = '',
   });
 }

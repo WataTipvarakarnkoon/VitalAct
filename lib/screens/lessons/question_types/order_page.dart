@@ -182,6 +182,18 @@ class _OrderPageState extends State<OrderPage> {
                           ));
                     },
                   ),
+
+                  const SizedBox(height: 16),
+                  Text(
+                    step.disclaimer,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textPrimary.withValues(alpha: 0.7),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
                 ],
               ),
             ),
