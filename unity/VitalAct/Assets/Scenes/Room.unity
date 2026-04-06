@@ -613,8 +613,8 @@ CanvasGroup:
   m_GameObject: {fileID: 64838356}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &68505672
 GameObject:
@@ -1619,6 +1619,7 @@ GameObject:
   - component: {fileID: 418111737}
   - component: {fileID: 418111736}
   - component: {fileID: 418111735}
+  - component: {fileID: 418111738}
   m_Layer: 5
   m_Name: Button2
   m_TagString: Untagged
@@ -1728,6 +1729,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418111733}
   m_CullTransparentMesh: 1
+--- !u!114 &418111738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418111733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5cc24ec609f7c47974d8ea32b9a192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjects:
+  - {fileID: 861955186}
+  - {fileID: 1035418744}
 --- !u!1 &419200313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3100,6 +3116,7 @@ MonoBehaviour:
   Head: {fileID: 780587538}
   checklist: {fileID: 643161318}
   objective: {fileID: 524741199}
+  checklistRoot: {fileID: 0}
 --- !u!114 &657472153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4359,6 +4376,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.02, y: 0.03, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &861955186 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8571076842338426121, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
+  m_PrefabInstance: {fileID: 1400299976}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &880889066
 GameObject:
   m_ObjectHideFlags: 0
@@ -4976,13 +4998,16 @@ GameObject:
   - component: {fileID: 1035418747}
   - component: {fileID: 1035418750}
   - component: {fileID: 1035418749}
+  - component: {fileID: 1035418751}
+  - component: {fileID: 1035418752}
+  - component: {fileID: 1035418754}
   m_Layer: 0
   m_Name: CPR_Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1035418745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5001,13 +5026,19 @@ MonoBehaviour:
     y: 0.55
     width: 0.5
     height: 0.35
+  smoothAlpha: 0.3
   maxDepthY: 0.15
+  pressThreshold: 0.3
+  releaseThreshold: 0.12
+  minCompressionInterval: 0.28
+  baselineResetDelay: 1.5
   chestAnimator: {fileID: 828505361}
   compressionDepth01: 0
   compressionRate: 0
   handsOnMannequin: 0
   cameraPreview: {fileID: 396292168}
   showDebugZone: 1
+  showDepthHUD: 1
 --- !u!4 &1035418746
 Transform:
   m_ObjectHideFlags: 0
@@ -5076,7 +5107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1035418750}
-  thaiFont: {fileID: 0}
+  thaiFont: {fileID: 12800000, guid: b7dfde295bc48f749993e15846ef1f06, type: 3}
   accentGreen: {r: 0.12, g: 0.76, b: 0.55, a: 1}
   accentRed: {r: 0.95, g: 0.33, b: 0.33, a: 1}
 --- !u!114 &1035418750
@@ -5093,9 +5124,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handDetector: {fileID: 1035418745}
   cycleCounter: {fileID: 1035418748}
-  sessionDuration: 120
+  sessionDuration: 20
   countdownSeconds: 3
   autoStartOnLoad: 1
+--- !u!114 &1035418751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035418744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3497cc252673f41a45f31f76e95600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObjectName: GameUI_Canvas
+--- !u!114 &1035418752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035418744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb557d27a6886754385bfa138c86627b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1035418750}
+  handDetector: {fileID: 1035418745}
+--- !u!114 &1035418754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035418744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812c272615ec7db46b60cbe9044250ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1035418750}
+  timerBar: {fileID: 1927311837}
+  colorFull: {r: 1, g: 1, b: 1, a: 1}
+  colorMid: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  colorLow: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1041177895
 GameObject:
   m_ObjectHideFlags: 0
@@ -6581,10 +6656,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxRayDistance: 50
   cprLayer:
-    serializedVersion: 2
     m_Bits: 8
   victimAnimator: {fileID: 828505361}
   cooldown: 0.8
+  hasResult: 0
+  cooldownTimer: 0
 --- !u!4 &1340556019
 Transform:
   m_ObjectHideFlags: 0
@@ -6776,35 +6852,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5158692485022354238, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5158692485022354238, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5158692485022354238, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 1335
       objectReference: {fileID: 0}
     - target: {fileID: 5158692485022354238, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 5158692485785395896, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5158692485785395896, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5158692485785395896, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 1197
       objectReference: {fileID: 0}
     - target: {fileID: 5158692485785395896, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 8571076842338426121, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_Name
@@ -6812,7 +6888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8571076842338426121, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8571076842338426122, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_Camera
@@ -6936,19 +7012,19 @@ PrefabInstance:
       objectReference: {fileID: 7355513348742275121, guid: 14f706a2859a564a7b7ae1bb3a7985e2, type: 3}
     - target: {fileID: 8571076844286272849, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8571076844286272849, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8571076844286272849, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 2394
       objectReference: {fileID: 0}
     - target: {fileID: 8571076844286272849, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
