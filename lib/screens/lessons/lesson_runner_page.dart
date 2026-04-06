@@ -10,7 +10,6 @@ import 'package:vitalact/models/lesson_step.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
 import 'package:vitalact/screens/lessons/question_types/reading_page.dart';
 import 'package:animations/animations.dart';
-import 'package:vitalact/services/lesson_loader.dart';
 import 'package:vitalact/theme/app_colors.dart';
 
 class LessonRunnerPage extends StatefulWidget {
@@ -39,15 +38,6 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
     super.initState();
     currentSteps = List.from(widget.steps);
     totalSteps = widget.steps.length;
-    debugLoad();
-  }
-
-  Future<void> debugLoad() async {
-    final lessons = await LessonLoader.loadLessons();
-
-    print('Lessons loaded: ${lessons.length}');
-    print('First lesson: ${lessons.first.title}');
-    print('Steps count: ${lessons.first.steps.length}');
   }
 
   double get progress => (completedSteps) / totalSteps;
@@ -65,38 +55,42 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
     nextStep();
   }
 
-  //Next Step
+  // Next Step
   void nextStep() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+    if (!mounted) return;
 
-      final step = currentSteps[currentIndex];
+    final step = currentSteps[currentIndex];
 
-      if (step is ReadingStep) {
+    // Progress logic
+    if (step is ReadingStep) {
+      completedSteps++;
+    }
+
+    if (step is MultiChoiceStep || step is TextInputStep) {
+      if (!repeatQueue.contains(step)) {
         completedSteps++;
       }
+    }
 
-      if (step is MultiChoiceStep || step is TextInputStep) {
-        if (!repeatQueue.contains(step)) {
-          completedSteps++;
+    // Navigation logic
+    if (currentIndex < currentSteps.length - 1) {
+      setState(() {
+        currentIndex++;
+      });
+    } else if (repeatQueue.isNotEmpty) {
+      setState(() {
+        currentSteps = List.from(repeatQueue);
+        repeatQueue.clear();
+        currentIndex = 0;
+        rounds++;
+      });
+    } else {
+      Future.microtask(() {
+        if (mounted) {
+          Navigator.pop(context, true);
         }
-      }
-
-      if (currentIndex < currentSteps.length - 1) {
-        setState(() {
-          currentIndex++;
-        });
-      } else if (repeatQueue.isNotEmpty) {
-        setState(() {
-          currentSteps = List.from(repeatQueue);
-          repeatQueue.clear();
-          currentIndex = 0;
-          rounds++;
-        });
-      } else {
-        Navigator.pop(context, true);
-      }
-    });
+      });
+    }
   }
 
   Future<bool> _confirmExit() async {

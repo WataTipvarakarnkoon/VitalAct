@@ -27,7 +27,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/spritesheet/
-    - assets/data/module1.json
+    - assets/data/
 
   fonts:
     - family: BalooBhai2

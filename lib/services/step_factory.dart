@@ -27,7 +27,7 @@ class StepFactory {
           hint: json['hint'],
           disclaimer: json['disclaimer'] ?? '',
           spriteAsset: json['spriteAsset'],
-          type: 'multi_choice',
+          type: 'mcq',
         );
 
       case 'text':
@@ -38,7 +38,7 @@ class StepFactory {
           aiPrompt: json['aiPrompt'],
           hint: json['hint'],
           spriteAsset: json['spriteAsset'],
-          type: 'text_input',
+          type: 'text',
         );
 
       case 'order':

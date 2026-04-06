@@ -1,83 +1,231 @@
-[
-  {
-    "id": "L1",
-    "title": "First Aid Basics",
-    "spriteAsset": "assets/spritesheet/NVSA.png",
-    "steps": [
-      {
-        "type": "reading",
-        "id": "L1_R1",
-        "title": "What is First Aid?",
-        "content": "First aid is the immediate help given before professionals arrive.\n\nGoals:\n• Save life\n• Prevent worsening\n• Promote recovery"
-      },
-      {
-        "type": "multi_choice",
-        "id": "L1_Q1",
-        "title": "What is the main purpose of first aid?",
-        "instructions": "Choose the best answer.",
-        "choices": [
-          "Replace doctors",
-          "Provide immediate help",
-          "Perform surgery"
-        ],
-        "correctIndex": 1,
-        "hint": "Think about timing.",
-        "correctExplanation": "First aid provides immediate care before professionals arrive.",
-        "incorrectExplanation": "First aid is not meant to replace doctors or perform surgery."
-      },
-      {
-        "type": "multi_choice",
-        "id": "L1_Q2",
-        "title": "Which is NOT a goal of first aid?",
-        "instructions": "Choose the best answer.",
-        "choices": [
-          "Save life",
-          "Prevent worsening",
-          "Perform surgery"
-        ],
-        "correctIndex": 2,
-        "hint": "Basic vs advanced care.",
-        "correctExplanation": "Surgery is not part of first aid.",
-        "incorrectExplanation": "Saving life and preventing worsening are core goals."
-      },
-      {
-        "type": "order",
-        "id": "L1_Q3",
-        "title": "Arrange first aid priorities",
-        "instructions": "Put in correct order.",
-        "choices": [
-          "Promote recovery",
-          "Save life",
-          "Prevent worsening"
-        ],
-        "correctOrder": [1, 2, 0],
-        "hint": "What is most urgent?",
-        "correctExplanation": "Correct order: save life → prevent worsening → promote recovery.",
-        "incorrectExplanation": "Life-threatening issues must always come first."
-      },
-      {
-        "type": "multi_choice",
-        "id": "L1_Q4",
-        "title": "Why is early recognition important?",
-        "instructions": "Choose the best answer.",
-        "choices": [
-          "It helps you act faster",
-          "It replaces treatment",
-          "It is optional"
-        ],
-        "correctIndex": 0,
-        "hint": "Think speed.",
-        "correctExplanation": "Recognizing problems early allows faster and correct action.",
-        "incorrectExplanation": "Recognition is essential, not optional."
-      },
-      {
-        "type": "text_input",
-        "id": "L1_Q5",
-        "title": "Why must first aid be immediate?",
-        "instructions": "Explain briefly.",
-        "aiPrompt": "Give a short explanation",
-        "hint": "Think about delays and risk."
-      }
-    ]
-  }
-]
+{
+  "moduleTitle": "Foundations",
+  "lessons": [
+    {
+      "id": "L1",
+      "title": "First Aid Basics",
+      "spriteAsset": "assets/spritesheet/NVSA.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "L1_R1",
+          "title": "What is First Aid?",
+          "content": "First aid is the immediate help given before professionals arrive.\n\nGoals:\n• Save life\n• Prevent worsening\n• Promote recovery"
+        },
+        {
+          "type": "mcq",
+          "id": "L1_Q1",
+          "title": "What is the main purpose of first aid?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "Replace doctors",
+            "Provide immediate help",
+            "Perform surgery"
+          ],
+          "correctIndex": 1,
+          "hint": "Think about timing.",
+          "correctExplanation": "First aid provides immediate care before professionals arrive.",
+          "incorrectExplanation": "First aid is not meant to replace doctors or perform surgery."
+        },
+        {
+          "type": "mcq",
+          "id": "L1_Q2",
+          "title": "Which is NOT a goal of first aid?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "Save life",
+            "Prevent worsening",
+            "Perform surgery"
+          ],
+          "correctIndex": 2,
+          "hint": "Basic vs advanced care.",
+          "correctExplanation": "Surgery is not part of first aid.",
+          "incorrectExplanation": "Saving life and preventing worsening are core goals."
+        },
+        {
+          "type": "order",
+          "id": "L1_Q3",
+          "title": "Arrange first aid priorities",
+          "instructions": "Put in correct order.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "Promote recovery",
+            "Save life",
+            "Prevent worsening"
+          ],
+          "correctOrder": [1, 2, 0],
+          "hint": "What is most urgent?",
+          "correctExplanation": "Correct order: save life → prevent worsening → promote recovery.",
+          "incorrectExplanation": "Life-threatening issues must always come first."
+        },
+        {
+          "type": "mcq",
+          "id": "L1_Q4",
+          "title": "Why is early recognition important?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "It helps you act faster",
+            "It replaces treatment",
+            "It is optional"
+          ],
+          "correctIndex": 0,
+          "hint": "Think speed.",
+          "correctExplanation": "Recognizing problems early allows faster and correct action.",
+          "incorrectExplanation": "Recognition is essential, not optional."
+        },
+        {
+          "type": "text",
+          "id": "L1_Q5",
+          "title": "Why must first aid be immediate?",
+          "instructions": "Explain briefly.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "aiPrompt": "Give a short explanation",
+          "hint": "Think about delays and risk."
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "title": "Stay Safe First",
+      "spriteAsset": "assets/spritesheet/NVSA.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "L2_R1",
+          "title": "Scene Safety",
+          "content": "Before helping others, make sure the scene is safe.\n\nCheck for dangers like:\n• Traffic\n• Fire\n• Electricity\n• Aggressive people\n\nIf the scene is unsafe, do NOT approach."
+        },
+        {
+          "type": "mcq",
+          "id": "L2_Q1",
+          "title": "What should you do first in any emergency?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "Run to the victim immediately",
+            "Check if the scene is safe",
+            "Start treatment right away"
+          ],
+          "correctIndex": 1,
+          "hint": "Think about your safety.",
+          "correctExplanation": "You must ensure the scene is safe before helping.",
+          "incorrectExplanation": "Helping without checking safety can put you in danger."
+        },
+        {
+          "type": "order",
+          "id": "L2_Q2",
+          "title": "Arrange safety steps",
+          "instructions": "Put in correct order.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "Approach the victim",
+            "Check surroundings",
+            "Ensure no danger"
+          ],
+          "correctOrder": [1, 2, 0],
+          "hint": "Observe before acting.",
+          "correctExplanation": "Check surroundings → ensure safety → approach.",
+          "incorrectExplanation": "You must confirm safety before approaching."
+        },
+        {
+          "type": "mcq",
+          "id": "L2_Q3",
+          "title": "Which situation is unsafe?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "Quiet room",
+            "Car accident with leaking fuel",
+            "Person sitting calmly"
+          ],
+          "correctIndex": 1,
+          "hint": "Think hazard.",
+          "correctExplanation": "Leaking fuel is dangerous and could cause fire or explosion.",
+          "incorrectExplanation": "Unsafe scenes involve immediate danger."
+        },
+        {
+          "type": "text",
+          "id": "L2_Q4",
+          "title": "Why is your safety important?",
+          "instructions": "Explain briefly.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "aiPrompt": "Explain why rescuers must stay safe",
+          "hint": "What happens if you get injured?"
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "title": "First Aider Mindset",
+      "spriteAsset": "assets/spritesheet/NVSA.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "L3_R1",
+          "title": "Stay Calm and Think",
+          "content": "In emergencies, staying calm is critical.\n\nA good first aider:\n• Stays calm\n• Thinks clearly\n• Acts step by step\n\nPanic leads to mistakes."
+        },
+        {
+          "type": "mcq",
+          "id": "L3_Q1",
+          "title": "What is the best reaction in an emergency?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "Panic and act quickly",
+            "Stay calm and assess",
+            "Wait for others to act"
+          ],
+          "correctIndex": 1,
+          "hint": "Think control.",
+          "correctExplanation": "Staying calm allows you to think clearly and act correctly.",
+          "incorrectExplanation": "Panic leads to poor decisions."
+        },
+        {
+          "type": "mcq",
+          "id": "L3_Q2",
+          "title": "Why is panic dangerous?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "It saves time",
+            "It improves decisions",
+            "It leads to mistakes"
+          ],
+          "correctIndex": 2,
+          "hint": "Think clearly vs not.",
+          "correctExplanation": "Panic reduces clear thinking and increases mistakes.",
+          "incorrectExplanation": "Good decisions require calm thinking."
+        },
+        {
+          "type": "order",
+          "id": "L3_Q3",
+          "title": "Arrange the correct mindset steps",
+          "instructions": "Put in correct order.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "choices": [
+            "Act",
+            "Think",
+            "Stay calm"
+          ],
+          "correctOrder": [2, 1, 0],
+          "hint": "Mental before action.",
+          "correctExplanation": "Stay calm → think → act.",
+          "incorrectExplanation": "You must control yourself before acting."
+        },
+        {
+          "type": "text",
+          "id": "L3_Q4",
+          "title": "Why is staying calm important?",
+          "instructions": "Explain briefly.",
+          "spriteAsset": "assets/spritesheet/Breathing.png",
+          "aiPrompt": "Explain why calmness improves emergency response",
+          "hint": "Think decision-making."
+        }
+      ]
+    }
+  ]
+}
