@@ -10,6 +10,7 @@ import 'package:vitalact/models/lesson_step.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
 import 'package:vitalact/screens/lessons/question_types/reading_page.dart';
 import 'package:animations/animations.dart';
+import 'package:vitalact/services/lesson_loader.dart';
 import 'package:vitalact/theme/app_colors.dart';
 
 class LessonRunnerPage extends StatefulWidget {
@@ -38,6 +39,15 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
     super.initState();
     currentSteps = List.from(widget.steps);
     totalSteps = widget.steps.length;
+    debugLoad();
+  }
+
+  Future<void> debugLoad() async {
+    final lessons = await LessonLoader.loadLessons();
+
+    print('Lessons loaded: ${lessons.length}');
+    print('First lesson: ${lessons.first.title}');
+    print('Steps count: ${lessons.first.steps.length}');
   }
 
   double get progress => (completedSteps) / totalSteps;

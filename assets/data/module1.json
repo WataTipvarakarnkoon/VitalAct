@@ -1,26 +1,82 @@
 [
   {
-    "id": "lesson_1",
+    "id": "L1",
     "title": "First Aid Basics",
     "spriteAsset": "assets/spritesheet/NVSA.png",
     "steps": [
       {
         "type": "reading",
-        "id": "R1",
+        "id": "L1_R1",
         "title": "What is First Aid?",
-        "content": "First aid is immediate help..."
+        "content": "First aid is the immediate help given before professionals arrive.\n\nGoals:\n• Save life\n• Prevent worsening\n• Promote recovery"
       },
       {
-        "type": "mcq",
-        "id": "Q1",
-        "title": "What is first aid?",
+        "type": "multi_choice",
+        "id": "L1_Q1",
+        "title": "What is the main purpose of first aid?",
         "instructions": "Choose the best answer.",
-        "choices": ["Treatment", "Immediate help", "Surgery"],
+        "choices": [
+          "Replace doctors",
+          "Provide immediate help",
+          "Perform surgery"
+        ],
         "correctIndex": 1,
-        "correctExplanation": "Correct.",
-        "incorrectExplanation": "Incorrect.",
-        "hint": "Think timing.",
-        "spriteAsset": "assets/spritesheet/NVSA.png"
+        "hint": "Think about timing.",
+        "correctExplanation": "First aid provides immediate care before professionals arrive.",
+        "incorrectExplanation": "First aid is not meant to replace doctors or perform surgery."
+      },
+      {
+        "type": "multi_choice",
+        "id": "L1_Q2",
+        "title": "Which is NOT a goal of first aid?",
+        "instructions": "Choose the best answer.",
+        "choices": [
+          "Save life",
+          "Prevent worsening",
+          "Perform surgery"
+        ],
+        "correctIndex": 2,
+        "hint": "Basic vs advanced care.",
+        "correctExplanation": "Surgery is not part of first aid.",
+        "incorrectExplanation": "Saving life and preventing worsening are core goals."
+      },
+      {
+        "type": "order",
+        "id": "L1_Q3",
+        "title": "Arrange first aid priorities",
+        "instructions": "Put in correct order.",
+        "choices": [
+          "Promote recovery",
+          "Save life",
+          "Prevent worsening"
+        ],
+        "correctOrder": [1, 2, 0],
+        "hint": "What is most urgent?",
+        "correctExplanation": "Correct order: save life → prevent worsening → promote recovery.",
+        "incorrectExplanation": "Life-threatening issues must always come first."
+      },
+      {
+        "type": "multi_choice",
+        "id": "L1_Q4",
+        "title": "Why is early recognition important?",
+        "instructions": "Choose the best answer.",
+        "choices": [
+          "It helps you act faster",
+          "It replaces treatment",
+          "It is optional"
+        ],
+        "correctIndex": 0,
+        "hint": "Think speed.",
+        "correctExplanation": "Recognizing problems early allows faster and correct action.",
+        "incorrectExplanation": "Recognition is essential, not optional."
+      },
+      {
+        "type": "text_input",
+        "id": "L1_Q5",
+        "title": "Why must first aid be immediate?",
+        "instructions": "Explain briefly.",
+        "aiPrompt": "Give a short explanation",
+        "hint": "Think about delays and risk."
       }
     ]
   }

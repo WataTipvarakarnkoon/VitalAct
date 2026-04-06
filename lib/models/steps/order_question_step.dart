@@ -22,5 +22,6 @@ class OrderQuestionStep extends LessonStep {
     required this.hint,
     required this.spriteAsset,
     this.disclaimer = '',
+    required super.type,
   });
 }

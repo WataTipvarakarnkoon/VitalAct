@@ -1,5 +1,9 @@
 abstract class LessonStep {
   final String id;
+  final String type;
 
-  const LessonStep({required this.id});
+  LessonStep({
+    required this.id,
+    required this.type,
+  });
 }

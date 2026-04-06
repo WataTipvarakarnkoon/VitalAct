@@ -21,6 +21,7 @@ class MultiChoiceStep extends LessonStep {
     required this.spriteAsset,
     required this.correctExplanation,
     required this.incorrectExplanation,
-    required this.disclaimer,
+    this.disclaimer = '',
+    required super.type,
   });
 }
