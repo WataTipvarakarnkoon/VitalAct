@@ -609,7 +609,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64838356}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a41e59c96cd3ae47b9d5e9dcf70cf90, type: 3}
   m_Name: 
@@ -1278,6 +1278,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 827c4431af677e057aa6f14170d0785c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &396292168 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3259285889726014649, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
+  m_PrefabInstance: {fileID: 573054445}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &410087039
@@ -4664,6 +4675,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1035418746}
   - component: {fileID: 1035418745}
+  - component: {fileID: 1035418748}
+  - component: {fileID: 1035418747}
+  - component: {fileID: 1035418750}
+  - component: {fileID: 1035418749}
   m_Layer: 0
   m_Name: CPR_Manager
   m_TagString: Untagged
@@ -4683,12 +4698,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d53cb7f515c52469aa94d3e3e9d3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baselineY: 0.5
+  mannequinZone:
+    serializedVersion: 2
+    x: 0.25
+    y: 0.55
+    width: 0.5
+    height: 0.35
   maxDepthY: 0.15
   chestAnimator: {fileID: 828505361}
   compressionDepth01: 0
   compressionRate: 0
   handsOnMannequin: 0
+  cameraPreview: {fileID: 396292168}
+  showDebugZone: 1
 --- !u!4 &1035418746
 Transform:
   m_ObjectHideFlags: 0
@@ -4704,6 +4726,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1035418747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035418744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b4bd37a3b14ed34ab7f8471da10ba78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cycleCounter: {fileID: 1035418748}
+  handDetector: {fileID: 1035418745}
+  customFont: {fileID: 12800000, guid: b7dfde295bc48f749993e15846ef1f06, type: 3}
+  primaryColor: {r: 0.12, g: 0.76, b: 0.55, a: 1}
+  dangerColor: {r: 0.95, g: 0.33, b: 0.33, a: 1}
+  breathColor: {r: 0.24, g: 0.62, b: 0.95, a: 1}
+--- !u!114 &1035418748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035418744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cebbbf341bce4cf44acbeb1aaeb0fa0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  compressionsPerCycle: 30
+  breathPhaseDuration: 5
+  compressionCountText: {fileID: 0}
+  cycleCountText: {fileID: 0}
+  phaseText: {fileID: 0}
+  breathTimerText: {fileID: 0}
+  breathPanel: {fileID: 0}
+  currentCompression: 0
+  completedCycles: 0
+  isBreathingPhase: 0
+--- !u!114 &1035418749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035418744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2240d91f9d9324c4ab46c6d18d2162b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1035418750}
+  thaiFont: {fileID: 0}
+  accentGreen: {r: 0.12, g: 0.76, b: 0.55, a: 1}
+  accentRed: {r: 0.95, g: 0.33, b: 0.33, a: 1}
+--- !u!114 &1035418750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035418744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5dfee6cffe15bc44b4a93f1faebb408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handDetector: {fileID: 1035418745}
+  cycleCounter: {fileID: 1035418748}
+  sessionDuration: 120
+  countdownSeconds: 3
+  autoStartOnLoad: 1
 --- !u!1 &1041177895
 GameObject:
   m_ObjectHideFlags: 0
@@ -8898,13 +8993,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927311833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0f47cabc0b0bac459dc99e72f78171f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fillImage: {fileID: 180006477}
-  duration: 120
+  duration: 60
   timer: 0
 --- !u!1 &1929431635
 GameObject:
