@@ -14,6 +14,8 @@ public class ChooseButton1 : MonoBehaviour
   }
   public void ToggleObject()
     {   
+        GameManager.instance.Choosed();
+
         foreach(GameObject obj in gameObjects)
         {   
             if(obj != null)

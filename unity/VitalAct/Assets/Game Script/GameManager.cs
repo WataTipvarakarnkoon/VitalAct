@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("GameState2");    
                 objective.SetObjective("Press TAB, and fill the checklist.");
                 break;
-                case GameState.Choose:
+            case GameState.Choose:
                 Debug.Log("GameState3");  
                 objective.SetObjective("Select the button.");
                 break;
@@ -61,5 +61,10 @@ public class GameManager : MonoBehaviour
        public void AllTogglesSeleted()
     {
         SetState(GameState.Choose);
+    }
+
+    public void Choosed()
+    {
+        SetState(GameState.Do);
     }
 }
