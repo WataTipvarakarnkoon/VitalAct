@@ -9,6 +9,7 @@ public class Raycast : MonoBehaviour
     public HeadUI Head;
     public ChecklistUI checklist;
     public Objective objective;
+    public GameObject checklistRoot;
 
     private int scannedCount = 0;
     private int requiredScans = 2;
@@ -16,7 +17,9 @@ public class Raycast : MonoBehaviour
 
     void Start()
 {
-    Toggle[] allToggles = FindObjectsByType<Toggle>(FindObjectsSortMode.None);
+    Toggle[] allToggles = checklistRoot != null
+        ? checklistRoot.GetComponentsInChildren<Toggle>(true)
+        : FindObjectsByType<Toggle>(FindObjectsSortMode.None);
     foreach (Toggle toggle in allToggles)
     {
         toggle.onValueChanged.AddListener(OnToggleChanged);
@@ -79,7 +82,9 @@ public class Raycast : MonoBehaviour
 
     bool AreAllTogglersSelected()
     {
-        Toggle[] allToggles = FindObjectsByType<Toggle>(FindObjectsSortMode.None);
+        Toggle[] allToggles = checklistRoot != null
+            ? checklistRoot.GetComponentsInChildren<Toggle>(true)
+            : FindObjectsByType<Toggle>(FindObjectsSortMode.None);
         Dictionary<ToggleGroup, bool> groupHasSelection = new Dictionary<ToggleGroup, bool>();
 
         foreach (Toggle toggle in allToggles)
