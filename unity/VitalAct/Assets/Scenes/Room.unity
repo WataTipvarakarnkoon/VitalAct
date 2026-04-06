@@ -6654,13 +6654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1abfa42b2a11a74aa00a2f88ea1d6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRayDistance: 50
-  cprLayer:
-    m_Bits: 8
-  victimAnimator: {fileID: 828505361}
-  cooldown: 0.8
-  hasResult: 0
-  cooldownTimer: 0
 --- !u!4 &1340556019
 Transform:
   m_ObjectHideFlags: 0
@@ -8839,6 +8832,7 @@ GameObject:
   - component: {fileID: 1698262029}
   - component: {fileID: 1698262028}
   - component: {fileID: 1698262027}
+  - component: {fileID: 1698262030}
   m_Layer: 5
   m_Name: Button1
   m_TagString: Untagged
@@ -8948,6 +8942,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1698262025}
   m_CullTransparentMesh: 1
+--- !u!114 &1698262030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698262025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5cc24ec609f7c47974d8ea32b9a192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjects:
+  - {fileID: 861955186}
+  - {fileID: 1035418744}
 --- !u!1 &1703444609
 GameObject:
   m_ObjectHideFlags: 0

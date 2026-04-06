@@ -130,8 +130,14 @@ namespace Mediapipe.Unity
 
       availableSources = WebCamTexture.devices;
 
-      if (availableSources != null && availableSources.Length > 0)
+      if (availableSources == null || availableSources.Length == 0)
       {
+        Debug.LogWarning("[WebCamSource] No camera devices detected by Unity.");
+      }
+      else
+      {
+        for (int i = 0; i < availableSources.Length; i++)
+          Debug.Log($"[WebCamSource] Device [{i}]: {availableSources[i].name}");
         webCamDevice = availableSources[0];
       }
     }
@@ -256,7 +262,7 @@ namespace Mediapipe.Unity
 
     private IEnumerator WaitForWebCamTexture()
     {
-      const int timeoutFrame = 60;
+      const int timeoutFrame = 300;
       var count = 0;
       yield return new WaitUntil(() => count++ > timeoutFrame || webCamTexture.width > 16);
 
