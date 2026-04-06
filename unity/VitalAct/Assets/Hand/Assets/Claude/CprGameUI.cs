@@ -19,12 +19,18 @@ public class CprGameUI : MonoBehaviour
     GameObject _hudPanel;
     Text       _timerText;
     GameObject _resultsPanel;
-    Text       _resultsBody;   // ข้อความทั้งหมดใน Text เดียว
+    Text       _resultsBody;
+
+    bool           _resultsFilled;
+    CprGameState   _prevState = CprGameState.Idle;
 
     // ────────────────────────────────────────
 
     void Awake()
     {
+        if (gameManager == null)
+            gameManager = FindObjectOfType<CprGameManager>();
+
         CreateCanvas();
         CreateCountdownPanel();
         CreateHudPanel();
@@ -35,44 +41,53 @@ public class CprGameUI : MonoBehaviour
         _resultsPanel  .SetActive(false);
     }
 
-    void OnEnable()
-    {
-        CprGameManager.OnStateChanged    += OnStateChanged;
-        CprGameManager.OnSessionComplete += OnSessionComplete;
-    }
-
-    void OnDisable()
-    {
-        CprGameManager.OnStateChanged    -= OnStateChanged;
-        CprGameManager.OnSessionComplete -= OnSessionComplete;
-    }
-
-    void OnStateChanged(CprGameState s)
-    {
-        _countdownPanel.SetActive(s == CprGameState.Countdown);
-        _hudPanel      .SetActive(s == CprGameState.Playing);
-        _resultsPanel  .SetActive(s == CprGameState.Results);
-    }
-
-    void OnSessionComplete(CprSessionData d) => FillResults(d);
-
     void Update()
     {
-        if (gameManager == null) return;
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<CprGameManager>();
+            return;
+        }
 
-        if (gameManager.State == CprGameState.Countdown && _countdownText != null)
+        var state = gameManager.State;
+
+        // ── sync panels ทุก frame (ไม่พึ่ง event) ──
+        if (_countdownPanel != null) _countdownPanel.SetActive(state == CprGameState.Countdown);
+        if (_hudPanel       != null) _hudPanel      .SetActive(state == CprGameState.Playing);
+        if (_resultsPanel   != null) _resultsPanel  .SetActive(state == CprGameState.Results);
+
+        // ── reset ตอนเริ่ม session ใหม่ ──
+        if (state == CprGameState.Playing && _prevState != CprGameState.Playing)
+            _resultsFilled = false;
+
+        // ── fill results ทันทีที่เข้า Results state ──
+        if (state == CprGameState.Results && !_resultsFilled)
+        {
+            var data = gameManager.LastSessionData;
+            if (data != null)
+            {
+                FillResults(data);
+                _resultsFilled = true;
+            }
+        }
+
+        // ── countdown number ──
+        if (state == CprGameState.Countdown && _countdownText != null)
         {
             int v = gameManager.CountdownValue;
             _countdownText.text = v > 0 ? v.ToString() : "GO!";
         }
 
-        if (gameManager.State == CprGameState.Playing && _timerText != null)
+        // ── HUD timer ──
+        if (state == CprGameState.Playing && _timerText != null)
         {
             float t = Mathf.Max(0f, gameManager.SessionTimeLeft);
             int m = (int)(t / 60f), s = (int)(t % 60f);
             _timerText.text  = $"{m}:{s:D2}";
             _timerText.color = t <= 30f ? accentRed : Color.white;
         }
+
+        _prevState = state;
     }
 
     // ────────── fill results ──────────
@@ -85,16 +100,21 @@ public class CprGameUI : MonoBehaviour
         int sec = (int)(d.sessionDuration % 60f);
 
         _resultsBody.text =
-            $"Grade: {d.Grade}\n\n" +
-            $"Overall: {d.OverallScore:F0}%\n\n" +
-            $"Rate:  {d.RateAccuracy:F0}%   {Bar(d.RateAccuracy)}\n" +
-            $"Depth: {d.DepthAccuracy:F0}%   {Bar(d.DepthAccuracy)}\n\n" +
-            $"Compressions: {d.totalCompressions}\n" +
-            $"Cycles done:  {d.completedCycles}\n" +
-            $"Time: {min}:{sec:D2}\n\n" +
+            $"Grade: {d.Grade}     Overall: {d.OverallScore:F0}%\n" +
+            $"─────────────────────────────\n" +
+            $"Rate Accuracy:    {d.RateAccuracy:F0}%   {Bar(d.RateAccuracy)}\n" +
+            $"Depth Accuracy:   {d.DepthAccuracy:F0}%   {Bar(d.DepthAccuracy)}\n" +
+            $"Rhythm Consist.:  {d.rateConsistency:F0}%   {Bar(d.rateConsistency)}\n" +
+            $"─────────────────────────────\n" +
+            $"Avg Rate:   {d.avgRate:F0} BPM   Peak: {d.peakRate:F0} BPM\n" +
+            $"Avg Depth:  {d.avgDepth01 * 100f:F0}%\n" +
+            $"Hand On:    {d.handOnTimePercent:F0}% of session\n" +
+            $"Compressions: {d.totalCompressions}   Cycles: {d.completedCycles}\n" +
+            $"Time: {min}:{sec:D2}\n" +
+            $"─────────────────────────────\n" +
             GetTip(d);
 
-        _resultsBody.color = GradeColor(d.Grade);
+        _resultsBody.color = Color.white;
     }
 
     static string Bar(float pct)

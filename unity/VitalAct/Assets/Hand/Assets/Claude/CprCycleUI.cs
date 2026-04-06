@@ -30,7 +30,12 @@ public class CprCycleUI : MonoBehaviour
     const float HUD_Y_MIN = 0f;
     const float HUD_Y_MAX = 0.14f;
 
-    void Awake() => BuildUI();
+    void Awake()
+    {
+        if (cycleCounter == null) cycleCounter = FindObjectOfType<CprCycleCounter>();
+        if (handDetector == null) handDetector = FindObjectOfType<CprHandDetector>();
+        BuildUI();
+    }
 
     void BuildUI()
     {
