@@ -190,7 +190,14 @@ namespace Mediapipe.Unity
       yield return Initialize();
       if (!_IsPermitted)
       {
-        throw new InvalidOperationException("Not permitted to access cameras");
+        Debug.LogWarning("Not permitted to access cameras. Running without camera.");
+        yield break;
+      }
+
+      if (WebCamTexture.devices.Length == 0)
+      {
+        Debug.LogWarning("No camera devices found. Running without camera.");
+        yield break;
       }
 
       InitializeWebCamTexture();
@@ -249,14 +256,15 @@ namespace Mediapipe.Unity
 
     private IEnumerator WaitForWebCamTexture()
     {
-      const int timeoutFrame = 2000;
+      const int timeoutFrame = 60;
       var count = 0;
-      Debug.Log("Waiting for WebCamTexture to start");
       yield return new WaitUntil(() => count++ > timeoutFrame || webCamTexture.width > 16);
 
       if (webCamTexture.width <= 16)
       {
-        throw new TimeoutException("Failed to start WebCam");
+        Debug.LogWarning("WebCam stream could not be configured. Switching to No Camera Mode.");
+        webCamTexture.Stop();
+        webCamTexture = null;
       }
     }
 

@@ -13,6 +13,16 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
 {
   public class HandLandmarkerRunner : VisionTaskApiRunner<HandLandmarker>
   {
+    protected override IEnumerator Start()
+    {
+      if (GameManager.NoCameraMode)
+      {
+        Debug.Log("No Camera Mode: HandLandmarkerRunner disabled.");
+        yield break;
+      }
+      yield return base.Start();
+    }
+
     [SerializeField] private HandLandmarkerResultAnnotationController _handLandmarkerResultAnnotationController;
 
     private Experimental.TextureFramePool _textureFramePool;
@@ -41,13 +51,20 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
 
       var options = config.GetHandLandmarkerOptions(config.RunningMode == Tasks.Vision.Core.RunningMode.LIVE_STREAM ? OnHandLandmarkDetectionOutput : null);
       taskApi = HandLandmarker.CreateFromOptions(options, GpuManager.GpuResources);
+      if (GameManager.NoCameraMode)
+      {
+        Debug.Log("No Camera Mode: skipping camera stream.");
+        yield break;
+      }
+
       var imageSource = ImageSourceProvider.ImageSource;
 
       yield return imageSource.Play();
 
       if (!imageSource.isPrepared)
       {
-        Debug.LogError("Failed to start ImageSource, exiting...");
+        Debug.LogWarning("Camera not available. Switching to No Camera Mode automatically.");
+        GameManager.SetNoCameraMode(true);
         yield break;
       }
 

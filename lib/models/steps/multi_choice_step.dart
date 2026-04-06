@@ -1,29 +1,26 @@
 import '../lesson_step.dart';
 
 class MultiChoiceStep extends LessonStep {
-  final String instructions;
   final String title;
-  final String spriteAsset;
-  final String disclaimer;
-  final int correctIndex;
-
+  final String instructions;
   final List<String> choices;
-
-  /// Feedback content
+  final int correctIndex;
   final String correctExplanation;
   final String incorrectExplanation;
-  final String? hint;
+  final String hint;
+  final String disclaimer;
+  final String spriteAsset;
 
   MultiChoiceStep({
-    required this.instructions,
+    required super.id,
     required this.title,
-    required this.spriteAsset,
-    required this.disclaimer,
-    required this.correctIndex,
+    required this.instructions,
     required this.choices,
+    required this.correctIndex,
+    required this.hint,
+    required this.spriteAsset,
     required this.correctExplanation,
     required this.incorrectExplanation,
-    this.hint,
-    required super.id,
+    required this.disclaimer,
   });
 }

@@ -4,7 +4,7 @@ import 'package:vitalact/widgets/lesson/lesson_button.dart';
 import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
 import 'package:vitalact/services/lesson_progress_service.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
-import 'package:vitalact/models/steps/order_question.dart';
+import 'package:vitalact/models/steps/order_question_step.dart';
 
 class OrderPage extends StatefulWidget {
   final OrderQuestionStep step;

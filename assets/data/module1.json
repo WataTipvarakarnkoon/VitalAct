@@ -1,0 +1,27 @@
+[
+  {
+    "id": "lesson_1",
+    "title": "First Aid Basics",
+    "spriteAsset": "assets/spritesheet/NVSA.png",
+    "steps": [
+      {
+        "type": "reading",
+        "id": "R1",
+        "title": "What is First Aid?",
+        "content": "First aid is immediate help..."
+      },
+      {
+        "type": "mcq",
+        "id": "Q1",
+        "title": "What is first aid?",
+        "instructions": "Choose the best answer.",
+        "choices": ["Treatment", "Immediate help", "Surgery"],
+        "correctIndex": 1,
+        "correctExplanation": "Correct.",
+        "incorrectExplanation": "Incorrect.",
+        "hint": "Think timing.",
+        "spriteAsset": "assets/spritesheet/NVSA.png"
+      }
+    ]
+  }
+]
