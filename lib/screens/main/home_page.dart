@@ -7,8 +7,15 @@ import 'package:vitalact/widgets/sprite_animation.dart';
 import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
 import 'package:vitalact/services/lesson_loader.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final _lessonKey = GlobalKey<_LessonState>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,62 +54,73 @@ class HomePage extends StatelessWidget {
         /// 🔥 CONTINUE BUTTON (multi-module)
         Positioned(
           top: height * 0.08,
-          left: 0,
-          right: 0,
-          child: Center(
-            child: AppButton(
-              onPressed: () {},
-              width: width * 0.9,
-              height: 65,
-              borderRadius: 15,
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              backgroundColor: AppColors.primary,
-              borderColor: AppColors.primary,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "CONTINUE",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.background.withValues(alpha: 0.7),
-                    ),
+          left: width * 0.05,
+          child: AppButton(
+            onPressed: () {
+              final lessonState = _lessonKey.currentState;
+              if (lessonState != null) {
+                lessonState.openLesson(lessonState.currentStep);
+              }
+            },
+            width: width * 0.9,
+            height: 70,
+            borderRadius: 15,
+            padding: const EdgeInsets.only(left: 30),
+            alignment: Alignment.centerLeft,
+            backgroundColor: AppColors.primary,
+            borderColor: AppColors.primary,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "CONTINUE",
+                  style: TextStyle(
+                    fontSize: 16,
+                    height: 1.0,
+                    color: AppColors.background.withValues(alpha: 0.7),
                   ),
-                  FutureBuilder<List<LessonModule>>(
-                    future: LessonLoader.loadAllModules(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Text(
-                          "Loading...",
-                          style: TextStyle(color: AppColors.background),
-                        );
-                      }
-
-                      final modules = snapshot.data!;
-                      final allLessons =
-                          modules.expand((m) => m.lessons).toList();
-
-                      final currentLesson = allLessons.first;
-
-                      return Text(
-                        currentLesson.title,
-                        style: const TextStyle(
-                          fontSize: 17,
+                ),
+                const SizedBox(height: 4),
+                FutureBuilder<List<LessonModule>>(
+                  future: LessonLoader.loadAllModules(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Text(
+                        "Loading...",
+                        style: TextStyle(
                           color: AppColors.background,
+                          height: 1.0,
                         ),
                       );
-                    },
-                  ),
-                ],
-              ),
+                    }
+
+                    final lessonState = _lessonKey.currentState;
+                    final modules = snapshot.data!;
+                    final allLessons =
+                        modules.expand((m) => m.lessons).toList();
+                    final step = lessonState?.currentStep ?? 0;
+                    final currentLesson =
+                        allLessons[step.clamp(0, allLessons.length - 1)];
+
+                    return Text(
+                      currentLesson.title,
+                      style: const TextStyle(
+                        fontSize: 21,
+                        height: 1.0,
+                        color: AppColors.background,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
 
         Positioned.fill(
           top: height * 0.157,
-          child: const Lesson(),
+          child: Lesson(key: _lessonKey),
         ),
       ],
     );
@@ -190,24 +208,26 @@ class _LessonState extends State<Lesson> {
       physics: const SlowScrollPhysics(),
       child: Column(
         children: [
-          const SizedBox(height: 40),
+          const SizedBox(height: 20),
           ListView.separated(
             padding: const EdgeInsets.only(top: 10),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: items.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 30),
+            separatorBuilder: (_, i) => SizedBox(
+              height: items[i].isModule ? 6 : 30,
+            ),
             itemBuilder: (context, index) {
               final item = items[index];
 
               /// 🟡 MODULE HEADER
               if (item.isModule) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: Text(
                     item.moduleTitle!.toUpperCase(),
                     style: const TextStyle(
-                      fontSize: 28,
+                      fontSize: 30,
                       fontWeight: FontWeight.w900,
                       color: AppColors.primary,
                     ),
@@ -232,7 +252,6 @@ class _LessonState extends State<Lesson> {
               );
             },
           ),
-          const SizedBox(height: 60),
         ],
       ),
     );
@@ -280,30 +299,32 @@ class _LessonState extends State<Lesson> {
                           padding: const EdgeInsets.only(left: 20),
                           child: Stack(
                             children: [
-                              Positioned(
-                                left: 195,
-                                child: SpriteSheet(
-                                  asset: lesson.spriteAsset.isNotEmpty
-                                      ? lesson.spriteAsset
-                                      : 'assets/spritesheet/NVSA.png',
-                                  columns: 50,
-                                  rows: 1,
-                                  totalFrames: 50,
-                                  fps: 30,
-                                  width: 102,
-                                  height: 102,
+                              if (active)
+                                Positioned(
+                                  left: 195,
+                                  child: SpriteSheet(
+                                    asset: lesson.spriteAsset.isNotEmpty
+                                        ? lesson.spriteAsset
+                                        : 'assets/spritesheet/NVSA.png',
+                                    columns: 50,
+                                    rows: 1,
+                                    totalFrames: 50,
+                                    fps: 30,
+                                    width: 102,
+                                    height: 102,
+                                  ),
                                 ),
-                              ),
                               if (active)
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: SizedBox(
-                                    width: 200,
+                                    width: 180,
                                     child: Text(
                                       lesson.title,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 23,
+                                        fontSize: 26,
+                                        height: 1.1,
                                         color: AppColors.background,
                                       ),
                                     ),
@@ -316,11 +337,45 @@ class _LessonState extends State<Lesson> {
                     ),
                     const SizedBox(height: 8),
                     if (active)
-                      LinearProgressIndicator(
-                        value: index < currentStep ? 1 : 0,
-                        minHeight: 10,
-                        backgroundColor: Colors.white,
-                        color: AppColors.primary,
+                      Container(
+                        height: 23,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: AppColors.primary.withValues(alpha: 0.5),
+                            width: 2,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.35),
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(18),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                final fill = index < currentStep ? 1.0 : 0.0;
+                                return Stack(
+                                  children: [
+                                    Container(
+                                      width: constraints.maxWidth,
+                                      color: Colors.white,
+                                    ),
+                                    Container(
+                                      width: constraints.maxWidth * fill,
+                                      color: AppColors.primary,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                       ),
                   ],
                 ),

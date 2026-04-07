@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vitalact/models/lesson_module.dart';
 import 'package:vitalact/models/lesson_item.dart';
@@ -34,7 +35,7 @@ class LessonLoader {
 
         modules.add(module);
       } catch (e) {
-        print('🔥 ERROR loading $path: $e');
+        debugPrint('🔥 ERROR loading $path: $e');
       }
     }
 

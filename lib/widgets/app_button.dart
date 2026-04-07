@@ -20,6 +20,7 @@ class AppButton extends StatelessWidget {
 
   final double borderRadius;
   final EdgeInsetsGeometry padding;
+  final AlignmentGeometry alignment;
 
   const AppButton({
     super.key,
@@ -35,6 +36,7 @@ class AppButton extends StatelessWidget {
     this.borderRadius = 50,
     this.padding = const EdgeInsets.symmetric(),
     this.borderWidth,
+    this.alignment = Alignment.center,
   });
 
   @override
@@ -71,6 +73,7 @@ class AppButton extends StatelessWidget {
                 onPressed: onPressed,
                 style: OutlinedButton.styleFrom(
                   padding: padding,
+                  alignment: alignment,
                   backgroundColor: backgroundColor ?? defaultBackground,
                   foregroundColor: foregroundColor ?? defaultForeground,
                   side: BorderSide(

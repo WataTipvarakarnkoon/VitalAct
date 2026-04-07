@@ -4,7 +4,7 @@
     {
       "id": "lesson_2_1",
       "title": "Normal vs Abnormal Signs",
-      "description": "Learn to distinguish normal and abnormal conditions.",
+      "spriteAsset": "assets/spritesheet/NVSA.png",
       "steps": [
         {
           "type": "reading",
@@ -15,30 +15,46 @@
         {
           "type": "mcq",
           "id": "q1",
-          "question": "A person is breathing 22 times per minute but speaking clearly. What is this?",
-          "options": ["Normal", "Emergency"],
-          "answer": 0
+          "title": "A person is breathing 22 times per minute but speaking clearly. What is this?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "choices": ["Normal", "Emergency"],
+          "correctIndex": 0,
+          "hint": "Think about whether they can function.",
+          "correctExplanation": "Breathing 22 times per minute while speaking clearly is normal.",
+          "incorrectExplanation": "If they can speak clearly, it is not an emergency."
         },
         {
-          "type": "text_input",
+          "type": "text",
           "id": "q2",
-          "question": "What does an abnormal sign indicate?",
-          "answer": "danger"
+          "title": "What does an abnormal sign indicate?",
+          "instructions": "Explain briefly.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "aiPrompt": "Explain what abnormal signs indicate",
+          "hint": "Think about the risk involved."
         },
         {
-          "type": "matching",
+          "type": "order",
           "id": "q3",
-          "pairs": [
-            { "left": "Calm breathing", "right": "Normal" },
-            { "left": "Unable to speak properly", "right": "Abnormal" }
-          ]
+          "title": "Match each sign to its category",
+          "instructions": "Arrange from normal to abnormal.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "choices": [
+            "Calm breathing",
+            "Mild fatigue",
+            "Unable to speak properly"
+          ],
+          "correctOrder": [0, 1, 2],
+          "hint": "Normal signs come first.",
+          "correctExplanation": "Calm breathing is normal, mild fatigue is borderline, unable to speak is abnormal.",
+          "incorrectExplanation": "Order from least to most concerning."
         }
       ]
     },
     {
       "id": "lesson_2_2",
       "title": "Red Flags",
-      "description": "Recognize life-threatening warning signs.",
+      "spriteAsset": "assets/spritesheet/NVSA.png",
       "steps": [
         {
           "type": "reading",
@@ -49,33 +65,46 @@
         {
           "type": "mcq",
           "id": "q1",
-          "question": "Which of these is a red flag?",
-          "options": ["Mild headache", "Severe chest pain"],
-          "answer": 1
+          "title": "Which of these is a red flag?",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "choices": ["Mild headache", "Severe chest pain"],
+          "correctIndex": 1,
+          "hint": "Think life-threatening.",
+          "correctExplanation": "Severe chest pain is a red flag indicating possible cardiac emergency.",
+          "incorrectExplanation": "Mild headache is not immediately life-threatening."
         },
         {
           "type": "order",
           "id": "q2",
-          "question": "Arrange severity from least to most dangerous",
-          "items": [
+          "title": "Arrange severity from least to most dangerous",
+          "instructions": "Put in correct order.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "choices": [
             "Mild discomfort",
             "Breathing difficulty",
             "Unconsciousness"
           ],
-          "correctOrder": [0, 1, 2]
+          "correctOrder": [0, 1, 2],
+          "hint": "Think about which threatens life most.",
+          "correctExplanation": "Unconsciousness is most dangerous, mild discomfort is least.",
+          "incorrectExplanation": "Severity increases from mild discomfort to unconsciousness."
         },
         {
-          "type": "text_input",
+          "type": "text",
           "id": "q3",
-          "question": "Name one red flag symptom",
-          "answer": "breathing"
+          "title": "Name one red flag symptom",
+          "instructions": "Describe briefly.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "aiPrompt": "Identify a red flag emergency symptom",
+          "hint": "Think about breathing, chest, or consciousness."
         }
       ]
     },
     {
       "id": "lesson_2_3",
       "title": "Breathing Assessment",
-      "description": "Identify normal and abnormal breathing patterns.",
+      "spriteAsset": "assets/spritesheet/NVSA.png",
       "steps": [
         {
           "type": "reading",
@@ -86,33 +115,46 @@
         {
           "type": "mcq",
           "id": "q1",
-          "question": "A person gasping for air is:",
-          "options": ["Normal", "Emergency"],
-          "answer": 1
+          "title": "A person gasping for air is:",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "choices": ["Normal", "Emergency"],
+          "correctIndex": 1,
+          "hint": "Gasping is not effortless.",
+          "correctExplanation": "Gasping for air signals a breathing emergency.",
+          "incorrectExplanation": "Normal breathing is effortless and steady."
         },
         {
           "type": "order",
           "id": "q2",
-          "question": "Steps to check breathing",
-          "items": [
+          "title": "Steps to check breathing",
+          "instructions": "Put in correct order.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "choices": [
             "Look at chest movement",
             "Listen for breath sounds",
             "Feel air on cheek"
           ],
-          "correctOrder": [0, 1, 2]
+          "correctOrder": [0, 1, 2],
+          "hint": "Look, listen, feel.",
+          "correctExplanation": "Look → listen → feel is the standard breathing check sequence.",
+          "incorrectExplanation": "Always start by observing before listening and feeling."
         },
         {
-          "type": "text_input",
+          "type": "text",
           "id": "q3",
-          "question": "What is one abnormal breathing sign?",
-          "answer": "gasping"
+          "title": "What is one abnormal breathing sign?",
+          "instructions": "Explain briefly.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "aiPrompt": "Describe an abnormal breathing sign",
+          "hint": "Think about gasping or no breathing."
         }
       ]
     },
     {
       "id": "lesson_2_4",
       "title": "Consciousness Check",
-      "description": "Determine if a person is responsive or not.",
+      "spriteAsset": "assets/spritesheet/NVSA.png",
       "steps": [
         {
           "type": "reading",
@@ -123,20 +165,30 @@
         {
           "type": "mcq",
           "id": "q1",
-          "question": "A person does not respond to voice or touch. This is:",
-          "options": ["Responsive", "Unresponsive"],
-          "answer": 1
+          "title": "A person does not respond to voice or touch. This is:",
+          "instructions": "Choose the best answer.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "choices": ["Responsive", "Unresponsive"],
+          "correctIndex": 1,
+          "hint": "No reaction means unresponsive.",
+          "correctExplanation": "No response to voice or touch means the person is unresponsive.",
+          "incorrectExplanation": "A responsive person reacts to stimuli."
         },
         {
           "type": "order",
           "id": "q2",
-          "question": "Steps to check consciousness",
-          "items": [
+          "title": "Steps to check consciousness",
+          "instructions": "Put in correct order.",
+          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "choices": [
             "Call out to the person",
             "Tap their shoulder",
             "Observe response"
           ],
-          "correctOrder": [0, 1, 2]
+          "correctOrder": [0, 1, 2],
+          "hint": "Voice before touch.",
+          "correctExplanation": "Call out → tap shoulder → observe response.",
+          "incorrectExplanation": "Always try verbal stimulus before physical."
         }
       ]
     }
