@@ -138,7 +138,8 @@ namespace Mediapipe.Unity
       {
         for (int i = 0; i < availableSources.Length; i++)
           Debug.Log($"[WebCamSource] Device [{i}]: {availableSources[i].name}");
-        webCamDevice = availableSources[0];
+        var frontCamera = System.Array.Find(availableSources, d => d.isFrontFacing);
+        webCamDevice = frontCamera.name != null ? frontCamera : availableSources[0];
       }
     }
 
@@ -200,12 +201,6 @@ namespace Mediapipe.Unity
         yield break;
       }
 
-      if (WebCamTexture.devices.Length == 0)
-      {
-        Debug.LogWarning("No camera devices found. Running without camera.");
-        yield break;
-      }
-
       InitializeWebCamTexture();
       webCamTexture.Play();
       yield return WaitForWebCamTexture();
@@ -257,7 +252,10 @@ namespace Mediapipe.Unity
         webCamTexture = new WebCamTexture(valueOfWebCamDevice.name, resolution.width, resolution.height, (int)resolution.frameRate);
         return;
       }
-      throw new InvalidOperationException("Cannot initialize WebCamTexture because WebCamDevice is not selected");
+      // Fallback for embedded/library mode where WebCamTexture.devices may be empty
+      // but the camera is still accessible via default device
+      Debug.LogWarning("[WebCamSource] No device selected, trying default camera.");
+      webCamTexture = new WebCamTexture(640, 480, 30);
     }
 
     private IEnumerator WaitForWebCamTexture()

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        NoCameraMode = PlayerPrefs.GetInt("NoCameraMode", 0) == 1;
+        NoCameraMode = false;
     }
 
     public static void SetNoCameraMode(bool value)

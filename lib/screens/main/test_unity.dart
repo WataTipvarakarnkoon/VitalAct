@@ -1,5 +1,7 @@
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/foundation.dart';
 
 class TestUnity extends StatefulWidget {
   const TestUnity({super.key});
@@ -25,8 +27,13 @@ class _TestUnityState extends State<TestUnity> {
         child: UnityWidget(
           onUnityCreated: onUnityCreated,
           onUnityMessage: onUnityMessage,
-          useAndroidViewSurface: true,
+          useAndroidViewSurface: false,
           fullscreen: false,
+          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+            Factory<OneSequenceGestureRecognizer>(
+              () => EagerGestureRecognizer(),
+            ),
+          },
         ),
       ),
     );

@@ -18,6 +18,7 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
       if (GameManager.NoCameraMode)
       {
         Debug.Log("No Camera Mode: HandLandmarkerRunner disabled.");
+        if (screen != null) screen.gameObject.SetActive(false);
         yield break;
       }
       yield return base.Start();
@@ -50,10 +51,21 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
       yield return AssetLoader.PrepareAssetAsync(config.ModelPath);
 
       var options = config.GetHandLandmarkerOptions(config.RunningMode == Tasks.Vision.Core.RunningMode.LIVE_STREAM ? OnHandLandmarkDetectionOutput : null);
-      taskApi = HandLandmarker.CreateFromOptions(options, GpuManager.GpuResources);
+      bool taskCreated = false;
+      try
+      {
+        taskApi = HandLandmarker.CreateFromOptions(options, GpuManager.GpuResources);
+        taskCreated = true;
+      }
+      catch (System.Exception e)
+      {
+        Debug.LogError($"Failed to create HandLandmarker: {e.Message}");
+      }
+      if (!taskCreated) yield break;
       if (GameManager.NoCameraMode)
       {
         Debug.Log("No Camera Mode: skipping camera stream.");
+        if (screen != null) screen.gameObject.SetActive(false);
         yield break;
       }
 
@@ -64,7 +76,8 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
       if (!imageSource.isPrepared)
       {
         Debug.LogWarning("Camera not available. Switching to No Camera Mode automatically.");
-        GameManager.SetNoCameraMode(true);
+        GameManager.NoCameraMode = true;
+        if (screen != null) screen.gameObject.SetActive(false);
         yield break;
       }
 

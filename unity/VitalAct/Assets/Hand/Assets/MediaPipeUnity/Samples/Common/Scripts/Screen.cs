@@ -15,6 +15,11 @@ namespace Mediapipe.Unity
 
     private ImageSource _imageSource;
 
+    private void Awake()
+    {
+      if (_screen != null) _screen.raycastTarget = false;
+    }
+
     public Texture texture
     {
       get => _screen.texture;

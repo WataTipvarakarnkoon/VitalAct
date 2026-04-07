@@ -14,6 +14,11 @@ public class ChecklistUI : MonoBehaviour
   void Start()
   {
     canvasGroup = GetComponent<CanvasGroup>();
+    if (canvasGroup != null)
+    {
+      canvasGroup.interactable = false;
+      canvasGroup.blocksRaycasts = false;
+    }
     button.onClick.AddListener(() =>
     {  if(!isOpen || GameManager.instance.CurrentState == GameManager.GameState.Identify)
     {
@@ -51,6 +56,11 @@ public class ChecklistUI : MonoBehaviour
       }
       else
       {
+        if (canvasGroup != null)
+        {
+          canvasGroup.interactable = false;
+          canvasGroup.blocksRaycasts = false;
+        }
         animator.SetTrigger("SlideDown");
       }
 

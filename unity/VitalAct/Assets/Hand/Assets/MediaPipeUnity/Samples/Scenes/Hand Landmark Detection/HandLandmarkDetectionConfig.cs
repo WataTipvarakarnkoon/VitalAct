@@ -11,11 +11,10 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
   public class HandLandmarkDetectionConfig
   {
     public Tasks.Core.BaseOptions.Delegate Delegate { get; set; } =
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+      // CPU on all platforms when running as Unity library inside Flutter.
+      // GPU delegate can fail in Virtual Display (TextureView) mode due to
+      // EGL context sharing issues between Unity and MediaPipe's secondary context.
       Tasks.Core.BaseOptions.Delegate.CPU;
-#else
-    Tasks.Core.BaseOptions.Delegate.GPU;
-#endif
 
     public ImageReadMode ImageReadMode { get; set; } = ImageReadMode.CPUAsync;
 
