@@ -1,10 +1,11 @@
-import 'package:gradient_borders/gradient_borders.dart';
 import 'package:flutter/material.dart';
+import 'package:vitalact/models/lesson_module.dart';
+import 'package:vitalact/models/lesson_item.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
-import 'package:vitalact/data/lesson_data.dart';
 import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
+import 'package:vitalact/services/lesson_loader.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -18,15 +19,16 @@ class HomePage extends StatelessWidget {
       children: [
         Container(
           decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              AppColors.background,
-              AppColors.background,
-              AppColors.gradient
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
+            gradient: LinearGradient(
+              colors: [
+                AppColors.background,
+                AppColors.background,
+                AppColors.gradient
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
         ),
         Positioned(
           top: height * -0.4,
@@ -41,6 +43,8 @@ class HomePage extends StatelessWidget {
           height: height * 0.5,
           child: Image.asset('assets/images/Ellipse.png'),
         ),
+
+        /// 🔥 CONTINUE BUTTON (multi-module)
         Positioned(
           top: height * 0.08,
           left: 0,
@@ -51,7 +55,7 @@ class HomePage extends StatelessWidget {
               width: width * 0.9,
               height: 65,
               borderRadius: 15,
-              padding: const EdgeInsetsGeometry.symmetric(horizontal: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               backgroundColor: AppColors.primary,
               borderColor: AppColors.primary,
               child: Column(
@@ -62,23 +66,40 @@ class HomePage extends StatelessWidget {
                     "CONTINUE",
                     style: TextStyle(
                       fontSize: 16,
-                      height: 1.2,
                       color: AppColors.background.withValues(alpha: 0.7),
                     ),
                   ),
-                  const Text(
-                    "Recognition: Life-threatening red flags",
-                    style: TextStyle(
-                      fontSize: 17,
-                      height: 1.1,
-                      color: AppColors.background,
-                    ),
+                  FutureBuilder<List<LessonModule>>(
+                    future: LessonLoader.loadAllModules(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Text(
+                          "Loading...",
+                          style: TextStyle(color: AppColors.background),
+                        );
+                      }
+
+                      final modules = snapshot.data!;
+                      final allLessons =
+                          modules.expand((m) => m.lessons).toList();
+
+                      final currentLesson = allLessons.first;
+
+                      return Text(
+                        currentLesson.title,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          color: AppColors.background,
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
             ),
           ),
         ),
+
         Positioned.fill(
           top: height * 0.157,
           child: const Lesson(),
@@ -99,6 +120,15 @@ class _LessonState extends State<Lesson> {
   int currentStep = 0;
   int? pressedIndex;
 
+  late Future<List<LessonModule>> moduleFuture;
+  List<LessonItem> allLessons = [];
+
+  @override
+  void initState() {
+    super.initState();
+    moduleFuture = LessonLoader.loadAllModules();
+  }
+
   Future<void> openLesson(int index) async {
     if (index > currentStep) return;
 
@@ -106,8 +136,8 @@ class _LessonState extends State<Lesson> {
       context,
       MaterialPageRoute(
         builder: (_) => LessonRunnerPage(
-          title: lessonData[index].title,
-          steps: lessonData[index].steps,
+          title: allLessons[index].title,
+          steps: allLessons[index].steps,
         ),
       ),
     );
@@ -121,186 +151,84 @@ class _LessonState extends State<Lesson> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    return FutureBuilder<List<LessonModule>>(
+      future: moduleFuture,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
+        final modules = snapshot.data!;
+
+        final items = buildMixedList(modules);
+
+        // store flat lessons for navigation
+        allLessons = modules.expand((m) => m.lessons).toList();
+
+        return buildLessonList(items);
+      },
+    );
+  }
+
+  /// 🔥 MIX MODULE + LESSON
+  List<LessonListItem> buildMixedList(List<LessonModule> modules) {
+    final List<LessonListItem> items = [];
+
+    for (final module in modules) {
+      items.add(LessonListItem.module(module.moduleTitle));
+
+      for (final lesson in module.lessons) {
+        items.add(LessonListItem.lesson(lesson));
+      }
+    }
+
+    return items;
+  }
+
+  Widget buildLessonList(List<LessonListItem> items) {
     return SingleChildScrollView(
       physics: const SlowScrollPhysics(),
       child: Column(
         children: [
-          const Padding(padding: EdgeInsets.only(top: 40)),
-          Container(
-            padding: EdgeInsets.only(right: width * .25),
-            child: const Text(
-              'RECOGNITION',
-              style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.w800,
-                color: AppColors.primary,
-                height: 0.65,
-              ),
-            ),
-          ),
+          const SizedBox(height: 40),
           ListView.separated(
             padding: const EdgeInsets.only(top: 10),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: lessonData.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 40),
+            itemCount: items.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 30),
             itemBuilder: (context, index) {
-              final lesson = lessonData[index];
-              final active = index <= currentStep;
-              final isPressed = pressedIndex == index;
+              final item = items[index];
 
-              return Center(
-                child: FractionallySizedBox(
-                  widthFactor: 0.8,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: active ? () => openLesson(index) : null,
-                      onHighlightChanged: (pressed) {
-                        setState(() {
-                          pressedIndex = pressed ? index : null;
-                        });
-                      },
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      child: AnimatedScale(
-                          scale: isPressed ? 0.9 : 1,
-                          duration: const Duration(milliseconds: 100),
-                          child: SizedBox(
-                            width: width * .8,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Lesson Card
-                                Stack(
-                                  children: [
-                                    Image.asset(
-                                      active
-                                          ? 'assets/images/red_lesson_box.png'
-                                          : 'assets/images/gray_lesson_box.png',
-                                      fit: BoxFit.contain,
-                                    ),
-                                    Container(
-                                      height: 105,
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: Stack(
-                                        children: [
-                                          if (lesson.spriteAsset != null)
-                                            Positioned(
-                                              left: 195,
-                                              child: SpriteSheet(
-                                                asset: lesson.spriteAsset!,
-                                                columns: 50,
-                                                rows: 1,
-                                                totalFrames: 50,
-                                                fps: 30,
-                                                width: 102,
-                                                height: 102,
-                                              ),
-                                            ),
-                                          if (active)
-                                            Align(
-                                              alignment:
-                                                  AlignmentGeometry.centerLeft,
-                                              child: SizedBox(
-                                                width: 200,
-                                                child: Text(
-                                                  lesson.title,
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 23,
-                                                      color:
-                                                          AppColors.background,
-                                                      height: 1.1,
-                                                      shadows: [
-                                                        Shadow(
-                                                          blurRadius: 5,
-                                                          color: Color.fromARGB(
-                                                              63, 0, 0, 0),
-                                                          offset:
-                                                              Offset(0, 2.5),
-                                                        )
-                                                      ]),
-                                                ),
-                                              ),
-                                            ),
-                                          const SizedBox(height: 3),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-
-                                // Progress Bar
-                                if (active)
-                                  Stack(
-                                    children: [
-                                      Positioned.fill(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(20)),
-                                              border: Border.all(
-                                                width: 3,
-                                                color: AppColors.borderColored,
-                                              ),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                    color: Color.fromARGB(
-                                                        44, 128, 0, 0),
-                                                    offset: Offset(0, 7),
-                                                    blurRadius: .5)
-                                              ]),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.all(3.5),
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(8)),
-                                          border: GradientBoxBorder(
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                AppColors.background,
-                                                AppColors.gradient,
-                                              ],
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                            ),
-                                            width: 1.5,
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color(0xAAAD3D3D),
-                                              offset: Offset(0, 2),
-                                              blurRadius: 5,
-                                            ),
-                                          ],
-                                        ),
-                                        child: LinearProgressIndicator(
-                                          value: index <= currentStep
-                                              ? (index < currentStep ? 1 : 0)
-                                              : 0,
-                                          minHeight: 13,
-                                          backgroundColor: Colors.white,
-                                          color: AppColors.primary,
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                              ],
-                            ),
-                          )),
+              /// 🟡 MODULE HEADER
+              if (item.isModule) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    item.moduleTitle!.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.primary,
                     ),
                   ),
-                ),
+                );
+              }
+
+              /// 🔴 LESSON
+              final lesson = item.lesson!;
+
+              final lessonIndex =
+                  items.where((e) => e.lesson != null).toList().indexOf(item);
+
+              final active = lessonIndex <= currentStep;
+              final isPressed = pressedIndex == lessonIndex;
+
+              return buildLessonCard(
+                lesson: lesson,
+                index: lessonIndex,
+                active: active,
+                isPressed: isPressed,
               );
             },
           ),
@@ -309,8 +237,114 @@ class _LessonState extends State<Lesson> {
       ),
     );
   }
+
+  Widget buildLessonCard({
+    required LessonItem lesson,
+    required int index,
+    required bool active,
+    required bool isPressed,
+  }) {
+    final width = MediaQuery.of(context).size.width;
+
+    return Center(
+      child: FractionallySizedBox(
+        widthFactor: 0.8,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: active ? () => openLesson(index) : null,
+            onHighlightChanged: (pressed) {
+              setState(() {
+                pressedIndex = pressed ? index : null;
+              });
+            },
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: AnimatedScale(
+              scale: isPressed ? 0.9 : 1,
+              duration: const Duration(milliseconds: 100),
+              child: SizedBox(
+                width: width * .8,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        Image.asset(
+                          active
+                              ? 'assets/images/red_lesson_box.png'
+                              : 'assets/images/gray_lesson_box.png',
+                        ),
+                        Container(
+                          height: 105,
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 195,
+                                child: SpriteSheet(
+                                  asset: lesson.spriteAsset.isNotEmpty
+                                      ? lesson.spriteAsset
+                                      : 'assets/spritesheet/NVSA.png',
+                                  columns: 50,
+                                  rows: 1,
+                                  totalFrames: 50,
+                                  fps: 30,
+                                  width: 102,
+                                  height: 102,
+                                ),
+                              ),
+                              if (active)
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: Text(
+                                      lesson.title,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 23,
+                                        color: AppColors.background,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    if (active)
+                      LinearProgressIndicator(
+                        value: index < currentStep ? 1 : 0,
+                        minHeight: 10,
+                        backgroundColor: Colors.white,
+                        color: AppColors.primary,
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
+/// 🔥 HELPER CLASS
+class LessonListItem {
+  final String? moduleTitle;
+  final LessonItem? lesson;
+
+  LessonListItem.module(this.moduleTitle) : lesson = null;
+  LessonListItem.lesson(this.lesson) : moduleTitle = null;
+
+  bool get isModule => moduleTitle != null;
+}
+
+/// 🔥 SCROLL PHYSICS
 class SlowScrollPhysics extends BouncingScrollPhysics {
   const SlowScrollPhysics({super.parent});
 

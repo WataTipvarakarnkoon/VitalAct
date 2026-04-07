@@ -9,7 +9,7 @@ class TextInputStep extends LessonStep {
   final String spriteAsset;
   final String disclaimer;
 
-  const TextInputStep({
+  TextInputStep({
     required super.id,
     required this.title,
     required this.instructions,
@@ -17,5 +17,6 @@ class TextInputStep extends LessonStep {
     required this.hint,
     required this.spriteAsset,
     this.disclaimer = '',
+    required super.type,
   });
 }

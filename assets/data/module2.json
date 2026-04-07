@@ -1,0 +1,144 @@
+{
+  "moduleTitle": "Emergency Recognition",
+  "lessons": [
+    {
+      "id": "lesson_2_1",
+      "title": "Normal vs Abnormal Signs",
+      "description": "Learn to distinguish normal and abnormal conditions.",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "r1",
+          "title": "Normal vs Abnormal",
+          "content": "A normal condition means the body is functioning properly. Abnormal signs may indicate danger. Always compare current condition with usual behavior."
+        },
+        {
+          "type": "mcq",
+          "id": "q1",
+          "question": "A person is breathing 22 times per minute but speaking clearly. What is this?",
+          "options": ["Normal", "Emergency"],
+          "answer": 0
+        },
+        {
+          "type": "text_input",
+          "id": "q2",
+          "question": "What does an abnormal sign indicate?",
+          "answer": "danger"
+        },
+        {
+          "type": "matching",
+          "id": "q3",
+          "pairs": [
+            { "left": "Calm breathing", "right": "Normal" },
+            { "left": "Unable to speak properly", "right": "Abnormal" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_2",
+      "title": "Red Flags",
+      "description": "Recognize life-threatening warning signs.",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "r1",
+          "title": "Red Flags",
+          "content": "Red flags are signs that indicate immediate danger. These include severe chest pain, difficulty breathing, unconsciousness, and heavy bleeding."
+        },
+        {
+          "type": "mcq",
+          "id": "q1",
+          "question": "Which of these is a red flag?",
+          "options": ["Mild headache", "Severe chest pain"],
+          "answer": 1
+        },
+        {
+          "type": "order",
+          "id": "q2",
+          "question": "Arrange severity from least to most dangerous",
+          "items": [
+            "Mild discomfort",
+            "Breathing difficulty",
+            "Unconsciousness"
+          ],
+          "correctOrder": [0, 1, 2]
+        },
+        {
+          "type": "text_input",
+          "id": "q3",
+          "question": "Name one red flag symptom",
+          "answer": "breathing"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_3",
+      "title": "Breathing Assessment",
+      "description": "Identify normal and abnormal breathing patterns.",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "r1",
+          "title": "Breathing Check",
+          "content": "Normal breathing is steady and effortless. Abnormal breathing may be too fast, too slow, or irregular."
+        },
+        {
+          "type": "mcq",
+          "id": "q1",
+          "question": "A person gasping for air is:",
+          "options": ["Normal", "Emergency"],
+          "answer": 1
+        },
+        {
+          "type": "order",
+          "id": "q2",
+          "question": "Steps to check breathing",
+          "items": [
+            "Look at chest movement",
+            "Listen for breath sounds",
+            "Feel air on cheek"
+          ],
+          "correctOrder": [0, 1, 2]
+        },
+        {
+          "type": "text_input",
+          "id": "q3",
+          "question": "What is one abnormal breathing sign?",
+          "answer": "gasping"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_4",
+      "title": "Consciousness Check",
+      "description": "Determine if a person is responsive or not.",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "r1",
+          "title": "Responsiveness",
+          "content": "A responsive person reacts to voice or touch. An unresponsive person does not react at all and may be in serious danger."
+        },
+        {
+          "type": "mcq",
+          "id": "q1",
+          "question": "A person does not respond to voice or touch. This is:",
+          "options": ["Responsive", "Unresponsive"],
+          "answer": 1
+        },
+        {
+          "type": "order",
+          "id": "q2",
+          "question": "Steps to check consciousness",
+          "items": [
+            "Call out to the person",
+            "Tap their shoulder",
+            "Observe response"
+          ],
+          "correctOrder": [0, 1, 2]
+        }
+      ]
+    }
+  ]
+}

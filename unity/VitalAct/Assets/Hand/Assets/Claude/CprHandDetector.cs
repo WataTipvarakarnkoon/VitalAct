@@ -69,6 +69,14 @@ public class CprHandDetector : MonoBehaviour
     // ──────────────────────────────────────────────────────
     public static event System.Action OnCompression;
 
+    /// <summary>เรียกตอนเริ่ม cycle ใหม่เพื่อ reset peak detection state</summary>
+    public void ResetDetection()
+    {
+        _goingDown = false;
+        _peakDepth = 0f;
+        _prevDepth = 0f;
+    }
+
     // ──────────────────────────────────────────────────────
     //  INTERNAL
     // ──────────────────────────────────────────────────────
