@@ -15,8 +15,10 @@ public class CprGameManager : MonoBehaviour
     [Header("Settings")]
     public float sessionDuration  = 120f;  // วินาที (2 นาที)
     public int   countdownSeconds = 3;
-    [Tooltip("เริ่ม countdown ทันทีตอน scene โหลด")]
-    public bool  autoStartOnLoad = true;
+    [Tooltip("เริ่มเมื่อ GameManager เข้า GameState.Do อัตโนมัติ (แนะนำ)")]
+    public bool  startOnDoState  = true;
+    [Tooltip("เริ่ม countdown ทันทีตอน scene โหลด (ใช้เฉพาะถ้าไม่มี GameManager)")]
+    public bool  autoStartOnLoad = false;
 
     // ---- events ----
     public static event System.Action<CprGameState> OnStateChanged;
@@ -44,6 +46,8 @@ public class CprGameManager : MonoBehaviour
 
     void OnEnable()  => CprHandDetector.OnCompression += OnCompression;
     void OnDisable() => CprHandDetector.OnCompression -= OnCompression;
+
+    bool _prevWasDo = false;
 
     void Start()
     {
@@ -82,8 +86,20 @@ public class CprGameManager : MonoBehaviour
 
     void Update()
     {
-        if (State != CprGameState.Playing) return;
+        // ── ตรวจ GameState.Do เพื่อ auto-start ──
+        if (startOnDoState && GameManager.instance != null)
+        {
+            bool isDo = GameManager.instance.CurrentState == GameManager.GameState.Do;
 
+            if (isDo && !_prevWasDo && State == CprGameState.Idle)
+                StartGame();
+            else if (!isDo && _prevWasDo && State != CprGameState.Idle)
+                ReturnToIdle();   // ออกจาก Do state → reset
+
+            _prevWasDo = isDo;
+        }
+
+        if (State != CprGameState.Playing) return;
         SessionTimeLeft -= Time.deltaTime;
         if (SessionTimeLeft <= 0f) EndSession();
     }
