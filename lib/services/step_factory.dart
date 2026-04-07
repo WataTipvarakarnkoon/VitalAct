@@ -12,6 +12,7 @@ class StepFactory {
           id: json['id'],
           title: json['title'],
           content: json['content'],
+          type: 'reading',
         );
 
       case 'mcq':
@@ -26,6 +27,7 @@ class StepFactory {
           hint: json['hint'],
           disclaimer: json['disclaimer'] ?? '',
           spriteAsset: json['spriteAsset'],
+          type: 'mcq',
         );
 
       case 'text':
@@ -36,6 +38,7 @@ class StepFactory {
           aiPrompt: json['aiPrompt'],
           hint: json['hint'],
           spriteAsset: json['spriteAsset'],
+          type: 'text',
         );
 
       case 'order':
@@ -49,6 +52,7 @@ class StepFactory {
           incorrectExplanation: json['incorrectExplanation'],
           hint: json['hint'],
           spriteAsset: json['spriteAsset'],
+          type: 'order',
         );
 
       default:

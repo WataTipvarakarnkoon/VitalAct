@@ -1,11 +1,9 @@
 import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
+import 'package:vitalact/services/lesson_loader.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
-import 'package:vitalact/screens/lessons/rapid_response.dart';
-import 'package:vitalact/models/lesson_step.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
-import 'package:vitalact/data/lesson_data.dart';
 import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
 
 class PracticePage extends StatefulWidget {
@@ -32,6 +30,38 @@ class _PracticePageState extends State<PracticePage>
     super.dispose();
   }
 
+  /// 🔥 BUILD DRILL STEPS FROM ALL MODULES
+  Future<void> startMentalDrill(BuildContext context) async {
+    final modules = await LessonLoader.loadAllModules();
+
+    // ✅ flatten lessons
+    final lessons = modules.expand((m) => m.lessons).toList();
+
+    // ✅ flatten steps (exclude reading)
+    final allSteps = lessons
+        .expand((lesson) => lesson.steps)
+        .where((step) => step is! ReadingStep)
+        .toList();
+
+    if (allSteps.isEmpty) return;
+
+    allSteps.shuffle();
+
+    final steps = allSteps.take(10).toList();
+
+    if (!mounted) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LessonRunnerPage(
+          title: "Mental Drill",
+          steps: steps,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -49,32 +79,32 @@ class _PracticePageState extends State<PracticePage>
           child: Column(
             children: [
               const SizedBox(height: 40),
+
+              /// 🔥 TAB BAR
               TabBar(
+                controller: _tabController,
                 indicatorWeight: 1,
                 indicatorSize: TabBarIndicatorSize.tab,
-                controller: _tabController,
                 indicatorColor: themeColor,
                 labelColor: themeColor,
                 unselectedLabelColor: AppColors.textPrimary,
                 labelStyle:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                unselectedLabelStyle:
                     const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 tabs: const [
                   Tab(text: "Mental Drill"),
                   Tab(text: "Physical Drill"),
                 ],
               ),
+
               Expanded(
                 child: TabBarView(
                   controller: _tabController,
                   children: [
+                    /// 🧠 MENTAL DRILL
                     Center(
                       child: Column(
                         children: [
-                          const SizedBox(
-                            height: 25,
-                          ),
+                          const SizedBox(height: 25),
                           Text(
                             "Practice",
                             style: TextStyle(
@@ -83,38 +113,23 @@ class _PracticePageState extends State<PracticePage>
                               color: themeColor,
                             ),
                           ),
-                          const Text('Sharpen your emergency skills',
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                              )),
-                          const SizedBox(
-                            height: 30,
+                          const Text(
+                            'Sharpen your emergency skills',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textPrimary,
+                            ),
                           ),
+                          const SizedBox(height: 30),
                           GestureDetector(
                             onTapDown: (_) => setState(() => isPressed = true),
                             onTapUp: (_) => setState(() => isPressed = false),
                             onTapCancel: () =>
                                 setState(() => isPressed = false),
-                            onTap: () {
-                              final steps = pickRandomQuestions(lessonData)
-                                  .map((q) => q.qs as LessonStep)
-                                  .where((step) => step is! ReadingStep)
-                                  .toList();
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LessonRunnerPage(
-                                    title: "Rapid Response",
-                                    steps: steps,
-                                  ),
-                                ),
-                              );
-                            },
+                            onTap: () => startMentalDrill(context),
                             child: AnimatedScale(
-                              scale: isPressed ? 0.8 : 0.9,
+                              scale: isPressed ? 0.85 : 0.95,
                               duration: const Duration(milliseconds: 100),
                               child: Stack(
                                 children: [
@@ -149,12 +164,12 @@ class _PracticePageState extends State<PracticePage>
                         ],
                       ),
                     ),
+
+                    /// 💪 PHYSICAL DRILL (future simulation)
                     Center(
                       child: Column(
                         children: [
-                          const SizedBox(
-                            height: 25,
-                          ),
+                          const SizedBox(height: 25),
                           Text(
                             "Practice",
                             style: TextStyle(
@@ -163,15 +178,15 @@ class _PracticePageState extends State<PracticePage>
                               color: themeColor,
                             ),
                           ),
-                          const Text('Sharpen your emergency skills',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                              )),
-                          const SizedBox(
-                            height: 30,
+                          const Text(
+                            'Sharpen your emergency skills',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textPrimary,
+                            ),
                           ),
+                          const SizedBox(height: 30),
                           GestureDetector(
                             onTapDown: (_) => setState(() => isPressed = true),
                             onTapUp: (_) => setState(() => isPressed = false),
@@ -186,22 +201,24 @@ class _PracticePageState extends State<PracticePage>
                               );
                             },
                             child: AnimatedScale(
-                              scale: isPressed ? 0.8 : 0.9,
+                              scale: isPressed ? 0.85 : 0.95,
                               duration: const Duration(milliseconds: 100),
                               child: Stack(
                                 children: [
                                   Image.asset(
-                                      'assets/images/Emergency Simulator.png'),
+                                    'assets/images/Emergency Simulator.png',
+                                  ),
                                   const Center(
-                                      child: SpriteSheet(
-                                    asset: 'assets/spritesheet/CPR.png',
-                                    columns: 20,
-                                    rows: 1,
-                                    totalFrames: 20,
-                                    fps: 30,
-                                    height: 150,
-                                    width: 150,
-                                  ))
+                                    child: SpriteSheet(
+                                      asset: 'assets/spritesheet/CPR.png',
+                                      columns: 20,
+                                      rows: 1,
+                                      totalFrames: 20,
+                                      fps: 30,
+                                      height: 150,
+                                      width: 150,
+                                    ),
+                                  )
                                 ],
                               ),
                             ),

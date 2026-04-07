@@ -4,9 +4,10 @@ class ReadingStep extends LessonStep {
   final String title;
   final String content;
 
-  const ReadingStep({
+  ReadingStep({
     required super.id,
     required this.title,
     required this.content,
+    required super.type,
   });
 }

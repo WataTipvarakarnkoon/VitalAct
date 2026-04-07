@@ -1,5 +1,6 @@
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/material.dart';
+import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_text_field.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
 import 'package:vitalact/services/lesson_progress_service.dart';
@@ -244,6 +245,16 @@ If the answer is correct:
                   maxLines: 10,
                   shadowOffset: const Offset(0, 2),
                   focusNode: focusNode,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  step.disclaimer,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textPrimary.withValues(alpha: 0.7),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),

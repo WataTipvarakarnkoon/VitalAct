@@ -55,38 +55,42 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
     nextStep();
   }
 
-  //Next Step
+  // Next Step
   void nextStep() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+    if (!mounted) return;
 
-      final step = currentSteps[currentIndex];
+    final step = currentSteps[currentIndex];
 
-      if (step is ReadingStep) {
+    // Progress logic
+    if (step is ReadingStep) {
+      completedSteps++;
+    }
+
+    if (step is MultiChoiceStep || step is TextInputStep) {
+      if (!repeatQueue.contains(step)) {
         completedSteps++;
       }
+    }
 
-      if (step is MultiChoiceStep || step is TextInputStep) {
-        if (!repeatQueue.contains(step)) {
-          completedSteps++;
+    // Navigation logic
+    if (currentIndex < currentSteps.length - 1) {
+      setState(() {
+        currentIndex++;
+      });
+    } else if (repeatQueue.isNotEmpty) {
+      setState(() {
+        currentSteps = List.from(repeatQueue);
+        repeatQueue.clear();
+        currentIndex = 0;
+        rounds++;
+      });
+    } else {
+      Future.microtask(() {
+        if (mounted) {
+          Navigator.pop(context, true);
         }
-      }
-
-      if (currentIndex < currentSteps.length - 1) {
-        setState(() {
-          currentIndex++;
-        });
-      } else if (repeatQueue.isNotEmpty) {
-        setState(() {
-          currentSteps = List.from(repeatQueue);
-          repeatQueue.clear();
-          currentIndex = 0;
-          rounds++;
-        });
-      } else {
-        Navigator.pop(context, true);
-      }
-    });
+      });
+    }
   }
 
   Future<bool> _confirmExit() async {

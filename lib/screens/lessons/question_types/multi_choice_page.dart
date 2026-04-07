@@ -109,19 +109,17 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
                         )),
                   ),
                   const SizedBox(height: 28),
-                  Row(
+                  Column(
                     children: List.generate(step.choices.length, (index) {
-                      return Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            right: index != step.choices.length - 1 ? 12 : 0,
-                          ),
-                          child: LessonButton(
-                            type: LessonButtonType.option,
-                            text: step.choices[index],
-                            selected: selectedIndex == index,
-                            onPressed: answered ? null : () => select(index),
-                          ),
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: index != step.choices.length - 1 ? 12 : 0,
+                        ),
+                        child: LessonButton(
+                          type: LessonButtonType.option,
+                          text: step.choices[index],
+                          selected: selectedIndex == index,
+                          onPressed: answered ? null : () => select(index),
                         ),
                       );
                     }),
