@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class CprGameUI : MonoBehaviour
 {
-    [Header("References")]
-    public CprGameManager gameManager;
-
+    public CprTimerFill timerFill;
+    
     [Header("Results Panel")]
-    public GameObject resultsPanel;
-    public Button     retryButton;
+    public GameObject  resultsPanel;
+    public CanvasGroup canvasGroup;
+    public Button      retryButton;
+    public float       fadeDuration = 0.5f;
 
     [Header("Results - Header")]
     public TextMeshProUGUI gradeText;
@@ -30,40 +33,69 @@ public class CprGameUI : MonoBehaviour
 
     void Awake()
     {
-        if (gameManager == null)
-            gameManager = FindObjectOfType<CprGameManager>();
-
         if (retryButton != null)
-            retryButton.onClick.AddListener(() => gameManager?.ReturnToIdle());
+            retryButton.onClick.AddListener(() => SceneManager.LoadScene("Menu"));
 
-        if (resultsPanel != null) resultsPanel.SetActive(false);
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha          = 0f;
+            canvasGroup.interactable   = false;
+            canvasGroup.blocksRaycasts = false;
+        }
     }
 
-    void OnEnable()  => CprGameManager.OnSessionComplete += OnSessionComplete;
-    void OnDisable() => CprGameManager.OnSessionComplete -= OnSessionComplete;
+    bool _shown;
+
+    void OnEnable()  => GameManager.OnSessionComplete += OnSessionComplete;
+    void OnDisable() => GameManager.OnSessionComplete -= OnSessionComplete;
+
+    void Update()
+    {
+        if (_shown) return;
+        if (timerFill != null && timerFill.timer <= 0f)
+        {
+            _shown = true;
+            FillResults(GameManager.instance.LastSessionData);
+            if (canvasGroup != null) StartCoroutine(FadeIn());
+        }
+    }
 
     void OnSessionComplete(CprSessionData data)
     {
-        if (resultsPanel != null) resultsPanel.SetActive(true);
+        if (_shown) return;
+        _shown = true;
         FillResults(data);
+        if (canvasGroup != null) StartCoroutine(FadeIn());
     }
 
     void FillResults(CprSessionData d)
     {
         if (d == null) return;
 
-        if (gradeText   != null) gradeText  .text = d.Grade;
-        if (overallText != null) overallText.text = $"Overall {d.OverallScore:F0}%";
+        if (gradeText         != null) gradeText        .text = d.Grade;
+        if (overallText       != null) overallText       .text = $"Overall {d.OverallScore:F0}%";
+        if (rateAccuracyText  != null) rateAccuracyText  .text = $"{d.RateAccuracy:F0}%";
+        if (depthAccuracyText != null) depthAccuracyText .text = $"{d.DepthAccuracy:F0}%";
+        if (rhythmConsistText != null) rhythmConsistText .text = $"{d.rateConsistency:F0}%";
+        if (avgRateText       != null) avgRateText       .text = $"{d.avgRate:F0} BPM";
+        if (peakRateText      != null) peakRateText      .text = $"{d.peakRate:F0} BPM";
+        if (handOnText        != null) handOnText        .text = $"{d.handOnTimePercent:F0}%";
+        if (avgDepthText      != null) avgDepthText      .text = $"{d.avgDepth01 * 100f:F0}%";
+        if (compressionText   != null) compressionText   .text = d.totalCompressions.ToString();
+        if (cyclesText        != null) cyclesText        .text = d.completedCycles.ToString();
+    }
 
-        if (rateAccuracyText  != null) rateAccuracyText .text = $"{d.RateAccuracy:F0}%";
-        if (depthAccuracyText != null) depthAccuracyText.text = $"{d.DepthAccuracy:F0}%";
-        if (rhythmConsistText != null) rhythmConsistText.text = $"{d.rateConsistency:F0}%";
-
-        if (avgRateText     != null) avgRateText    .text = $"{d.avgRate:F0} BPM";
-        if (peakRateText    != null) peakRateText   .text = $"{d.peakRate:F0} BPM";
-        if (handOnText      != null) handOnText     .text = $"{d.handOnTimePercent:F0}%";
-        if (avgDepthText    != null) avgDepthText   .text = $"{d.avgDepth01 * 100f:F0}%";
-        if (compressionText != null) compressionText.text = d.totalCompressions.ToString();
-        if (cyclesText      != null) cyclesText     .text = d.completedCycles.ToString();
+    IEnumerator FadeIn()
+    {
+        float t = 0f;
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = t / fadeDuration;
+            yield return null;
+        }
+        canvasGroup.alpha          = 1f;
+        canvasGroup.interactable   = true;
+        canvasGroup.blocksRaycasts = true;
     }
 }

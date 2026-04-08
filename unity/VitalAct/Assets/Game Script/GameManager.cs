@@ -1,25 +1,30 @@
 using UnityEngine;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public static bool NoCameraMode = false;
+
+    [Header("References")]
+    public CprHandDetector handDetector;
+    public CprCycleCounter cycleCounter;
     public Objective objective;
+
 
     public enum GameState
     {
         Assess,
         Identify,
         Choose,
-        Do
+        Do,
+        Result
     }
 
     public GameState CurrentState;
 
-    void Awake()
-    {
-        instance = this;
-        NoCameraMode = false;
-    }
+    // Events
+    public static System.Action<GameState> OnStateChanged;
+    public static System.Action<CprSessionData> OnSessionComplete;
+    public static bool NoCameraMode = false;
 
     public static void SetNoCameraMode(bool value)
     {
@@ -28,43 +33,102 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void SetState(GameState NewState)
-    {
-        CurrentState = NewState;
+    // Data
+    CprSessionData data;
+    public CprSessionData LastSessionData => data;
 
-        switch (CurrentState)
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+    }
+
+    void OnEnable()  => CprHandDetector.OnCompression += OnCompression;
+    void OnDisable() => CprHandDetector.OnCompression -= OnCompression;
+
+    void Start()
+    {
+        if (FindObjectOfType<CprSessionAnalytics>() == null)
+            gameObject.AddComponent<CprSessionAnalytics>();
+
+        SetState(GameState.Assess);
+    }
+
+    public void SetState(GameState newState)
+    {
+        CurrentState = newState;
+        OnStateChanged?.Invoke(newState);
+
+        switch (newState)
         {
             case GameState.Assess:
-                Debug.Log("GameState1");
-                objective.SetObjective("Check the victim's condition.");
+                if (objective != null)
+                    objective.SetObjective("Check the victim's condition.");
                 break;
+
             case GameState.Identify:
-                Debug.Log("GameState2");    
-                objective.SetObjective("Press TAB, and fill the checklist.");
+                if (objective != null)
+                    objective.SetObjective("Press TAB, and fill the checklist.");
                 break;
+
             case GameState.Choose:
-                Debug.Log("GameState3");  
-                objective.SetObjective("Select the button.");
+                if (objective != null)
+                    objective.SetObjective("Select the button.");
                 break;
+
             case GameState.Do:
-                Debug.Log("GameState4");  
-                objective.SetObjective("Perform CPR.");
+                if (objective != null)
+                    objective.SetObjective("Perform CPR.");
+
+                BeginSession();
+                break;
+
+            case GameState.Result:
                 break;
         }
     }
+    public void ScanCompleted() => SetState(GameState.Identify);
+    public void AllTogglesSeleted() => SetState(GameState.Choose);
+    public void Choosed() => SetState(GameState.Do);
+    public void ResultScreen() => SetState(GameState.Result);
 
-    public void ScanCompleted()
+    // CPR LOGIC
+    void BeginSession()
     {
-        SetState(GameState.Identify);
+        data = new CprSessionData();
+        cycleCounter?.ResetAll();
     }
 
-       public void AllTogglesSeleted()
+    void OnCompression()
     {
-        SetState(GameState.Choose);
+        if (CurrentState != GameState.Do || data == null) return;
+
+        data.totalCompressions++;
+
+        float rate  = handDetector != null ? handDetector.compressionRate    : 0f;
+        float depth = handDetector != null ? handDetector.compressionDepth01 : 0f;
+
+        if (rate >= 100f && rate <= 120f)
+            data.goodRateCompressions++;
+
+        if (depth >= 0.5f)
+            data.goodDepthCompressions++;
     }
 
-    public void Choosed()
+    public void EndSession()
     {
-        SetState(GameState.Do);
+        if (CurrentState == GameState.Result || data == null) return;
+
+        data.completedCycles = cycleCounter != null ? cycleCounter.completedCycles : 0;
+
+        SetState(GameState.Result);
+
+        // Send data to UI
+        OnSessionComplete?.Invoke(data);
     }
 }

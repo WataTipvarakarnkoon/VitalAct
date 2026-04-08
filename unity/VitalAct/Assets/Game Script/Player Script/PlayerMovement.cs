@@ -3,8 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public TimerFill timerFill;
-    public Failed fail;
+    public CprTimerFill timerFill;
     public ChecklistUI checklist;
     public Camera playerCamera;
     public float lookSpeed = 2f;
@@ -57,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (checklist.IsOpen || fail.shouldFade || GameManager.instance.CurrentState == GameManager.GameState.Choose || timerFill.timer == 0)
+        if (checklist.IsOpen || GameManager.instance.CurrentState == GameManager.GameState.Choose ||                GameManager.instance.CurrentState == GameManager.GameState.Result || timerFill != null && timerFill.timer <= 0f)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
