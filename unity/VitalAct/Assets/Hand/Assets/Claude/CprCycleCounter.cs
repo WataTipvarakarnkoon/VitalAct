@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// นับรอบ CPR แบบ 30:2 (30 กด → 2 เป่าปาก → ซ้ำ)
@@ -13,11 +13,11 @@ public class CprCycleCounter : MonoBehaviour
     public float breathPhaseDuration = 5f;
 
     [Header("UI")]
-    public Text compressionCountText;   // แสดง "12 / 30"
-    public Text cycleCountText;         // แสดง "รอบที่ 2"
-    public Text phaseText;              // แสดง "กด CPR" หรือ "เป่าปาก!"
-    public Text breathTimerText;        // แสดงเวลาถอยหลังช่วงเป่าปาก
-    public GameObject breathPanel;      // panel ที่โชว์ตอน breathing phase
+    public TextMeshProUGUI compressionCountText;   // แสดง "12 / 30"
+    public TextMeshProUGUI cycleCountText;         // แสดง "รอบที่ 2"
+    public TextMeshProUGUI phaseText;              // แสดง "กด CPR" หรือ "เป่าปาก!"
+    public TextMeshProUGUI breathTimerText;        // แสดงเวลาถอยหลังช่วงเป่าปาก
+    public GameObject breathPanel;                 // panel ที่โชว์ตอน breathing phase
 
     [Header("Output - Read Only")]
     public int currentCompression;      // นับในรอบปัจจุบัน
@@ -33,7 +33,7 @@ public class CprCycleCounter : MonoBehaviour
 
     void OnCompression()
     {
-        if (isBreathingPhase) return;  // ไม่นับตอนอยู่ช่วงเป่าปาก
+        if (isBreathingPhase) return;
 
         currentCompression++;
         UpdateUI();

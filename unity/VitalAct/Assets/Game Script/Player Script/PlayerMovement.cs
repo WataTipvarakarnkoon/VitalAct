@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    public TimerFill timerFill;
     public Failed fail;
     public ChecklistUI checklist;
     public Camera playerCamera;
@@ -10,29 +11,53 @@ public class PlayerMovement : MonoBehaviour
     public float lookXLimit = 45f;
     public float smoothTime = 0.05f;
 
+    [Header("CPR Lock (GameState.Do)")]
+    public Transform cprLockPoint;
+
     private float rotationX = 0f;
     private float targetRotationX = 0f;
-    private float yawDelta = 0f;
-    private float targetYawDelta = 0f;
+    private float currentYaw = 0f;
+    private float targetYaw = 0f;
     private float smoothVelocityX = 0f;
     private float smoothVelocityY = 0f;
 
-    private Quaternion initialRotation;
     private CharacterController characterController;
     private bool canMove = true;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        initialRotation = transform.rotation;
+        targetYaw = transform.eulerAngles.y;
+        currentYaw = targetYaw;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     void Update()
     {
-        // Lock or unlock cursor based on game state
-        if (checklist.IsOpen || fail.shouldFade || GameManager.instance.CurrentState == GameManager.GameState.Choose)
+        bool isDo = GameManager.instance.CurrentState == GameManager.GameState.Do;
+
+        // Snap to lock point in GameState.Do
+        if (isDo)
+        {
+            if (cprLockPoint != null)
+            {
+                transform.position = cprLockPoint.position;
+                transform.rotation = Quaternion.Euler(0f, cprLockPoint.eulerAngles.y, 0f);
+                playerCamera.transform.localRotation = Quaternion.Euler(cprLockPoint.eulerAngles.x, 0f, 0f);
+
+                // Sync internal state so camera doesn't snap back when unlocked
+                currentYaw = cprLockPoint.eulerAngles.y;
+                targetYaw  = currentYaw;
+                rotationX  = cprLockPoint.eulerAngles.x;
+                targetRotationX = rotationX;
+            }
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            return;
+        }
+
+        if (checklist.IsOpen || fail.shouldFade || GameManager.instance.CurrentState == GameManager.GameState.Choose || timerFill.timer == 0)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -54,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Moved)
-                inputDelta = touch.deltaPosition * 0.1f; // scale touch sensitivity
+                inputDelta = touch.deltaPosition * 0.1f * lookSpeed;
         }
         else
         {
@@ -66,14 +91,14 @@ public class PlayerMovement : MonoBehaviour
         // Apply input
         targetRotationX -= inputDelta.y;
         targetRotationX = Mathf.Clamp(targetRotationX, -lookXLimit, lookXLimit);
-        targetYawDelta += inputDelta.x;
+        targetYaw += inputDelta.x;
 
         // Smooth rotation
-        rotationX = Mathf.SmoothDamp(rotationX, targetRotationX, ref smoothVelocityX, smoothTime);
-        yawDelta = Mathf.SmoothDamp(yawDelta, targetYawDelta, ref smoothVelocityY, smoothTime);
+        rotationX  = Mathf.SmoothDamp(rotationX,  targetRotationX, ref smoothVelocityX, smoothTime);
+        currentYaw = Mathf.SmoothDamp(currentYaw, targetYaw,       ref smoothVelocityY, smoothTime);
 
         // Apply to camera and player
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
-        transform.rotation = initialRotation * Quaternion.Euler(0f, yawDelta, 0f);
+        transform.rotation = Quaternion.Euler(0f, currentYaw, 0f);
     }
 }

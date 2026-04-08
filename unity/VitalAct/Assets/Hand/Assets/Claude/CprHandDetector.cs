@@ -323,46 +323,21 @@ public class CprHandDetector : MonoBehaviour
         float sw = Screen.width, sh = Screen.height;
         float bw = sw * 0.22f, bh = sh * 0.026f;
 
-        // ซ้ายล่าง เหนือ CPR HUD strip (14%) — ไม่ซ้อนกับ timer, camera, หรือ BPM
         float bx = sw * 0.01f;
         float by = sh * 0.72f;
 
-        // พื้นหลัง
-        GUI.color = new Color(0f, 0f, 0f, 0.72f);
-        GUI.DrawTexture(new Rect(bx - 4, by - 4, bw + 8, bh * 3.6f + 8), Texture2D.whiteTexture);
-        GUI.color = Color.white;
-
-        var lbl = new GUIStyle(GUI.skin.label) { fontSize = Mathf.RoundToInt(bh * 0.85f) };
-        lbl.normal.textColor = Color.white;
-
-        // row 1: ตัวเลข
-        GUI.Label(new Rect(bx, by, bw, bh),
-            $"Depth: {compressionDepth01:F2}   BPM: {compressionRate:F0}", lbl);
-
-        // row 2: bar track
-        float barY = by + bh * 1.15f;
+        // bar track
         GUI.color = new Color(0.25f, 0.25f, 0.25f);
-        GUI.DrawTexture(new Rect(bx, barY, bw, bh * 0.6f), Texture2D.whiteTexture);
+        GUI.DrawTexture(new Rect(bx, by, bw, bh * 0.6f), Texture2D.whiteTexture);
 
         // bar fill
         float d = Mathf.Clamp01(compressionDepth01);
         Color bc = d >= pressThreshold ? Color.green
                  : d >= releaseThreshold ? Color.yellow : Color.gray;
         GUI.color = bc;
-        GUI.DrawTexture(new Rect(bx, barY, bw * d, bh * 0.6f), Texture2D.whiteTexture);
+        GUI.DrawTexture(new Rect(bx, by, bw * d, bh * 0.6f), Texture2D.whiteTexture);
 
-        // threshold markers
-        GUI.color = Color.cyan;
-        GUI.DrawTexture(new Rect(bx + bw * pressThreshold - 1, barY, 2, bh * 0.6f), Texture2D.whiteTexture);
-        GUI.color = Color.yellow;
-        GUI.DrawTexture(new Rect(bx + bw * releaseThreshold - 1, barY, 2, bh * 0.6f), Texture2D.whiteTexture);
         GUI.color = Color.white;
-
-        // row 3: legend
-        var sm = new GUIStyle(lbl) { fontSize = Mathf.RoundToInt(bh * 0.62f) };
-        sm.normal.textColor = new Color(0.8f, 0.8f, 0.8f);
-        GUI.Label(new Rect(bx, barY + bh * 0.7f, bw, bh),
-            $"| cyan=press({pressThreshold:F2})  ylw=release({releaseThreshold:F2})", sm);
     }
 
     Rect GetCameraScreenRect()
