@@ -77,12 +77,12 @@ public class CprGameUI : MonoBehaviour
         if (rateAccuracyText  != null) rateAccuracyText  .text = $"{d.RateAccuracy:F0}%";
         if (depthAccuracyText != null) depthAccuracyText .text = $"{d.DepthAccuracy:F0}%";
         if (rhythmConsistText != null) rhythmConsistText .text = $"{d.rateConsistency:F0}%";
-        if (avgRateText       != null) avgRateText       .text = $"{d.avgRate:F0} BPM";
-        if (peakRateText      != null) peakRateText      .text = $"{d.peakRate:F0} BPM";
-        if (handOnText        != null) handOnText        .text = $"{d.handOnTimePercent:F0}%";
-        if (avgDepthText      != null) avgDepthText      .text = $"{d.avgDepth01 * 100f:F0}%";
-        if (compressionText   != null) compressionText   .text = d.totalCompressions.ToString();
-        if (cyclesText        != null) cyclesText        .text = d.completedCycles.ToString();
+        if (avgRateText       != null) avgRateText       .text = $"Average Rate: {d.avgRate:F0} BPM";
+        if (peakRateText      != null) peakRateText      .text = $"Peak: {d.peakRate:F0} BPM";
+        if (handOnText        != null) handOnText        .text = $"Hand On: {d.handOnTimePercent:F0}%";
+        if (avgDepthText      != null) avgDepthText      .text = $"Average Dept: {d.avgDepth01 * 100f:F0}%";
+        if (compressionText   != null) compressionText   .text = $"Compression: {d.totalCompressions}";
+        if (cyclesText        != null) cyclesText        .text = $"Cycles: {d.completedCycles}";
     }
 
     IEnumerator FadeIn()
