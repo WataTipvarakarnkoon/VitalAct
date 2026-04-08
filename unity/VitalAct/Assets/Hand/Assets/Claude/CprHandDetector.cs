@@ -67,7 +67,7 @@ public class CprHandDetector : MonoBehaviour
     // ──────────────────────────────────────────────────────
     //  EVENT
     // ──────────────────────────────────────────────────────
-    public static event System.Action OnCompression;
+    public static event System.Action<float, float> OnCompression; // rate (BPM), peakDepth01
 
     /// <summary>เรียกตอนเริ่ม cycle ใหม่เพื่อ reset peak detection state</summary>
     public void ResetDetection()
@@ -239,7 +239,7 @@ public class CprHandDetector : MonoBehaviour
                             compressionRate = 60f / (sum / _intervals.Count);
                         }
 
-                        OnCompression?.Invoke();
+                        OnCompression?.Invoke(compressionRate, _peakDepth);
                     }
                 }
                 _peakDepth = 0f;

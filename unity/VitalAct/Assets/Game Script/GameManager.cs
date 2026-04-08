@@ -104,14 +104,11 @@ public class GameManager : MonoBehaviour
         cycleCounter?.ResetAll();
     }
 
-    void OnCompression()
+    void OnCompression(float rate, float depth)
     {
         if (CurrentState != GameState.Do || data == null) return;
 
         data.totalCompressions++;
-
-        float rate  = handDetector != null ? handDetector.compressionRate    : 0f;
-        float depth = handDetector != null ? handDetector.compressionDepth01 : 0f;
 
         if (rate >= 100f && rate <= 120f)
             data.goodRateCompressions++;

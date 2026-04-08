@@ -936,7 +936,7 @@ MonoBehaviour:
   releaseThreshold: 0.12
   minCompressionInterval: 0.28
   baselineResetDelay: 1.5
-  chestAnimator: {fileID: 0}
+  chestAnimator: {fileID: 828505361}
   compressionDepth01: 0
   compressionRate: 0
   handsOnMannequin: 0
@@ -3936,7 +3936,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Average Rate: 43 BPM'
+  m_text: 'Average Rate: 0 BPM'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e4f86731bd82cf43bc6a10c3ffec05c, type: 2}
   m_sharedMaterial: {fileID: 8426901925849782925, guid: 2e4f86731bd82cf43bc6a10c3ffec05c, type: 2}
@@ -8313,7 +8313,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Peak: 60 BPM'
+  m_text: 'Peak: 0 BPM'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e4f86731bd82cf43bc6a10c3ffec05c, type: 2}
   m_sharedMaterial: {fileID: 8426901925849782925, guid: 2e4f86731bd82cf43bc6a10c3ffec05c, type: 2}
@@ -12730,6 +12730,7 @@ MonoBehaviour:
   fill: {fileID: 180006477}
   duration: 120
   timer: 0
+  handDetector: {fileID: 239926943}
 --- !u!1 &1929431635
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,7 +31,7 @@ public class CprCycleCounter : MonoBehaviour
 
     void Start() => UpdateUI();
 
-    void OnCompression()
+    void OnCompression(float rate, float depth)
     {
         if (isBreathingPhase) return;
 

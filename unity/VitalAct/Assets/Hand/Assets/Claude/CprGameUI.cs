@@ -46,25 +46,19 @@ public class CprGameUI : MonoBehaviour
 
     bool _shown;
 
-    void OnEnable()  => GameManager.OnSessionComplete += OnSessionComplete;
-    void OnDisable() => GameManager.OnSessionComplete -= OnSessionComplete;
-
     void Update()
     {
         if (_shown) return;
-        if (timerFill != null && timerFill.timer <= 0f)
-        {
-            _shown = true;
-            FillResults(GameManager.instance.LastSessionData);
-            if (canvasGroup != null) StartCoroutine(FadeIn());
-        }
+        if (timerFill == null || timerFill.timer > 0f) return;
+
+        _shown = true;
+        StartCoroutine(ShowResults());
     }
 
-    void OnSessionComplete(CprSessionData data)
+    IEnumerator ShowResults()
     {
-        if (_shown) return;
-        _shown = true;
-        FillResults(data);
+        yield return null; // wait one frame so EndSession() and analytics have run
+        FillResults(GameManager.instance.LastSessionData);
         if (canvasGroup != null) StartCoroutine(FadeIn());
     }
 

@@ -6,10 +6,12 @@ public class CprTimerFill : MonoBehaviour
     public Image fill;
     public float duration;
     public float timer;
+    public CprHandDetector handDetector;
     bool running;
 
     void Start()
     {
+        if (handDetector == null) handDetector = FindObjectOfType<CprHandDetector>();
         ResetTimer();
         running = true;
     }
@@ -27,6 +29,7 @@ public class CprTimerFill : MonoBehaviour
         if (timer <= 0f)
         {
             running = false;
+            if (handDetector != null) handDetector.enabled = false;
             GameManager.instance.EndSession();
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class CprSessionAnalytics : MonoBehaviour
 {
     [Header("References")]
-    public CprHandDetector handDetector;
+    public CprHandDetector handDetector; // used only for handOnTimePercent tracking
 
     float _sessionStart;
     float _handOnTime;
@@ -12,7 +12,10 @@ public class CprSessionAnalytics : MonoBehaviour
 
     void Awake()
     {
-        if (handDetector == null) handDetector = FindObjectOfType<CprHandDetector>();
+        if (handDetector == null && GameManager.instance != null)
+            handDetector = GameManager.instance.handDetector;
+        if (handDetector == null)
+            handDetector = FindObjectOfType<CprHandDetector>();
     }
 
     void OnEnable()
@@ -31,6 +34,7 @@ public class CprSessionAnalytics : MonoBehaviour
     {
         if (state == GameManager.GameState.Do)
         {
+            if (handDetector == null) handDetector = GameManager.instance?.handDetector;
             _sessionStart = Time.time;
             _handOnTime   = 0f;
             _current      = new CprSessionData();
@@ -48,22 +52,24 @@ public class CprSessionAnalytics : MonoBehaviour
             _handOnTime += Time.deltaTime;
     }
 
-    void OnCompression()
+    void OnCompression(float rate, float depth)
     {
         if (GameManager.instance == null || GameManager.instance.CurrentState != GameManager.GameState.Do) return;
-        if (_current == null || handDetector == null) return;
+        if (_current == null) return;
+        if (rate <= 0f) return; // skip first compressions before rate is established
 
         _current.compressions.Add(new CompressionRecord
         {
             time  = Time.time - _sessionStart,
-            rate  = handDetector.compressionRate,
-            depth = handDetector.compressionDepth01
+            rate  = rate,
+            depth = depth
         });
     }
 
     void FinalizeAndInject()
     {
-        if (_current == null || _current.compressions.Count == 0) return;
+        var data = GameManager.instance?.LastSessionData;
+        if (data == null || _current == null || _current.compressions.Count == 0) return;
 
         var recs = _current.compressions;
 
@@ -75,36 +81,23 @@ public class CprSessionAnalytics : MonoBehaviour
             if (r.rate > peak) peak = r.rate;
         }
 
-        _current.avgRate    = rateSum  / recs.Count;
-        _current.avgDepth01 = depthSum / recs.Count;
-        _current.peakRate   = peak;
+        data.avgRate    = rateSum  / recs.Count;
+        data.avgDepth01 = depthSum / recs.Count;
+        data.peakRate   = peak;
 
         float variance = 0f;
         foreach (var r in recs)
         {
-            float d = r.rate - _current.avgRate;
+            float d = r.rate - data.avgRate;
             variance += d * d;
         }
         float stdDev = Mathf.Sqrt(variance / recs.Count);
-        _current.rateConsistency = Mathf.Clamp01(1f - stdDev / 30f) * 100f;
+        data.rateConsistency = Mathf.Clamp01(1f - stdDev / 30f) * 100f;
 
         float elapsed = Time.time - _sessionStart;
-        _current.handOnTimePercent = elapsed > 0f
+        data.handOnTimePercent = elapsed > 0f
             ? Mathf.Clamp01(_handOnTime / elapsed) * 100f : 0f;
 
-        GameManager.OnSessionComplete += InjectOnce;
-    }
-
-    void InjectOnce(CprSessionData data)
-    {
-        GameManager.OnSessionComplete -= InjectOnce;
-        if (data == null || _current == null) return;
-
-        data.avgRate           = _current.avgRate;
-        data.rateConsistency   = _current.rateConsistency;
-        data.avgDepth01        = _current.avgDepth01;
-        data.peakRate          = _current.peakRate;
-        data.handOnTimePercent = _current.handOnTimePercent;
-        data.compressions      = _current.compressions;
+        data.compressions = _current.compressions;
     }
 }
