@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using System.IO;
 
 public class VideoSelector : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public Button[] videoButtons;
-    public VideoClip[] videoClips;
+    public string[] videoFileNames;
 
     void Start()
     {
@@ -19,9 +20,12 @@ public class VideoSelector : MonoBehaviour
 
     void PlayVideo(int index)
     {
-        if (index < 0 || index >= videoClips.Length) return;
+        if (index < 0 || index >= videoFileNames.Length) return;
 
-        videoPlayer.clip = videoClips[index];
+        string path = Path.Combine(Application.streamingAssetsPath, "Video", videoFileNames[index]);
+        path = path.Replace("\\", "/");
+
+        videoPlayer.url = path;
         videoPlayer.Play();
     }
 }

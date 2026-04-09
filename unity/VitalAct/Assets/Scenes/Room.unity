@@ -4969,7 +4969,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a06b23e7e01f45745b94b5894723d9a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiPanel: {fileID: 714653797}
 --- !u!1 &718492671 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8571076842338426121, guid: 140d1d2c406167c50819d89f86d9092e, type: 3}
@@ -11758,7 +11757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a06b23e7e01f45745b94b5894723d9a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiPanel: {fileID: 780587534}
 --- !u!1 &1589218992
 GameObject:
   m_ObjectHideFlags: 0
@@ -13680,9 +13678,9 @@ MonoBehaviour:
   videoButtons:
   - {fileID: 807374489}
   - {fileID: 876913880}
-  videoClips:
-  - {fileID: 32900000, guid: 7bb22c01408c77b4cacab8400e96aa34, type: 3}
-  - {fileID: 32900000, guid: 46ba9afe8d634ba4c8bcf97a7b6a2664, type: 3}
+  videoFileNames:
+  - SetUp-Diy.mp4
+  - SetUp-Pillow.mp4
 --- !u!1 &1929431635
 GameObject:
   m_ObjectHideFlags: 0
