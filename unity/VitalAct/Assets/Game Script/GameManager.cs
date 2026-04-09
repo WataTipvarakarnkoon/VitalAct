@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviour
     void OnCompression(float rate, float depth)
     {
         if (CurrentState != GameState.Do || data == null) return;
+        if (rate <= 0f) return; // skip first compressions before rate is established
 
         data.totalCompressions++;
 

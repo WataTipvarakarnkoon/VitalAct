@@ -35,8 +35,22 @@ namespace Mediapipe.Unity
     {
       _imageSource = imageSource;
 
-      Resize(_imageSource.textureWidth, _imageSource.textureHeight);
-      Rotate(_imageSource.rotation.Reverse());
+      var rotation = _imageSource.rotation;
+      var texW = _imageSource.textureWidth;
+      var texH = _imageSource.textureHeight;
+
+      // When the camera is rotated 90 or 270 degrees on some devices, swap
+      // width/height so the RawImage rect matches the visual output orientation.
+      if (rotation == RotationAngle.Rotation90 || rotation == RotationAngle.Rotation270)
+      {
+        Resize(texH, texW);
+      }
+      else
+      {
+        Resize(texW, texH);
+      }
+
+      Rotate(rotation.Reverse());
       ResetUvRect(RunningMode.Async);
       texture = imageSource.GetCurrentTexture();
     }
