@@ -33,9 +33,9 @@ public class CprSessionData
         {
             float s = OverallScore;
             if (s >= 90f) return "A";
-            if (s >= 80f) return "B";
-            if (s >= 70f) return "C";
-            if (s >= 60f) return "D";
+            if (s >= 75f) return "B";
+            if (s >= 60f) return "C";
+            if (s >= 40f) return "D";
             return "F";
         }
     }
