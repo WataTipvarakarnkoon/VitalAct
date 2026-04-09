@@ -1,11 +1,14 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ChooseButton1 : MonoBehaviour
 {
     Button button;
-    public GameObject[] gameObjects;
+    public GameObject video;
+    public CanvasGroup canvasGroup;
+    public float       fadeDuration = 0.5f;
 
   void Start()
   {
@@ -13,13 +16,26 @@ public class ChooseButton1 : MonoBehaviour
     button.onClick.AddListener(ToggleObject);
   }
   public void ToggleObject()
-    {   
-        GameManager.instance.Choosed();
+  {   
+    GameManager.instance.Setup(); 
+    if(video != null)
+    {
+      video.SetActive(true);
+      StartCoroutine(FadeIn());
+    } 
+  }
 
-        foreach(GameObject obj in gameObjects)
-        {   
-            if(obj != null)
-                obj.SetActive(!obj.activeSelf);
-        }
-}
+  IEnumerator FadeIn()
+    {
+      float t = 0f;
+      while (t < fadeDuration)
+      {
+          t += Time.deltaTime;
+          canvasGroup.alpha = t / fadeDuration;
+          yield return null;
+      }
+      canvasGroup.alpha          = 1f;
+      canvasGroup.interactable   = true;
+      canvasGroup.blocksRaycasts = true;
+    }
 }

@@ -34,9 +34,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        bool isChoose = GameManager.instance.CurrentState == GameManager.GameState.Choose;
+        bool isSetUp = GameManager.instance.CurrentState == GameManager.GameState.SetUp;
         bool isDo = GameManager.instance.CurrentState == GameManager.GameState.Do;
+        bool isResult = GameManager.instance.CurrentState == GameManager.GameState.Result;
 
-        // Snap to lock point in GameState.Do
         if (isDo)
         {
             if (cprLockPoint != null)
@@ -56,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (checklist.IsOpen || GameManager.instance.CurrentState == GameManager.GameState.Choose ||                GameManager.instance.CurrentState == GameManager.GameState.Result || timerFill != null && timerFill.timer <= 0f)
+        if (checklist.IsOpen || isChoose || isSetUp || isResult || timerFill != null && timerFill.timer <= 0f)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -73,7 +75,6 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 inputDelta = Vector2.zero;
 
-        // Mobile touch input
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject ChecklistButton;
+    public GameObject [] CPR;
     public static GameManager instance;
 
     [Header("References")]
@@ -15,6 +17,7 @@ public class GameManager : MonoBehaviour
         Assess,
         Identify,
         Choose,
+        SetUp,
         Do,
         Result
     }
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = newState;
         OnStateChanged?.Invoke(newState);
+        HandleStateChange();
 
         switch (newState)
         {
@@ -80,11 +84,13 @@ public class GameManager : MonoBehaviour
                 if (objective != null)
                     objective.SetObjective("Select the button.");
                 break;
-
+            case GameState.SetUp:
+                if (objective != null)
+                    Debug.Log("SetUp");
+                break;
             case GameState.Do:
                 if (objective != null)
                     objective.SetObjective("Perform CPR.");
-
                 BeginSession();
                 break;
 
@@ -94,6 +100,7 @@ public class GameManager : MonoBehaviour
     }
     public void ScanCompleted() => SetState(GameState.Identify);
     public void AllTogglesSeleted() => SetState(GameState.Choose);
+    public void Setup() => SetState(GameState.SetUp);
     public void Choosed() => SetState(GameState.Do);
     public void ResultScreen() => SetState(GameState.Result);
 
@@ -128,5 +135,37 @@ public class GameManager : MonoBehaviour
 
         // Send data to UI
         OnSessionComplete?.Invoke(data);
+    }
+
+    void HandleStateChange()
+    {   
+        if(CurrentState == GameState.Identify)
+        {
+            if(ChecklistButton != null)
+            ChecklistButton.SetActive(true);
+        }
+        else
+        {
+            if(ChecklistButton != null)
+            ChecklistButton.SetActive(false);
+        }
+
+
+        if(CurrentState == GameState.Do)
+        {   
+            foreach (var obj in CPR)
+            {
+                if(obj != null)
+                obj.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (var obj in CPR)
+            {
+                if(obj != null)
+                obj.SetActive(false);
+            }
+        }
     }
 }

@@ -18,13 +18,11 @@ public class CprTimerFill : MonoBehaviour
 
     void Update()
     {
-        if (!running) return;
+        if (GameManager.instance.CurrentState == GameManager.GameState.SetUp)
+        return;
 
         timer -= Time.deltaTime;
         if (timer <= 0f) timer = 0f;
-
-        if (fill != null)
-            fill.fillAmount = timer / duration;
 
         if (timer <= 0f)
         {
@@ -32,6 +30,9 @@ public class CprTimerFill : MonoBehaviour
             if (handDetector != null) handDetector.enabled = false;
             GameManager.instance.EndSession();
         }
+        
+        if (fill != null)
+            fill.fillAmount = timer / duration;
     }
 
     public void ResetTimer()

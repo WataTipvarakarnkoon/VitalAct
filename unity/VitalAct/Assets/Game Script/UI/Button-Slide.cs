@@ -4,11 +4,12 @@ using UnityEngine.UI;
 public class ButtonUI : MonoBehaviour
 {
     public Animator animator;
+    public Button buttonPressed;
     public Button[] buttons;
     private bool isOpen = false;
 
     void Start()
-    {
+    {   
         foreach(Button btn in buttons)
         {
             btn.onClick.AddListener(OnButtonPressed);
@@ -33,11 +34,11 @@ public class ButtonUI : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (GameManager.instance.CurrentState == GameManager.GameState.Choose && !isOpen)
+  void Update()
+  {
+    if(GameManager.instance.CurrentState == GameManager.GameState.Choose && !isOpen)
         {
             OpenButtons();
         }
-    }
+  }
 }
