@@ -13616,7 +13616,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
@@ -13662,6 +13662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1928674559}
+  videoCanvas: {fileID: 1610333082}
 --- !u!114 &1928674562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13679,7 +13680,7 @@ MonoBehaviour:
   - {fileID: 807374489}
   - {fileID: 876913880}
   videoFileNames:
-  - SetUp-Diy.mp4
+  - SetUp-DIy.mp4
   - SetUp-Pillow.mp4
 --- !u!1 &1929431635
 GameObject:

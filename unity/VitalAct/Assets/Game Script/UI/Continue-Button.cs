@@ -14,6 +14,11 @@ public class ContinueButton : MonoBehaviour
   {
     button = GetComponent<Button>();
     button.onClick.AddListener(ToggleObject);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    if (video != null) video.SetActive(false);
+    gameObject.SetActive(false);
+#endif
   }
   public void ToggleObject()
   {   

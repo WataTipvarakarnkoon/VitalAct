@@ -1,64 +1,53 @@
 using UnityEngine;
-using UnityEngine.Video;
 using UnityEngine.UI;
+using FlutterUnityIntegration;
+
+#if UNITY_EDITOR || !UNITY_ANDROID
+using UnityEngine.Video;
 using System.IO;
 using System.Collections;
-using UnityEngine.Networking;
+#endif
 
 public class VideoSelector : MonoBehaviour
 {
-    public VideoPlayer videoPlayer;
     public Button[] videoButtons;
     public string[] videoFileNames;
+
+#if UNITY_EDITOR || !UNITY_ANDROID
+    public VideoPlayer videoPlayer;
+#endif
 
     void Start()
     {
         for (int i = 0; i < videoButtons.Length; i++)
         {
             int index = i;
-            videoButtons[i].onClick.AddListener(() => StartCoroutine(PlayVideo(index)));
+            videoButtons[i].onClick.AddListener(() => PlayVideo(index));
         }
     }
 
-    IEnumerator PlayVideo(int index)
+    void PlayVideo(int index)
     {
-        if (index < 0 || index >= videoFileNames.Length) yield break;
-
-        string fileName = videoFileNames[index];
-        string streamingPath = Path.Combine(Application.streamingAssetsPath, "Video", fileName).Replace("\\", "/");
+        if (index < 0 || index >= videoFileNames.Length) return;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        string destPath = Path.Combine(Application.persistentDataPath, fileName);
-
-        if (!File.Exists(destPath))
-        {
-            using (UnityWebRequest www = UnityWebRequest.Get(streamingPath))
-            {
-                yield return www.SendWebRequest();
-
-                if (www.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogError("Failed to load video: " + www.error);
-                    yield break;
-                }
-
-                File.WriteAllBytes(destPath, www.downloadHandler.data);
-            }
-        }
-
-        videoPlayer.url = "file://" + destPath;
+        UnityMessageManager.Instance.SendMessageToFlutter("video:play:" + videoFileNames[index]);
 #else
-        videoPlayer.url = streamingPath;
-        yield return null;
+        StartCoroutine(PlayVideoCoroutine(index));
 #endif
+    }
 
+#if UNITY_EDITOR || !UNITY_ANDROID
+    IEnumerator PlayVideoCoroutine(int index)
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "Video", videoFileNames[index]).Replace("\\", "/");
+        videoPlayer.url = path;
         videoPlayer.source = VideoSource.Url;
         videoPlayer.Stop();
         videoPlayer.Prepare();
-
         while (!videoPlayer.isPrepared)
             yield return null;
-
         videoPlayer.Play();
     }
+#endif
 }
