@@ -18,12 +18,22 @@ public class VideoController : MonoBehaviour
     {
         if (state == GameManager.GameState.SetUp)
         {
-            videoPlayer.Stop();
-            videoPlayer.Play();
+            StartCoroutine(RestartVideo());
         }
         else
         {
             videoPlayer.Pause();
         }
+    }
+
+    System.Collections.IEnumerator RestartVideo()
+    {
+        videoPlayer.Stop();
+        videoPlayer.Prepare();
+
+        while (!videoPlayer.isPrepared)
+            yield return null;
+
+        videoPlayer.Play();
     }
 }
