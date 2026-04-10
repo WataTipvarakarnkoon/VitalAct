@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.Video;
+using System.Collections;
+using FlutterUnityIntegration;
 
 public class VideoController : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
+
     void OnEnable()
     {
         GameManager.OnStateChanged += HandleState;
@@ -16,24 +19,25 @@ public class VideoController : MonoBehaviour
 
     void HandleState(GameManager.GameState state)
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
         if (state == GameManager.GameState.SetUp)
-        {
-            StartCoroutine(RestartVideo());
-        }
+            UnityMessageManager.Instance.SendMessageToFlutter("video:restart");
         else
-        {
+            UnityMessageManager.Instance.SendMessageToFlutter("video:pause");
+#else
+        if (state == GameManager.GameState.SetUp)
+            StartCoroutine(RestartVideo());
+        else
             videoPlayer.Pause();
-        }
+#endif
     }
 
-    System.Collections.IEnumerator RestartVideo()
+    IEnumerator RestartVideo()
     {
         videoPlayer.Stop();
         videoPlayer.Prepare();
-
         while (!videoPlayer.isPrepared)
             yield return null;
-
         videoPlayer.Play();
     }
 }
