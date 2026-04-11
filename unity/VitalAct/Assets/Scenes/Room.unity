@@ -928,9 +928,9 @@ MonoBehaviour:
   mannequinZone:
     serializedVersion: 2
     x: 0.36
-    y: 0.49
-    width: 0.33
-    height: 0.28
+    y: 0.1
+    width: 0.48
+    height: 0.68
   smoothAlpha: 0.5
   maxDepthY: 0.05
   pressThreshold: 0.3
