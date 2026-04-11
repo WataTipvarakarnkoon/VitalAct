@@ -6,7 +6,7 @@ public class CPRObject : MonoBehaviour
 
     [Header("Settings")]
     public float pressDepth = 0.05f;
-    public float speed = 15f;
+    public float speed = 22f; // raised from 15 — chest animation keeps up with ~100 bpm CPR
 
     private Vector3 originalPos;
     private float current = 0f;

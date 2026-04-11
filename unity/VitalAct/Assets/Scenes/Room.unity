@@ -721,7 +721,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handDepth: 3
-  smoothSpeed: 30
+  smoothHalfLife: 0.04
+  fastHalfLife: 0.025
   skinColor: {r: 0.9, g: 0.72, b: 0.62, a: 1}
   jointColor: {r: 0.8, g: 0.6, b: 0.52, a: 1}
   thumbWidth: 0.05
@@ -12580,6 +12581,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1679326602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1679326604}
+  - component: {fileID: 1679326603}
+  m_Layer: 0
+  m_Name: CPRStabilizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1679326603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679326602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82fcde75c5b39314e8f8f9e198129513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lostFrameGrace: 6
+  smoothHalfLife: 0.04
+  fastHalfLife: 0.025
+  velocityThreshold: 0.4
+--- !u!4 &1679326604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679326602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27.847277, y: 5.4072056, z: -11.556755}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1698262025
 GameObject:
   m_ObjectHideFlags: 0
@@ -13662,7 +13711,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1928674559}
-  videoCanvas: {fileID: 1610333082}
 --- !u!114 &1928674562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13675,13 +13723,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5094203121d6ba4ca5202482304494f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1928674559}
   videoButtons:
   - {fileID: 807374489}
   - {fileID: 876913880}
   videoFileNames:
   - SetUp-DIy.mp4
   - SetUp-Pillow.mp4
+  videoPlayer: {fileID: 1928674559}
 --- !u!1 &1929431635
 GameObject:
   m_ObjectHideFlags: 0
@@ -15145,3 +15193,4 @@ SceneRoots:
   - {fileID: 1076160457}
   - {fileID: 2058525214}
   - {fileID: 1928674560}
+  - {fileID: 1679326604}

@@ -21,9 +21,12 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
     public Tasks.Vision.Core.RunningMode RunningMode { get; set; } = Tasks.Vision.Core.RunningMode.LIVE_STREAM;
 
     public int NumHands { get; set; } = 2;
-    public float MinHandDetectionConfidence { get; set; } = 0.5f;
-    public float MinHandPresenceConfidence { get; set; } = 0.5f;
-    public float MinTrackingConfidence { get; set; } = 0.5f;
+    // Slightly stricter detection (only fires when tracking is already lost — be confident).
+    public float MinHandDetectionConfidence { get; set; } = 0.55f;
+    // More lenient: presence/tracking confidence dips during fast CPR motion blur.
+    // 0.4 bridges the 1-3 blurry frames without causing full re-detection cycles.
+    public float MinHandPresenceConfidence { get; set; } = 0.4f;
+    public float MinTrackingConfidence { get; set; } = 0.4f;
     public string ModelPath => "hand_landmarker.bytes";
 
     public HandLandmarkerOptions GetHandLandmarkerOptions(HandLandmarkerOptions.ResultCallback resultCallback = null)

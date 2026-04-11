@@ -6,7 +6,11 @@ public class ProceduralHand : MonoBehaviour
 {
     [Header("Settings")]
     public float handDepth = 1.5f;
-    public float smoothSpeed = 15f;
+    [Tooltip("Half-life (seconds) for joint smoothing. 0.04 = ~2.5 frames at 60fps. " +
+             "Lower = faster response. Replaces the old smoothSpeed field.")]
+    public float smoothHalfLife = 0.04f;
+    [Tooltip("Half-life used when the joint is moving fast (CPR compression phase).")]
+    public float fastHalfLife = 0.025f;
 
     [Header("Appearance")]
     public Color skinColor = new Color(1f, 0.75f, 0.6f);
@@ -47,8 +51,12 @@ public class ProceduralHand : MonoBehaviour
 
     void OnReceiveResult(HandLandmarkerResult result)
     {
-        latestResult = result;
-        hasResult = true;
+        // Use the stabilizer's buffered result if available, otherwise raw result.
+        latestResult = CprTrackingStabilizer.HasStableResult
+            ? CprTrackingStabilizer.StableResult
+            : result;
+        hasResult = CprTrackingStabilizer.HasStableResult
+            || (result.handLandmarks != null && result.handLandmarks.Count > 0);
     }
 
     HandData CreateHand(string side)
@@ -154,8 +162,11 @@ public class ProceduralHand : MonoBehaviour
                 Vector3 target = Camera.main.ViewportToWorldPoint(
                     new Vector3(lm.x, 1f - lm.y, handDepth));
 
-                hand.positions[i] = Vector3.Lerp(
-                    hand.positions[i], target, Time.deltaTime * smoothSpeed);
+                hand.positions[i] = CprTrackingStabilizer.SmoothTowardAdaptive(
+                    hand.positions[i], target,
+                    smoothHalfLife, fastHalfLife,
+                    CprTrackingStabilizer.VelocityThresholdDefault,
+                    Time.deltaTime);
 
                 var rb = hand.joints[i].GetComponent<Rigidbody>();
                 if (rb != null)
