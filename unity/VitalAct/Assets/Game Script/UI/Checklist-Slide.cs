@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class ChecklistUI : MonoBehaviour
 {
-    GameManager gameManager;
     public Animator animator;
     public Button button;
     private CanvasGroup canvasGroup;

@@ -138,7 +138,7 @@ public class BleedingResultUI : MonoBehaviour
             return;
         }
 
-        var sprite = Resources.GetBuiltinResource<Sprite>("Background.psd");
+        Sprite sprite = null;
         var font = TMP_Settings.defaultFontAsset;
 
         GameObject panel = new GameObject("BleedingResultsPanel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(CanvasGroup));

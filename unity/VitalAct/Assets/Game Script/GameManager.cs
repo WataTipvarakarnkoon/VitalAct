@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public CprHandDetector handDetector;
     public CprCycleCounter cycleCounter;
     public Objective objective;
+    string Scene;
 
 
     public enum GameState
@@ -49,6 +51,7 @@ public class GameManager : MonoBehaviour
         }
 
         instance = this;
+        Scene = SceneManager.GetActiveScene().name;
     }
 
     void OnEnable()  => CprHandDetector.OnCompression += OnCompression;
@@ -82,7 +85,10 @@ public class GameManager : MonoBehaviour
 
             case GameState.Choose:
                 if (objective != null)
-                    objective.SetObjective("Select the button.");
+                    if(Scene == "CPR")
+                        objective.SetObjective("Select the button.");
+                    else
+                        objective.SetObjective("Choose the correct answers.");
                 break;
             case GameState.SetUp:
                 if (objective != null)
@@ -90,7 +96,10 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Do:
                 if (objective != null)
-                    objective.SetObjective("Perform CPR.");
+                    if(Scene == "CPR")
+                        objective.SetObjective("Perform CPR.");
+                    else
+                        objective.SetObjective("Stop the bleeding with pressure");
                 BeginSession();
                 break;
 
