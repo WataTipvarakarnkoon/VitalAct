@@ -17,29 +17,29 @@ public class CprHandDetector : MonoBehaviour
     // ──────────────────────────────────────────────────────
     [Header("Smoothing")]
     [Range(0.05f, 0.8f)]
-    [Tooltip("ค่าน้อย = smooth มาก (ตอบสนองช้า), ค่ามาก = responsive (noise มาก)\nแนะนำ: 0.45-0.60 สำหรับ CPR ที่กดเร็ว")]
-    public float smoothAlpha = 0.50f;
+    [Tooltip("ค่าน้อย = smooth มาก (ตอบสนองช้า), ค่ามาก = responsive (noise มาก)\nแนะนำ: 0.60-0.70 สำหรับ CPR ที่กดเร็ว")]
+    public float smoothAlpha = 0.65f;
 
     // ──────────────────────────────────────────────────────
     //  COMPRESSION DETECTION
     // ──────────────────────────────────────────────────────
     [Header("Compression Detection")]
-    [Tooltip("ระยะ Y (normalized) ที่ถือว่ากดสุด\nค่าน้อย = sensitive มากขึ้น  |  แนะนำ: 0.04-0.08\nดู Depth bar ขณะกด ถ้าไม่เต็มให้ลดค่านี้ลง")]
-    public float maxDepthY = 0.05f;
+    [Tooltip("ระยะ Y (normalized) ที่ถือว่ากดสุด\nค่ามาก = sensitive มากขึ้น (เคลื่อนมือนิดก็นับ)  |  แนะนำ: 0.06-0.10")]
+    public float maxDepthY = 0.08f;
 
-    [Range(0.1f, 0.7f)]
-    [Tooltip("depth ที่ถือว่า 'กำลังกด' (ไม่ควรสูงเกิน 0.5)\nแนะนำ: 0.25-0.35")]
-    public float pressThreshold = 0.30f;
+    [Range(0.1f, 0.9f)]
+    [Tooltip("กดลงถึงค่านี้ = นับ 1 ครั้ง  |  แนะนำ: 0.45-0.60")]
+    public float pressThreshold = 0.50f;
 
     [Range(0.05f, 0.5f)]
-    [Tooltip("depth ที่ถือว่า 'ปล่อย' — ต้องต่ำกว่า pressThreshold เสมอ\nแนะนำ: 0.10-0.20")]
-    public float releaseThreshold = 0.12f;
+    [Tooltip("ต้องขึ้นมาถึงค่านี้ก่อน ถึงจะกดรอบถัดไปได้  |  ต้องต่ำกว่า pressThreshold  |  แนะนำ: 0.20-0.30")]
+    public float releaseThreshold = 0.25f;
 
-    [Tooltip("ระยะเวลาขั้นต่ำระหว่างการกด 2 ครั้ง (วินาที) — กันการนับซ้ำ\nแนะนำ: 0.25-0.35")]
-    public float minCompressionInterval = 0.28f;
+    [Tooltip("ระยะเวลาขั้นต่ำระหว่างการกด 2 ครั้ง (วินาที) — ลดให้ต่ำ = กดรัวได้\nแนะนำ: 0.18-0.22")]
+    public float minCompressionInterval = 0.20f;
 
-    [Tooltip("เวลาที่มือออกจาก zone ก่อน baseline จะ reset (วินาที)\nเพิ่มให้สูงถ้า baseline reset บ่อยเกินไป")]
-    public float baselineResetDelay = 1.5f;
+    [Tooltip("เวลาที่มือออกจาก zone ก่อน baseline จะ reset (วินาที)")]
+    public float baselineResetDelay = 2.0f;
 
     // ──────────────────────────────────────────────────────
     //  REFERENCES
@@ -58,8 +58,16 @@ public class CprHandDetector : MonoBehaviour
     // ──────────────────────────────────────────────────────
     //  DEBUG
     // ──────────────────────────────────────────────────────
-    [Header("Debug Zone")]
+    [Header("Zone UI (ใส่บน Camera Preview)")]
     public UnityEngine.UI.RawImage cameraPreview;
+    [Tooltip("Image ที่เป็น child ของ cameraPreview — จะ resize ให้ตรงกับ zone อัตโนมัติ")]
+    public RectTransform zoneUI;
+    [Tooltip("สีกรอบตอนมือยังไม่อยู่ใน zone")]
+    public UnityEngine.UI.Graphic zoneGraphic;
+    public Color zoneNormalColor  = new Color(1f, 1f, 0f, 0.35f);
+    public Color zoneDetectedColor = new Color(0f, 1f, 0.3f, 0.45f);
+
+    [Header("Debug Overlay (fallback ถ้าไม่มี zoneUI)")]
     public bool showDebugZone = true;
     [Tooltip("แสดง depth bar และค่าตัวเลขบนหน้าจอ")]
     public bool showDepthHUD  = true;
@@ -72,9 +80,7 @@ public class CprHandDetector : MonoBehaviour
     /// <summary>เรียกตอนเริ่ม cycle ใหม่เพื่อ reset peak detection state</summary>
     public void ResetDetection()
     {
-        _goingDown = false;
-        _peakDepth = 0f;
-        _prevDepth = 0f;
+        _waitingForRelease = false;
     }
 
     // ──────────────────────────────────────────────────────
@@ -96,10 +102,8 @@ public class CprHandDetector : MonoBehaviour
     bool  _wasOnMannequin;
     float _leaveTime = -1f;
 
-    // peak detection state
-    float _prevDepth;
-    float _peakDepth;
-    bool  _goingDown;
+    // compression state machine
+    bool _waitingForRelease = false;   // true = กดแล้ว รอขึ้น | false = ขึ้นแล้ว รอกด
 
     float _lastPressTime;
     readonly List<float> _intervals = new List<float>();
@@ -191,59 +195,67 @@ public class CprHandDetector : MonoBehaviour
         }
 
         DetectCompression(compressionDepth01);
+        UpdateZoneUI();
+    }
+
+    void UpdateZoneUI()
+    {
+        if (zoneUI == null) return;
+
+        // ตั้ง anchor ให้ครอบตาม mannequinZone
+        // MediaPipe Y = top-down → RectTransform Y = bottom-up
+        zoneUI.anchorMin = new Vector2(mannequinZone.x,    1f - mannequinZone.yMax);
+        zoneUI.anchorMax = new Vector2(mannequinZone.xMax, 1f - mannequinZone.y);
+        zoneUI.offsetMin = Vector2.zero;
+        zoneUI.offsetMax = Vector2.zero;
+
+        if (zoneGraphic != null)
+            zoneGraphic.color = handsOnMannequin ? zoneDetectedColor : zoneNormalColor;
     }
 
     // ── Peak detection: ตรวจจุดกดสูงสุดตอนมือเริ่มขึ้น ──
     // วิธีนี้จับการกดเร็วได้ดีกว่า threshold crossing
+    // ── State machine แบบง่าย: กด → รอขึ้น → กด → รอขึ้น ──
+    // ไม่มี delta ไม่มี peak tracking — ไม่เบิ้ล ไม่หาย
     void DetectCompression(float depth)
     {
-        float delta = depth - _prevDepth;
-        _prevDepth = depth;
-
-        const float DOWN_DELTA  =  0.008f;  // เริ่มกดลง
-        const float UP_DELTA    = -0.008f;  // เริ่มขึ้น
-
-        if (!_goingDown && delta > DOWN_DELTA)
+        if (!_waitingForRelease)
         {
-            _goingDown = true;
-            _peakDepth = depth;
-        }
-        else if (_goingDown)
-        {
-            if (depth > _peakDepth) _peakDepth = depth;  // track peak
-
-            if (delta < UP_DELTA)   // มือเริ่มขึ้น → compression เสร็จ
+            // รอกด: depth ข้าม pressThreshold → นับทันที
+            if (depth >= pressThreshold)
             {
-                _goingDown = false;
+                _waitingForRelease = true;
 
-                if (_peakDepth >= pressThreshold)
+                float now = Time.time;
+                if (now - _lastPressTime >= minCompressionInterval)
                 {
-                    float now = Time.time;
-                    if (now - _lastPressTime >= minCompressionInterval)
+                    if (_lastPressTime > 0f)
                     {
-                        if (_lastPressTime > 0f)
+                        float interval = now - _lastPressTime;
+                        if (interval < 3f)
                         {
-                            float interval = now - _lastPressTime;
-                            if (interval < 3f)
-                            {
-                                _intervals.Add(interval);
-                                if (_intervals.Count > 10) _intervals.RemoveAt(0);
-                            }
+                            _intervals.Add(interval);
+                            if (_intervals.Count > 10) _intervals.RemoveAt(0);
                         }
-                        _lastPressTime = now;
-
-                        if (_intervals.Count >= 2)
-                        {
-                            float sum = 0f;
-                            foreach (var t in _intervals) sum += t;
-                            compressionRate = 60f / (sum / _intervals.Count);
-                        }
-
-                        OnCompression?.Invoke(compressionRate, _peakDepth);
                     }
+                    _lastPressTime = now;
+
+                    if (_intervals.Count >= 1)
+                    {
+                        float sum = 0f;
+                        foreach (var t in _intervals) sum += t;
+                        compressionRate = 60f / (sum / _intervals.Count);
+                    }
+
+                    OnCompression?.Invoke(compressionRate, depth);
                 }
-                _peakDepth = 0f;
             }
+        }
+        else
+        {
+            // รอขึ้น: depth ต่ำกว่า releaseThreshold → พร้อมกดรอบถัดไป
+            if (depth < releaseThreshold)
+                _waitingForRelease = false;
         }
     }
 
@@ -251,7 +263,7 @@ public class CprHandDetector : MonoBehaviour
     {
         compressionDepth01    = Mathf.MoveTowards(compressionDepth01, 0f, Time.deltaTime * 6f);
         handsOnMannequin      = false;
-        _goingDown            = false;
+        _waitingForRelease    = false;
 
         if (_wasOnMannequin && _leaveTime < 0f)
             _leaveTime = Time.time;
@@ -267,10 +279,8 @@ public class CprHandDetector : MonoBehaviour
         _leaveTime      = -1f;
         _intervals.Clear();
         compressionRate = 0f;
-        _goingDown      = false;
-        _peakDepth      = 0f;
-        _prevDepth      = 0f;
-        _smoothInit     = false;
+        _waitingForRelease = false;
+        _smoothInit        = false;
     }
 
     // ────────────────────────────────────────────────────
@@ -284,7 +294,8 @@ public class CprHandDetector : MonoBehaviour
 
     void DrawZone()
     {
-        if (!showDebugZone) return;
+        // ถ้ามี zoneUI แล้วไม่ต้องวาด OnGUI
+        if (!showDebugZone || zoneUI != null) return;
 
         Rect cam = GetCameraScreenRect();
         if (cam.width <= 0) return;
