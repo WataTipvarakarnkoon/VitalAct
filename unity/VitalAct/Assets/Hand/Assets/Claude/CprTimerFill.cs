@@ -26,9 +26,14 @@ public class CprTimerFill : MonoBehaviour
 
         if (timer <= 0f)
         {
-            running = false;
             if (handDetector != null) handDetector.enabled = false;
             GameManager.instance.EndSession();
+
+        }
+        if(timer == 0f && running)
+        {
+            running = false;
+            GameManager.instance.ResultScreen();
         }
         
         if (fill != null)

@@ -75,16 +75,19 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Assess:
                 if (objective != null)
+                    Debug.Log("GameState Assess");
                     objective.SetObjective("Check the victim's condition.");
                 break;
 
             case GameState.Identify:
                 if (objective != null)
+                Debug.Log("GameState Identify");
                     objective.SetObjective("Press TAB, and fill the checklist.");
                 break;
 
             case GameState.Choose:
                 if (objective != null)
+                Debug.Log("GameState Choose");
                     if(Scene == "CPR")
                         objective.SetObjective("Select the button.");
                     else
@@ -96,6 +99,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Do:
                 if (objective != null)
+                Debug.Log("GameState Do");
                     if(Scene == "CPR")
                         objective.SetObjective("Perform CPR.");
                     else
@@ -104,6 +108,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Result:
+                Debug.Log("GameState Result");
                 break;
         }
     }

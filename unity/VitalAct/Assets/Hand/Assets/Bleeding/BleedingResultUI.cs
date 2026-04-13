@@ -42,7 +42,7 @@ public class BleedingResultUI : MonoBehaviour
         if (retryButton != null)
         {
             retryButton.onClick.RemoveAllListeners();
-            retryButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+            retryButton.onClick.AddListener(() => SceneManager.LoadScene("Menu"));
         }
 
         if (canvasGroup != null)
@@ -54,70 +54,44 @@ public class BleedingResultUI : MonoBehaviour
 
         if (resultsPanel != null)
         {
-            resultsPanel.SetActive(false);
+            resultsPanel.SetActive(true);
         }
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        if (bleedingSystem != null)
-        {
-            bleedingSystem.SessionCompleted += OnSessionCompleted;
-        }
-    }
+        if (_shown) return;
+        if (GameManager.instance == null) return;
+        if (GameManager.instance.CurrentState != GameManager.GameState.Result) return;
 
-    private void OnDisable()
-    {
-        if (bleedingSystem != null)
-        {
-            bleedingSystem.SessionCompleted -= OnSessionCompleted;
-        }
-    }
-
-    private void OnSessionCompleted(BleedingSessionData data)
-    {
-        if (_shown || data == null)
-        {
-            return;
-        }
+        var data = bleedingSystem != null ? bleedingSystem.LastSessionData : null;
+        if (data == null) return;
 
         _shown = true;
         FillResults(data);
-        StartCoroutine(ShowResults());
+        StartCoroutine(FadeIn());
     }
 
-    private IEnumerator ShowResults()
+    private IEnumerator FadeIn()
     {
-        if (resultsPanel != null)
-        {
-            resultsPanel.SetActive(true);
-        }
-
         float t = 0f;
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
-            if (canvasGroup != null)
-            {
-                canvasGroup.alpha = Mathf.Clamp01(t / fadeDuration);
-            }
+            canvasGroup.alpha = t / fadeDuration;
             yield return null;
         }
-
-        if (canvasGroup != null)
-        {
-            canvasGroup.alpha = 1f;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
-        }
+        canvasGroup.alpha          = 1f;
+        canvasGroup.interactable   = true;
+        canvasGroup.blocksRaycasts = true;
     }
 
     private void FillResults(BleedingSessionData data)
     {
         if (gradeText != null) gradeText.text = data.Grade;
         if (overallText != null) overallText.text = $"Overall {data.ControlScore:F0}%";
-        if (pressureAccuracyText != null) pressureAccuracyText.text = $"Pressure Accuracy: {data.PressureAccuracy:F0}%";
-        if (stabilityText != null) stabilityText.text = $"Stability: {data.StabilityPercent:F0}%";
+        if (pressureAccuracyText != null) pressureAccuracyText.text = $"{data.PressureAccuracy:F0}%";
+        if (stabilityText != null) stabilityText.text = $"{data.StabilityPercent:F0}%";
         if (averageDepthText != null) averageDepthText.text = $"Average Depth: {data.averageDepth * 100f:F0}%";
         if (maxDepthText != null) maxDepthText.text = $"Peak Depth: {data.maxDepth * 100f:F0}%";
         if (totalTimeText != null) totalTimeText.text = $"Total Time: {data.totalDuration:F1}s";
