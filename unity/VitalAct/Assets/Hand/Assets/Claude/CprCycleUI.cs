@@ -31,8 +31,8 @@ public class CprCycleUI : MonoBehaviour
 
     void Awake()
     {
-        if (cycleCounter == null) cycleCounter = FindObjectOfType<CprCycleCounter>();
-        if (handDetector == null) handDetector = FindObjectOfType<CprHandDetector>();
+        if (cycleCounter == null) cycleCounter = FindObjectOfType<CprCycleCounter>(true);
+        if (handDetector == null) handDetector = FindObjectOfType<CprHandDetector>(true);
 
         if (cycleCounter != null)
         {
