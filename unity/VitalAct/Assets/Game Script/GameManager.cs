@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             case GameState.Identify:
                 if (objective != null)
                 Debug.Log("GameState Identify");
-                    objective.SetObjective("Press TAB, and fill the checklist.");
+                    objective.SetObjective("Press the checklist button, and fill the checklist.");
                 break;
 
             case GameState.Choose:

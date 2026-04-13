@@ -26,16 +26,13 @@ public class BleedingResultUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalTimeText;
     [SerializeField] private TextMeshProUGUI pressTimeText;
     [SerializeField] private TextMeshProUGUI surgesText;
-    [SerializeField] private TextMeshProUGUI decisionsText;
 
     private bool _shown;
 
     private void Awake()
     {
         if (targetCanvas == null)
-        {
             targetCanvas = GetComponentInParent<Canvas>();
-        }
 
         EnsurePanel();
 
@@ -53,9 +50,7 @@ public class BleedingResultUI : MonoBehaviour
         }
 
         if (resultsPanel != null)
-        {
             resultsPanel.SetActive(true);
-        }
     }
 
     private void Update()
@@ -88,34 +83,24 @@ public class BleedingResultUI : MonoBehaviour
 
     private void FillResults(BleedingSessionData data)
     {
-        if (gradeText != null) gradeText.text = data.Grade;
-        if (overallText != null) overallText.text = $"Overall {data.ControlScore:F0}%";
+        if (gradeText != null)           gradeText.text           = data.Grade;
+        if (overallText != null)         overallText.text         = $"Overall {data.ControlScore:F0}%";
         if (pressureAccuracyText != null) pressureAccuracyText.text = $"{data.PressureAccuracy:F0}%";
-        if (stabilityText != null) stabilityText.text = $"{data.StabilityPercent:F0}%";
-        if (averageDepthText != null) averageDepthText.text = $"Average Depth: {data.averageDepth * 100f:F0}%";
-        if (maxDepthText != null) maxDepthText.text = $"Peak Depth: {data.maxDepth * 100f:F0}%";
-        if (totalTimeText != null) totalTimeText.text = $"Total Time: {data.totalDuration:F1}s";
-        if (pressTimeText != null) pressTimeText.text = $"Pressure Time: {data.totalPressTime:F1}s";
-        if (surgesText != null) surgesText.text = $"Surges Managed: {data.survivedSurgeCount}";
-        if (decisionsText != null) decisionsText.text = $"Checklist: {(data.checklistCompleted ? "Passed" : "Missed")}   Initial Choice: {(data.initialChoiceCorrect ? "Correct" : "Incorrect")}   Reassess: {(data.reassessChoiceCorrect ? "Correct" : "Incorrect")}";
+        if (stabilityText != null)       stabilityText.text       = $"{data.StabilityPercent:F0}%";
+        if (averageDepthText != null)    averageDepthText.text    = $"Average Depth: {data.averageDepth * 100f:F0}%";
+        if (maxDepthText != null)        maxDepthText.text        = $"Peak Depth: {data.maxDepth * 100f:F0}%";
+        if (totalTimeText != null)       totalTimeText.text       = $"Total Time: {data.totalDuration:F1}s";
+        if (pressTimeText != null)       pressTimeText.text       = $"Pressure Time: {data.totalPressTime:F1}s";
+        if (surgesText != null)          surgesText.text          = $"Surges Managed: {data.survivedSurgeCount}";
     }
 
     private void EnsurePanel()
     {
-        if (resultsPanel != null)
-        {
-            return;
-        }
+        if (resultsPanel != null || targetCanvas == null) return;
 
-        if (targetCanvas == null)
-        {
-            return;
-        }
-
-        Sprite sprite = null;
         var font = TMP_Settings.defaultFontAsset;
 
-        GameObject panel = new GameObject("BleedingResultsPanel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(CanvasGroup));
+        var panel = new GameObject("BleedingResultsPanel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(CanvasGroup));
         panel.transform.SetParent(targetCanvas.transform, false);
         var panelRect = panel.GetComponent<RectTransform>();
         panelRect.anchorMin = new Vector2(0.18f, 0.14f);
@@ -124,8 +109,6 @@ public class BleedingResultUI : MonoBehaviour
         panelRect.offsetMax = Vector2.zero;
 
         var panelImage = panel.GetComponent<Image>();
-        panelImage.sprite = sprite;
-        panelImage.type = sprite != null ? Image.Type.Sliced : Image.Type.Simple;
         panelImage.color = new Color(0.09f, 0.11f, 0.19f, 0.96f);
 
         canvasGroup = panel.GetComponent<CanvasGroup>();
@@ -135,7 +118,7 @@ public class BleedingResultUI : MonoBehaviour
         SetRect(gradeText.rectTransform, new Vector2(0.08f, 0.76f), new Vector2(0.28f, 0.92f));
         gradeText.alignment = TextAlignmentOptions.Center;
 
-        overallText = CreateText("OverallText", panel.transform, font, 28, FontStyles.Bold, new Color(1f, 0.9f, 0.2f), "Overall 95%");
+        overallText = CreateText("OverallText", panel.transform, font, 28, FontStyles.Bold, new Color(1f, 0.9f, 0.2f), "");
         SetRect(overallText.rectTransform, new Vector2(0.28f, 0.8f), new Vector2(0.92f, 0.9f));
 
         pressureAccuracyText = CreateText("PressureAccuracyText", panel.transform, font, 24, FontStyles.Normal, Color.white, "");
@@ -159,21 +142,14 @@ public class BleedingResultUI : MonoBehaviour
         pressTimeText = CreateText("PressTimeText", panel.transform, font, 24, FontStyles.Normal, Color.white, "");
         SetRect(pressTimeText.rectTransform, new Vector2(0.1f, 0.06f), new Vector2(0.9f, 0.16f));
 
-        decisionsText = CreateText("DecisionsText", panel.transform, font, 18, FontStyles.Normal, new Color(0.85f, 0.9f, 1f), "");
-        SetRect(decisionsText.rectTransform, new Vector2(0.08f, 0f), new Vector2(0.94f, 0.08f));
-
-        GameObject buttonObject = new GameObject("RetryButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+        var buttonObject = new GameObject("RetryButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
         buttonObject.transform.SetParent(panel.transform, false);
         var buttonRect = buttonObject.GetComponent<RectTransform>();
         buttonRect.anchorMin = new Vector2(0.65f, 0.03f);
         buttonRect.anchorMax = new Vector2(0.9f, 0.12f);
         buttonRect.offsetMin = Vector2.zero;
         buttonRect.offsetMax = Vector2.zero;
-
-        var buttonImage = buttonObject.GetComponent<Image>();
-        buttonImage.sprite = sprite;
-        buttonImage.type = sprite != null ? Image.Type.Sliced : Image.Type.Simple;
-        buttonImage.color = new Color(0.82f, 0.18f, 0.2f, 1f);
+        buttonObject.GetComponent<Image>().color = new Color(0.82f, 0.18f, 0.2f, 1f);
         retryButton = buttonObject.GetComponent<Button>();
 
         var retryLabel = CreateText("RetryLabel", buttonObject.transform, font, 24, FontStyles.Bold, Color.white, "Retry");
