@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
             case GameState.Choose:
                 if (objective != null)
                 Debug.Log("GameState Choose");
-                    if(Scene == "CPR")
+                    if(Scene == "Room")
                         objective.SetObjective("Select the button.");
                     else
                         objective.SetObjective("Choose the correct answers.");
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
             case GameState.Do:
                 if (objective != null)
                 Debug.Log("GameState Do");
-                    if(Scene == "CPR")
+                    if(Scene == "Room")
                         objective.SetObjective("Perform CPR.");
                     else
                         objective.SetObjective("Stop the bleeding with pressure");
