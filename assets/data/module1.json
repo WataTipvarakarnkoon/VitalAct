@@ -17,7 +17,7 @@
           "id": "L1_Q1",
           "title": "What is the main purpose of first aid?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "spriteAsset": "assets/spritesheet/50_frames/ChestPain.png",
           "choices": [
             "Replace doctors",
             "Provide immediate help",
@@ -33,7 +33,7 @@
           "id": "L1_Q2",
           "title": "Which is NOT a goal of first aid?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "spriteAsset": "assets/spritesheet/50_frames/RedFlags.png",
           "choices": [
             "Save life",
             "Prevent worsening",
@@ -49,7 +49,7 @@
           "id": "L1_Q3",
           "title": "Arrange first aid priorities",
           "instructions": "Put in correct order.",
-          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "spriteAsset": "assets/spritesheet/50_frames/BreathingO.png",
           "choices": [
             "Promote recovery",
             "Save life",
@@ -65,7 +65,7 @@
           "id": "L1_Q4",
           "title": "Why is early recognition important?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "spriteAsset": "assets/spritesheet/50_frames/Shocked.png",
           "choices": [
             "It helps you act faster",
             "It replaces treatment",
@@ -81,7 +81,7 @@
           "id": "L1_Q5",
           "title": "Why must first aid be immediate?",
           "instructions": "Explain briefly.",
-          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "spriteAsset": "assets/spritesheet/50_frames/Bleeding.png",
           "aiPrompt": "Give a short explanation",
           "hint": "Think about delays and risk."
         }
