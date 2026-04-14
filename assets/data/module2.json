@@ -4,7 +4,7 @@
     {
       "id": "lesson_2_1",
       "title": "Normal vs Abnormal Signs",
-      "spriteAsset": "assets/spritesheet/NVSA.png",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
       "steps": [
         {
           "type": "reading",
@@ -17,7 +17,7 @@
           "id": "q1",
           "title": "A person is breathing 22 times per minute but speaking clearly. What is this?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "choices": ["Normal", "Emergency"],
           "correctIndex": 0,
           "hint": "Think about whether they can function.",
@@ -29,7 +29,7 @@
           "id": "q2",
           "title": "What does an abnormal sign indicate?",
           "instructions": "Explain briefly.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "aiPrompt": "Explain what abnormal signs indicate",
           "hint": "Think about the risk involved."
         },
@@ -38,7 +38,7 @@
           "id": "q3",
           "title": "Match each sign to its category",
           "instructions": "Arrange from normal to abnormal.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "choices": [
             "Calm breathing",
             "Mild fatigue",
@@ -54,7 +54,7 @@
     {
       "id": "lesson_2_2",
       "title": "Red Flags",
-      "spriteAsset": "assets/spritesheet/NVSA.png",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
       "steps": [
         {
           "type": "reading",
@@ -67,7 +67,7 @@
           "id": "q1",
           "title": "Which of these is a red flag?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "choices": ["Mild headache", "Severe chest pain"],
           "correctIndex": 1,
           "hint": "Think life-threatening.",
@@ -79,7 +79,7 @@
           "id": "q2",
           "title": "Arrange severity from least to most dangerous",
           "instructions": "Put in correct order.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "choices": [
             "Mild discomfort",
             "Breathing difficulty",
@@ -95,7 +95,7 @@
           "id": "q3",
           "title": "Name one red flag symptom",
           "instructions": "Describe briefly.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "aiPrompt": "Identify a red flag emergency symptom",
           "hint": "Think about breathing, chest, or consciousness."
         }
@@ -104,7 +104,7 @@
     {
       "id": "lesson_2_3",
       "title": "Breathing Assessment",
-      "spriteAsset": "assets/spritesheet/NVSA.png",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
       "steps": [
         {
           "type": "reading",
@@ -117,7 +117,7 @@
           "id": "q1",
           "title": "A person gasping for air is:",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "choices": ["Normal", "Emergency"],
           "correctIndex": 1,
           "hint": "Gasping is not effortless.",
@@ -129,7 +129,7 @@
           "id": "q2",
           "title": "Steps to check breathing",
           "instructions": "Put in correct order.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "choices": [
             "Look at chest movement",
             "Listen for breath sounds",
@@ -145,7 +145,7 @@
           "id": "q3",
           "title": "What is one abnormal breathing sign?",
           "instructions": "Explain briefly.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "aiPrompt": "Describe an abnormal breathing sign",
           "hint": "Think about gasping or no breathing."
         }
@@ -154,7 +154,7 @@
     {
       "id": "lesson_2_4",
       "title": "Consciousness Check",
-      "spriteAsset": "assets/spritesheet/NVSA.png",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
       "steps": [
         {
           "type": "reading",
@@ -167,7 +167,7 @@
           "id": "q1",
           "title": "A person does not respond to voice or touch. This is:",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "choices": ["Responsive", "Unresponsive"],
           "correctIndex": 1,
           "hint": "No reaction means unresponsive.",
@@ -179,7 +179,7 @@
           "id": "q2",
           "title": "Steps to check consciousness",
           "instructions": "Put in correct order.",
-          "spriteAsset": "assets/spritesheet/NVSA.png",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
           "choices": [
             "Call out to the person",
             "Tap their shoulder",
