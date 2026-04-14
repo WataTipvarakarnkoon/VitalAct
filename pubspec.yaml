@@ -30,6 +30,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/spritesheet/
+    - assets/spritesheet/50_frames/
     - assets/data/
     - assets/videos/
 
