@@ -1,6 +1,4 @@
-import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:vitalact/services/lesson_loader.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
@@ -193,24 +191,7 @@ class _PracticePageState extends State<PracticePage>
                             onTapUp: (_) => setState(() => isPressed = false),
                             onTapCancel: () =>
                                 setState(() => isPressed = false),
-                            onTap: () async {
-                              final status = await Permission.camera.request();
-                              if (!context.mounted) return;
-                              if (status.isGranted) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const TestUnity(),
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Camera permission is required for this feature.'),
-                                  ),
-                                );
-                              }
-                            },
+                            onTap: () {},
                             child: AnimatedScale(
                               scale: isPressed ? 0.85 : 0.95,
                               duration: const Duration(milliseconds: 100),

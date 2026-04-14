@@ -33,7 +33,7 @@
           "id": "L1_Q2",
           "title": "Which is NOT a goal of first aid?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/50_frames/RedFlags.png",
+          "spriteAsset": "assets/spritesheet/50_frames/BreathingT.png",
           "choices": [
             "Save life",
             "Prevent worsening",

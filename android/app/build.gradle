@@ -68,11 +68,6 @@ flutter {
     source '../..'
 }
 
-dependencies {
-    // build.gradle.kts (Flutter 3.29+)
-    implementation project(':unityLibrary')
-    implementation project(':flutter_unity_widget')
-}
 configurations.all {
     resolutionStrategy {
         force 'androidx.lifecycle:lifecycle-common:2.6.0'
