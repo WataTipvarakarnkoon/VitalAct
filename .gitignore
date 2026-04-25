@@ -10,6 +10,7 @@
 
 # IDE / Editor
 .vscode/
+.claude/
 
 # Flutter repo-specific
 /bin/cache/

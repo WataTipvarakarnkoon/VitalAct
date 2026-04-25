@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(cd \"/tmp\")",
-      "Bash(cp \"D:/Code Stuffs/VSCode Study/Flutter/Project/VitalAct/android/unityLibrary/libs/mediapipe_android.aar\" .)",
-      "Bash(unzip -l mediapipe_android.aar)"
-    ]
-  }
-}
