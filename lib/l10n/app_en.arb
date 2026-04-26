@@ -1,0 +1,78 @@
+{
+  "@@locale": "en",
+
+  "appName": "VitalAct",
+  "proceed": "Continue",
+  "cancel": "Cancel",
+  "back": "Back",
+  "next": "Next",
+  "finish": "Finish",
+
+  "tagline": "A fun way to learn First Aid!",
+  "getStarted": "Get Started",
+  "alreadyHaveAccount": "I already have an account",
+
+  "loginTitle": "Log In",
+  "signupTitle": "Sign Up",
+  "email": "Email",
+  "password": "Password",
+  "continueAsGuest": "Continue as guest",
+  "logout": "Log out",
+
+  "errorInvalidEmail": "Invalid email address",
+  "errorWrongPassword": "Incorrect password",
+  "errorUserNotFound": "User not found",
+
+  "lessonPathTitle": "Lesson Path",
+  "locked": "Locked",
+  "completed": "Completed",
+  "startLesson": "Start Lesson",
+
+  "exitLessonTitle": "Exit lesson?",
+  "exitLessonMessage": "Your progress will not be saved.",
+  "exit": "Exit",
+
+  "progress": "{current} / {total}",
+  "@progress": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+
+  "chooseBestAnswer": "Choose the best answer",
+  "submitAnswer": "Submit",
+  "correctAnswer": "Correct!",
+  "wrongAnswer": "Try again",
+
+  "scenarioTitle": "Scenario",
+  "whatWouldYouDo": "What would you do?",
+  "excellentResponse": "Excellent response!",
+  "goodResponse": "Good response",
+  "improveResponse": "What could be improved",
+
+  "normal": "Normal",
+  "emergency": "Emergency",
+  "normalVsAbnormal": "Normal vs abnormal signs",
+  "lifeThreatening": "Life-threatening red flags",
+
+  "score": "Score: {score}/10",
+  "@score": {
+    "placeholders": {
+      "score": {}
+    }
+  },
+
+  "whatYouDidWell": "What you did well",
+  "whatToImprove": "What could improve",
+
+  "mentalDrill": "Mental Drill",
+  "physicalDrill": "Physical Drill",
+  "practiceSubtitle": "Sharpen your emergency skills",
+  "emergencySimulation": "Emergency Simulation",
+  "cprTrainer": "CPR Trainer",
+
+  "darkMode": "Dark Mode",
+
+  "nameSurname": "Name Surname"
+}

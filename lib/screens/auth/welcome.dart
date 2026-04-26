@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
@@ -55,22 +56,22 @@ class WelcomePage extends StatelessWidget {
             left: 0,
             right: 0,
             top: height * 0.1,
-            child: const Column(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'VitalAct',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.appName,
+                  style: const TextStyle(
                     fontSize: 70,
                     fontWeight: FontWeight.w800,
                     color: AppColors.background,
                     height: 0.65,
                   ),
                 ),
-                SizedBox(height: 17),
+                const SizedBox(height: 17),
                 Text(
-                  'A fun way to learn First Aid!',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.tagline,
+                  style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w700,
                     color: AppColors.background,
@@ -90,7 +91,8 @@ class WelcomePage extends StatelessWidget {
                   width: width * 0.9,
                   onPressed: onSignup,
                   height: 60,
-                  child: const Text("GET STARTED"),
+                  child: Text(
+                      AppLocalizations.of(context)!.getStarted.toUpperCase()),
                 ),
                 const SizedBox(height: 23),
                 AppButton(
@@ -99,7 +101,9 @@ class WelcomePage extends StatelessWidget {
                   variant: ButtonVariant.outlined,
                   onPressed: onLogin,
                   height: 60,
-                  child: const Text("I ALREADY HAVE AN ACCOUNT"),
+                  child: Text(AppLocalizations.of(context)!
+                      .alreadyHaveAccount
+                      .toUpperCase()),
                 ),
               ],
             ),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/widgets/app_text_field.dart';
@@ -109,8 +110,12 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final title = isLogin ? 'Log In' : 'Sign up';
-    final primaryText = isLogin ? 'LOG IN' : 'SIGN UP';
+    final title = isLogin
+        ? AppLocalizations.of(context)!.loginTitle
+        : AppLocalizations.of(context)!.signupTitle;
+    final primaryText = isLogin
+        ? AppLocalizations.of(context)!.loginTitle.toUpperCase()
+        : AppLocalizations.of(context)!.signupTitle.toUpperCase();
 
     return Scaffold(
       appBar: AppBar(
@@ -144,7 +149,7 @@ class _AuthPageState extends State<AuthPage> {
                     SizedBox(
                       width: width * 0.9,
                       child: AppTextField(
-                        hintText: 'Email',
+                        hintText: AppLocalizations.of(context)!.email,
                         controller: emailController,
                         validator: Validators.email,
                         autofillHints: const [AutofillHints.email],
@@ -154,7 +159,7 @@ class _AuthPageState extends State<AuthPage> {
                     SizedBox(
                       width: width * 0.9,
                       child: AppTextField(
-                        hintText: 'Password',
+                        hintText: AppLocalizations.of(context)!.password,
                         controller: passwordController,
                         validator: Validators.password,
                         isPassword: true,
@@ -177,7 +182,8 @@ class _AuthPageState extends State<AuthPage> {
                       width: width * 0.9,
                       child: TextButton(
                         onPressed: signInAnonymously,
-                        child: const Text('Continue as Guest'),
+                        child:
+                            Text(AppLocalizations.of(context)!.continueAsGuest),
                       ),
                     ),
                   ],

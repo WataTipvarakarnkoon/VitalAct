@@ -5,6 +5,10 @@ import 'screens/auth/auth_gate.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
+
+final appLocale = ValueNotifier<Locale>(const Locale('en'));
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,15 +29,23 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'BalooBhai2',
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const AuthGate(),
-      routes: {
-        '/splash': (context) => const SplashScreen(),
-        '/index': (context) => const IndexPage(),
+    return ValueListenableBuilder<Locale>(
+      valueListenable: appLocale,
+      builder: (context, locale, _) {
+        return MaterialApp(
+          locale: locale,
+          theme: ThemeData(
+            fontFamily: 'BalooBhai2',
+          ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          home: const AuthGate(),
+          routes: {
+            '/splash': (context) => const SplashScreen(),
+            '/index': (context) => const IndexPage(),
+          },
+        );
       },
     );
   }

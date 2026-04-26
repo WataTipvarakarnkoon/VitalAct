@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/main.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
 import 'package:vitalact/services/auth_service.dart';
@@ -119,6 +120,22 @@ class ProfilePage extends StatelessWidget {
                 const ProfileRow(label: 'Dark Mode:', value: 'Switch'),
                 const SizedBox(height: 30),
                 const Spacer(),
+                ValueListenableBuilder<Locale>(
+                  valueListenable: appLocale,
+                  builder: (context, locale, _) {
+                    final isEn = locale.languageCode == 'en';
+                    return OutlinedButton(
+                      onPressed: () {
+                        appLocale.value =
+                            isEn ? const Locale('th') : const Locale('en');
+                      },
+                      child: Text(
+                        '[DEBUG] Language: ${locale.languageCode.toUpperCase()}',
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
                 AppButton(
                   onPressed: () => _signOut(context),
                   width: 140,
