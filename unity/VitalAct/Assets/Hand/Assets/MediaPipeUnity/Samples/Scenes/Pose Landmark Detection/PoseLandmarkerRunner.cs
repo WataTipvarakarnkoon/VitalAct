@@ -26,6 +26,17 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
       _textureFramePool = null;
     }
 
+    protected override IEnumerator Start()
+    {
+      if (GameManager.NoCameraMode)
+      {
+        Debug.Log("No Camera Mode: PoseLandmarkerRunner disabled.");
+        if (screen != null) screen.gameObject.SetActive(false);
+        yield break;
+      }
+      yield return base.Start();
+    }
+
     protected override IEnumerator Run()
     {
       Debug.Log($"Delegate = {config.Delegate}");
@@ -41,14 +52,27 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
       yield return AssetLoader.PrepareAssetAsync(config.ModelPath);
 
       var options = config.GetPoseLandmarkerOptions(config.RunningMode == Tasks.Vision.Core.RunningMode.LIVE_STREAM ? OnPoseLandmarkDetectionOutput : null);
-      taskApi = PoseLandmarker.CreateFromOptions(options, GpuManager.GpuResources);
+      bool taskCreated = false;
+      try
+      {
+        taskApi = PoseLandmarker.CreateFromOptions(options, GpuManager.GpuResources);
+        taskCreated = true;
+      }
+      catch (System.Exception e)
+      {
+        Debug.LogError($"Failed to create PoseLandmarker: {e.Message}");
+      }
+      if (!taskCreated) yield break;
+
       var imageSource = ImageSourceProvider.ImageSource;
 
       yield return imageSource.Play();
 
       if (!imageSource.isPrepared)
       {
-        Logger.LogError(TAG, "Failed to start ImageSource, exiting...");
+        Debug.LogWarning("Camera not available. Switching to No Camera Mode automatically.");
+        GameManager.NoCameraMode = true;
+        if (screen != null) screen.gameObject.SetActive(false);
         yield break;
       }
 
