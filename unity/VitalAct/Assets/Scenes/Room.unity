@@ -1076,6 +1076,10 @@ MonoBehaviour:
   compressionRate: 0
   handsOnMannequin: 0
   cameraPreview: {fileID: 0}
+  zoneUI: {fileID: 0}
+  zoneGraphic: {fileID: 0}
+  zoneNormalColor: {r: 1, g: 1, b: 0, a: 0.35}
+  zoneDetectedColor: {r: 0, g: 1, b: 0.3, a: 0.45}
   showDebugZone: 1
   showDepthHUD: 0
 --- !u!4 &239926944
