@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/models/steps/multi_choice_step.dart';
 import 'package:vitalact/models/steps/order_question_step.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
@@ -43,7 +44,6 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
   double get progress => (completedSteps) / totalSteps;
 
   List<LessonStep> repeatQueue = [];
-  //Step Checked
 
   void stepChecked(bool isCorrect) {
     final step = currentSteps[currentIndex];
@@ -55,13 +55,11 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
     nextStep();
   }
 
-  // Next Step
   void nextStep() {
     if (!mounted) return;
 
     final step = currentSteps[currentIndex];
 
-    // Progress logic
     if (step is ReadingStep) {
       completedSteps++;
     }
@@ -72,7 +70,6 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
       }
     }
 
-    // Navigation logic
     if (currentIndex < currentSteps.length - 1) {
       setState(() {
         currentIndex++;
@@ -96,25 +93,26 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
   Future<bool> _confirmExit() async {
     final result = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Leave lesson?"),
-        content: const Text(
-          "Your progress in this lesson will not be saved.",
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text("Stay"),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.leaveLessonTitle),
+          content: Text(l10n.leaveLessonMessage),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.stay),
             ),
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text("Leave"),
-          ),
-        ],
-      ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+              ),
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.leave),
+            ),
+          ],
+        );
+      },
     );
 
     return result ?? false;
@@ -169,16 +167,12 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
         ),
         body: Column(
           children: [
-            // PROGRESS BAR
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: TweenAnimationBuilder<double>(
                 duration: const Duration(milliseconds: 400),
                 curve: Curves.easeInOut,
-                tween: Tween<double>(
-                  begin: 0,
-                  end: progress,
-                ),
+                tween: Tween<double>(begin: 0, end: progress),
                 builder: (context, value, _) {
                   return LinearProgressIndicator(
                     value: value,
@@ -190,7 +184,6 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
                 },
               ),
             ),
-
             Expanded(
               child: PageTransitionSwitcher(
                 duration: const Duration(milliseconds: 400),
@@ -200,12 +193,10 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
                     parent: primaryAnimation,
                     curve: Curves.easeInOut,
                   );
-
                   final curvedSecondary = CurvedAnimation(
                     parent: secondaryAnimation,
                     curve: Curves.easeInOut,
                   );
-
                   return SlideTransition(
                     position: Tween<Offset>(
                       begin: const Offset(1, 0),
@@ -225,45 +216,27 @@ class _LessonRunnerPageState extends State<LessonRunnerPage> {
                   child: _buildStep(step),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-//next step thing
   Widget _buildStep(LessonStep step) {
     if (step is ReadingStep) {
-      return ReadingPage(
-        step: step,
-        onNext: nextStep,
-      );
+      return ReadingPage(step: step, onNext: nextStep);
     } else if (step is MultiChoiceStep) {
       if (step.choices.length == 4) {
-        return FourChoicePage(
-          step: step,
-          onAnswered: stepChecked,
-        );
+        return FourChoicePage(step: step, onAnswered: stepChecked);
       }
-      return MultiChoicePage(
-        step: step,
-        onAnswered: stepChecked,
-      );
+      return MultiChoicePage(step: step, onAnswered: stepChecked);
     } else if (step is TextInputStep) {
-      return TextInputPage(
-        step: step,
-        onAnswered: stepChecked,
-      );
+      return TextInputPage(step: step, onAnswered: stepChecked);
     } else if (step is OrderQuestionStep) {
-      return OrderPage(
-        step: step,
-        onAnswered: stepChecked,
-      );
+      return OrderPage(step: step, onAnswered: stepChecked);
     }
 
-    return const Center(
-      child: Text("Unsupported step type"),
-    );
+    return const Center(child: Text(''));
   }
 }

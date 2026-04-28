@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/lesson/lesson_button.dart';
 import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
@@ -27,7 +28,6 @@ class _FourChoicePageState extends State<FourChoicePage> {
 
   void select(int index) {
     if (answered) return;
-
     setState(() {
       selectedIndex = index;
     });
@@ -35,6 +35,7 @@ class _FourChoicePageState extends State<FourChoicePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final step = widget.step;
 
     return LessonStepScaffold(
@@ -44,7 +45,7 @@ class _FourChoicePageState extends State<FourChoicePage> {
           ? step.correctExplanation
           : step.incorrectExplanation,
       hint: isCorrect == false ? step.hint : null,
-      buttonText: answered ? "NEXT" : "ANSWER",
+      buttonText: answered ? l10n.nextButton : l10n.answerButton,
       onButtonPressed: selectedIndex != null
           ? () {
               if (!answered) {
@@ -52,7 +53,6 @@ class _FourChoicePageState extends State<FourChoicePage> {
                   answered = true;
                   isCorrect = selectedIndex == step.correctIndex;
                 });
-
                 LessonProgressService.recordAnswer(
                   isCorrect!,
                   isCorrect! ? 10 : 0,
@@ -87,8 +87,6 @@ class _FourChoicePageState extends State<FourChoicePage> {
                     ),
                   ),
                   const SizedBox(height: 24),
-
-                  /// 🔴 Image + Sprite
                   Center(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
@@ -106,15 +104,12 @@ class _FourChoicePageState extends State<FourChoicePage> {
                             fps: 25,
                             height: 172,
                             width: 172,
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 28),
-
-                  /// ✅ 2x2 GRID
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -135,9 +130,7 @@ class _FourChoicePageState extends State<FourChoicePage> {
                       );
                     },
                   ),
-
                   const SizedBox(height: 16),
-
                   Text(
                     step.disclaimer,
                     textAlign: TextAlign.center,
@@ -147,7 +140,6 @@ class _FourChoicePageState extends State<FourChoicePage> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-
                   const SizedBox(height: 40),
                 ],
               ),

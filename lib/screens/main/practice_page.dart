@@ -1,6 +1,6 @@
 import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/services/lesson_loader.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
@@ -34,6 +34,7 @@ class _PracticePageState extends State<PracticePage>
   /// 🔥 BUILD DRILL STEPS FROM ALL MODULES
   Future<void> startMentalDrill(BuildContext context) async {
     final locale = Localizations.localeOf(context).languageCode;
+    final drillTitle = AppLocalizations.of(context)!.mentalDrill;
     final modules = await LessonLoader.loadAllModules(locale);
 
     // ✅ flatten lessons
@@ -57,7 +58,7 @@ class _PracticePageState extends State<PracticePage>
       context,
       MaterialPageRoute(
         builder: (context) => LessonRunnerPage(
-          title: "Mental Drill",
+          title: drillTitle,
           steps: steps,
         ),
       ),
@@ -66,6 +67,7 @@ class _PracticePageState extends State<PracticePage>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final height = MediaQuery.of(context).size.height;
 
     return AnimatedBuilder(
@@ -92,9 +94,9 @@ class _PracticePageState extends State<PracticePage>
                 unselectedLabelColor: AppColors.textPrimary,
                 labelStyle:
                     const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                tabs: const [
-                  Tab(text: "Mental Drill"),
-                  Tab(text: "Physical Drill"),
+                tabs: [
+                  Tab(text: l10n.mentalDrill),
+                  Tab(text: l10n.physicalDrill),
                 ],
               ),
 
@@ -108,16 +110,16 @@ class _PracticePageState extends State<PracticePage>
                         children: [
                           const SizedBox(height: 25),
                           Text(
-                            "Practice",
+                            l10n.practice,
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w800,
                               color: themeColor,
                             ),
                           ),
-                          const Text(
-                            'Sharpen your emergency skills',
-                            style: TextStyle(
+                          Text(
+                            l10n.practiceSubtitle,
+                            style: const TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
                               color: AppColors.textPrimary,
@@ -173,16 +175,16 @@ class _PracticePageState extends State<PracticePage>
                         children: [
                           const SizedBox(height: 25),
                           Text(
-                            "Practice",
+                            l10n.practice,
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w800,
                               color: themeColor,
                             ),
                           ),
-                          const Text(
-                            'Sharpen your emergency skills',
-                            style: TextStyle(
+                          Text(
+                            l10n.practiceSubtitle,
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: AppColors.textPrimary,

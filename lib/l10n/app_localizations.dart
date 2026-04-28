@@ -104,41 +104,23 @@ abstract class AppLocalizations {
   /// **'VitalAct'**
   String get appName;
 
-  /// No description provided for @proceed.
-  ///
-  /// In en, this message translates to:
-  /// **'Continue'**
-  String get proceed;
-
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
-
-  /// No description provided for @back.
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get back;
-
-  /// No description provided for @next.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get next;
-
-  /// No description provided for @finish.
-  ///
-  /// In en, this message translates to:
-  /// **'Finish'**
-  String get finish;
-
   /// No description provided for @tagline.
   ///
   /// In en, this message translates to:
   /// **'A fun way to learn First Aid!'**
   String get tagline;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// No description provided for @errorGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get errorGeneral;
 
   /// No description provided for @getStarted.
   ///
@@ -185,8 +167,20 @@ abstract class AppLocalizations {
   /// No description provided for @logout.
   ///
   /// In en, this message translates to:
-  /// **'Log out'**
+  /// **'Log Out'**
   String get logout;
+
+  /// No description provided for @pleaseFixErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fix the errors'**
+  String get pleaseFixErrors;
+
+  /// No description provided for @anonymousSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous sign-in failed'**
+  String get anonymousSignInFailed;
 
   /// No description provided for @errorInvalidEmail.
   ///
@@ -206,149 +200,143 @@ abstract class AppLocalizations {
   /// **'User not found'**
   String get errorUserNotFound;
 
-  /// No description provided for @lessonPathTitle.
+  /// No description provided for @nameSurname.
   ///
   /// In en, this message translates to:
-  /// **'Lesson Path'**
-  String get lessonPathTitle;
+  /// **'Name Surname'**
+  String get nameSurname;
 
-  /// No description provided for @locked.
+  /// No description provided for @emailLabel.
   ///
   /// In en, this message translates to:
-  /// **'Locked'**
-  String get locked;
+  /// **'Email:'**
+  String get emailLabel;
 
-  /// No description provided for @completed.
+  /// No description provided for @passwordLabel.
   ///
   /// In en, this message translates to:
-  /// **'Completed'**
-  String get completed;
+  /// **'Password:'**
+  String get passwordLabel;
 
-  /// No description provided for @startLesson.
+  /// No description provided for @darkModeLabel.
   ///
   /// In en, this message translates to:
-  /// **'Start Lesson'**
-  String get startLesson;
+  /// **'Dark Mode:'**
+  String get darkModeLabel;
 
-  /// No description provided for @exitLessonTitle.
+  /// No description provided for @darkMode.
   ///
   /// In en, this message translates to:
-  /// **'Exit lesson?'**
-  String get exitLessonTitle;
+  /// **'Dark Mode'**
+  String get darkMode;
 
-  /// No description provided for @exitLessonMessage.
+  /// No description provided for @continueLesson.
   ///
   /// In en, this message translates to:
-  /// **'Your progress will not be saved.'**
-  String get exitLessonMessage;
+  /// **'CONTINUE'**
+  String get continueLesson;
 
-  /// No description provided for @exit.
+  /// No description provided for @leaveLessonTitle.
   ///
   /// In en, this message translates to:
-  /// **'Exit'**
-  String get exit;
+  /// **'Leave lesson?'**
+  String get leaveLessonTitle;
 
-  /// No description provided for @progress.
+  /// No description provided for @leaveLessonMessage.
   ///
   /// In en, this message translates to:
-  /// **'{current} / {total}'**
-  String progress(Object current, Object total);
+  /// **'Your progress in this lesson will not be saved.'**
+  String get leaveLessonMessage;
 
-  /// No description provided for @chooseBestAnswer.
+  /// No description provided for @stay.
   ///
   /// In en, this message translates to:
-  /// **'Choose the best answer'**
-  String get chooseBestAnswer;
+  /// **'Stay'**
+  String get stay;
 
-  /// No description provided for @submitAnswer.
+  /// No description provided for @leave.
   ///
   /// In en, this message translates to:
-  /// **'Submit'**
-  String get submitAnswer;
+  /// **'Leave'**
+  String get leave;
 
-  /// No description provided for @correctAnswer.
+  /// No description provided for @continueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueButton;
+
+  /// No description provided for @nextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT'**
+  String get nextButton;
+
+  /// No description provided for @answerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'ANSWER'**
+  String get answerButton;
+
+  /// No description provided for @typeYourAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your answer...'**
+  String get typeYourAnswer;
+
+  /// No description provided for @checkingAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking your answer...'**
+  String get checkingAnswer;
+
+  /// No description provided for @analyzing.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing...'**
+  String get analyzing;
+
+  /// No description provided for @correct.
   ///
   /// In en, this message translates to:
   /// **'Correct!'**
-  String get correctAnswer;
+  String get correct;
 
-  /// No description provided for @wrongAnswer.
+  /// No description provided for @notQuite.
   ///
   /// In en, this message translates to:
-  /// **'Try again'**
-  String get wrongAnswer;
+  /// **'Not quite'**
+  String get notQuite;
 
-  /// No description provided for @scenarioTitle.
+  /// No description provided for @hintLabel.
   ///
   /// In en, this message translates to:
-  /// **'Scenario'**
-  String get scenarioTitle;
-
-  /// No description provided for @whatWouldYouDo.
-  ///
-  /// In en, this message translates to:
-  /// **'What would you do?'**
-  String get whatWouldYouDo;
-
-  /// No description provided for @excellentResponse.
-  ///
-  /// In en, this message translates to:
-  /// **'Excellent response!'**
-  String get excellentResponse;
-
-  /// No description provided for @goodResponse.
-  ///
-  /// In en, this message translates to:
-  /// **'Good response'**
-  String get goodResponse;
-
-  /// No description provided for @improveResponse.
-  ///
-  /// In en, this message translates to:
-  /// **'What could be improved'**
-  String get improveResponse;
-
-  /// No description provided for @normal.
-  ///
-  /// In en, this message translates to:
-  /// **'Normal'**
-  String get normal;
-
-  /// No description provided for @emergency.
-  ///
-  /// In en, this message translates to:
-  /// **'Emergency'**
-  String get emergency;
-
-  /// No description provided for @normalVsAbnormal.
-  ///
-  /// In en, this message translates to:
-  /// **'Normal vs abnormal signs'**
-  String get normalVsAbnormal;
-
-  /// No description provided for @lifeThreatening.
-  ///
-  /// In en, this message translates to:
-  /// **'Life-threatening red flags'**
-  String get lifeThreatening;
+  /// **'Hint: {hint}'**
+  String hintLabel(String hint);
 
   /// No description provided for @score.
   ///
   /// In en, this message translates to:
   /// **'Score: {score}/10'**
-  String score(Object score);
+  String score(int score);
 
-  /// No description provided for @whatYouDidWell.
+  /// No description provided for @whatCouldBeImproved.
   ///
   /// In en, this message translates to:
-  /// **'What you did well'**
-  String get whatYouDidWell;
+  /// **'What could be improved:'**
+  String get whatCouldBeImproved;
 
-  /// No description provided for @whatToImprove.
+  /// No description provided for @practice.
   ///
   /// In en, this message translates to:
-  /// **'What could improve'**
-  String get whatToImprove;
+  /// **'Practice'**
+  String get practice;
+
+  /// No description provided for @practiceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharpen your emergency skills'**
+  String get practiceSubtitle;
 
   /// No description provided for @mentalDrill.
   ///
@@ -361,36 +349,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Physical Drill'**
   String get physicalDrill;
-
-  /// No description provided for @practiceSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sharpen your emergency skills'**
-  String get practiceSubtitle;
-
-  /// No description provided for @emergencySimulation.
-  ///
-  /// In en, this message translates to:
-  /// **'Emergency Simulation'**
-  String get emergencySimulation;
-
-  /// No description provided for @cprTrainer.
-  ///
-  /// In en, this message translates to:
-  /// **'CPR Trainer'**
-  String get cprTrainer;
-
-  /// No description provided for @darkMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Dark Mode'**
-  String get darkMode;
-
-  /// No description provided for @nameSurname.
-  ///
-  /// In en, this message translates to:
-  /// **'Name Surname'**
-  String get nameSurname;
 }
 
 class _AppLocalizationsDelegate

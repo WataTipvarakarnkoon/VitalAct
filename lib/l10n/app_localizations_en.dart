@@ -12,22 +12,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appName => 'VitalAct';
 
   @override
-  String get proceed => 'Continue';
-
-  @override
-  String get cancel => 'Cancel';
-
-  @override
-  String get back => 'Back';
-
-  @override
-  String get next => 'Next';
-
-  @override
-  String get finish => 'Finish';
-
-  @override
   String get tagline => 'A fun way to learn First Aid!';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get errorGeneral => 'Something went wrong. Please try again.';
 
   @override
   String get getStarted => 'Get Started';
@@ -51,7 +42,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueAsGuest => 'Continue as guest';
 
   @override
-  String get logout => 'Log out';
+  String get logout => 'Log Out';
+
+  @override
+  String get pleaseFixErrors => 'Please fix the errors';
+
+  @override
+  String get anonymousSignInFailed => 'Anonymous sign-in failed';
 
   @override
   String get errorInvalidEmail => 'Invalid email address';
@@ -63,99 +60,82 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorUserNotFound => 'User not found';
 
   @override
-  String get lessonPathTitle => 'Lesson Path';
+  String get nameSurname => 'Name Surname';
 
   @override
-  String get locked => 'Locked';
+  String get emailLabel => 'Email:';
 
   @override
-  String get completed => 'Completed';
+  String get passwordLabel => 'Password:';
 
   @override
-  String get startLesson => 'Start Lesson';
+  String get darkModeLabel => 'Dark Mode:';
 
   @override
-  String get exitLessonTitle => 'Exit lesson?';
+  String get darkMode => 'Dark Mode';
 
   @override
-  String get exitLessonMessage => 'Your progress will not be saved.';
+  String get continueLesson => 'CONTINUE';
 
   @override
-  String get exit => 'Exit';
+  String get leaveLessonTitle => 'Leave lesson?';
 
   @override
-  String progress(Object current, Object total) {
-    return '$current / $total';
+  String get leaveLessonMessage =>
+      'Your progress in this lesson will not be saved.';
+
+  @override
+  String get stay => 'Stay';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
+  String get continueButton => 'Continue';
+
+  @override
+  String get nextButton => 'NEXT';
+
+  @override
+  String get answerButton => 'ANSWER';
+
+  @override
+  String get typeYourAnswer => 'Type your answer...';
+
+  @override
+  String get checkingAnswer => 'Checking your answer...';
+
+  @override
+  String get analyzing => 'Analyzing...';
+
+  @override
+  String get correct => 'Correct!';
+
+  @override
+  String get notQuite => 'Not quite';
+
+  @override
+  String hintLabel(String hint) {
+    return 'Hint: $hint';
   }
 
   @override
-  String get chooseBestAnswer => 'Choose the best answer';
-
-  @override
-  String get submitAnswer => 'Submit';
-
-  @override
-  String get correctAnswer => 'Correct!';
-
-  @override
-  String get wrongAnswer => 'Try again';
-
-  @override
-  String get scenarioTitle => 'Scenario';
-
-  @override
-  String get whatWouldYouDo => 'What would you do?';
-
-  @override
-  String get excellentResponse => 'Excellent response!';
-
-  @override
-  String get goodResponse => 'Good response';
-
-  @override
-  String get improveResponse => 'What could be improved';
-
-  @override
-  String get normal => 'Normal';
-
-  @override
-  String get emergency => 'Emergency';
-
-  @override
-  String get normalVsAbnormal => 'Normal vs abnormal signs';
-
-  @override
-  String get lifeThreatening => 'Life-threatening red flags';
-
-  @override
-  String score(Object score) {
+  String score(int score) {
     return 'Score: $score/10';
   }
 
   @override
-  String get whatYouDidWell => 'What you did well';
+  String get whatCouldBeImproved => 'What could be improved:';
 
   @override
-  String get whatToImprove => 'What could improve';
+  String get practice => 'Practice';
+
+  @override
+  String get practiceSubtitle => 'Sharpen your emergency skills';
 
   @override
   String get mentalDrill => 'Mental Drill';
 
   @override
   String get physicalDrill => 'Physical Drill';
-
-  @override
-  String get practiceSubtitle => 'Sharpen your emergency skills';
-
-  @override
-  String get emergencySimulation => 'Emergency Simulation';
-
-  @override
-  String get cprTrainer => 'CPR Trainer';
-
-  @override
-  String get darkMode => 'Dark Mode';
-
-  @override
-  String get nameSurname => 'Name Surname';
 }

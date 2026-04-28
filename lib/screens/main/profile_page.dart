@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/main.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
@@ -46,6 +47,7 @@ class ProfileRow extends StatelessWidget {
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+
   Future<void> _signOut(BuildContext context) async {
     await AuthService.signOut();
 
@@ -59,7 +61,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -74,12 +78,14 @@ class ProfilePage extends StatelessWidget {
               height: 677,
               width: width,
               decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(40)),
-                  border: Border.all(color: AppColors.borderColored, width: 5),
-                  gradient: const LinearGradient(
-                      colors: [AppColors.background, AppColors.gradient],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter)),
+                borderRadius: const BorderRadius.all(Radius.circular(40)),
+                border: Border.all(color: AppColors.borderColored, width: 5),
+                gradient: const LinearGradient(
+                  colors: [AppColors.background, AppColors.gradient],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
             ),
           ),
           Container(
@@ -99,17 +105,18 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Text(
-                  "Name Surname",
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary),
+                Text(
+                  l10n.nameSurname,
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                  ),
                 ),
                 const SizedBox(height: 50),
-                const ProfileRow(label: 'Email:', value: 'X'),
+                ProfileRow(label: l10n.emailLabel, value: 'X'),
                 const SizedBox(height: 10),
-                const ProfileRow(label: 'Password:', value: 'X'),
+                ProfileRow(label: l10n.passwordLabel, value: 'X'),
                 const SizedBox(height: 10),
                 Container(
                   width: width * .8,
@@ -117,7 +124,7 @@ class ProfilePage extends StatelessWidget {
                   color: AppColors.textPrimary,
                 ),
                 const SizedBox(height: 10),
-                const ProfileRow(label: 'Dark Mode:', value: 'Switch'),
+                ProfileRow(label: l10n.darkModeLabel, value: l10n.darkMode),
                 const SizedBox(height: 30),
                 const Spacer(),
                 ValueListenableBuilder<Locale>(
@@ -142,9 +149,9 @@ class ProfilePage extends StatelessWidget {
                   height: 35,
                   backgroundColor: AppColors.primary,
                   foregroundColor: AppColors.background,
-                  child: const Text(
-                    "LOG OUT",
-                    style: TextStyle(
+                  child: Text(
+                    l10n.logout.toUpperCase(),
+                    style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 18,
                     ),

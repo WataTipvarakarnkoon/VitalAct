@@ -40,38 +40,27 @@ class _AuthPageState extends State<AuthPage> {
   bool get isLogin => widget.mode == AuthMode.login;
 
   Future<void> submit() async {
+    final l10n = AppLocalizations.of(context)!;
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    // Don't proceed if email or password is empty, but don't show error
-    if (email.isEmpty || password.isEmpty) {
-      return;
-    }
+    if (email.isEmpty || password.isEmpty) return;
 
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fix the errors')),
+        SnackBar(content: Text(l10n.pleaseFixErrors)),
       );
       return;
     }
 
     try {
       if (isLogin) {
-        await AuthService.signIn(
-          email: email,
-          password: password,
-        );
-
+        await AuthService.signIn(email: email, password: password);
         TextInput.finishAutofillContext();
-
         if (!mounted) return;
       } else {
-        await AuthService.signUp(
-          email: email,
-          password: password,
-        );
+        await AuthService.signUp(email: email, password: password);
         TextInput.finishAutofillContext();
-
         if (!mounted) return;
       }
     } on Exception catch (e) {
@@ -79,7 +68,8 @@ class _AuthPageState extends State<AuthPage> {
 
       if (e is FirebaseAuthException) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AuthErrorMapper.messageFromException(e))),
+          SnackBar(
+              content: Text(AuthErrorMapper.messageFromException(e))),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -90,9 +80,9 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<void> signInAnonymously() async {
+    final l10n = AppLocalizations.of(context)!;
     try {
       await AuthService.signInAnonymously();
-
       if (!mounted) return;
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
@@ -102,29 +92,29 @@ class _AuthPageState extends State<AuthPage> {
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Anonymous sign-in failed')),
+        SnackBar(content: Text(l10n.anonymousSignInFailed)),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final width = MediaQuery.of(context).size.width;
-    final title = isLogin
-        ? AppLocalizations.of(context)!.loginTitle
-        : AppLocalizations.of(context)!.signupTitle;
-    final primaryText = isLogin
-        ? AppLocalizations.of(context)!.loginTitle.toUpperCase()
-        : AppLocalizations.of(context)!.signupTitle.toUpperCase();
+    final title =
+        isLogin ? l10n.loginTitle : l10n.signupTitle;
+    final primaryText =
+        isLogin ? l10n.loginTitle.toUpperCase() : l10n.signupTitle.toUpperCase();
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: BackButton(
-            onPressed: widget.onBack != null
-                ? widget.onBack!
-                : () => Navigator.pop(context)),
+          onPressed: widget.onBack != null
+              ? widget.onBack!
+              : () => Navigator.pop(context),
+        ),
       ),
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -149,7 +139,7 @@ class _AuthPageState extends State<AuthPage> {
                     SizedBox(
                       width: width * 0.9,
                       child: AppTextField(
-                        hintText: AppLocalizations.of(context)!.email,
+                        hintText: l10n.email,
                         controller: emailController,
                         validator: Validators.email,
                         autofillHints: const [AutofillHints.email],
@@ -159,7 +149,7 @@ class _AuthPageState extends State<AuthPage> {
                     SizedBox(
                       width: width * 0.9,
                       child: AppTextField(
-                        hintText: AppLocalizations.of(context)!.password,
+                        hintText: l10n.password,
                         controller: passwordController,
                         validator: Validators.password,
                         isPassword: true,
@@ -182,8 +172,7 @@ class _AuthPageState extends State<AuthPage> {
                       width: width * 0.9,
                       child: TextButton(
                         onPressed: signInAnonymously,
-                        child:
-                            Text(AppLocalizations.of(context)!.continueAsGuest),
+                        child: Text(l10n.continueAsGuest),
                       ),
                     ),
                   ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/theme/app_colors.dart';
 
 class LessonFeedbackPanel extends StatelessWidget {
@@ -18,6 +19,7 @@ class LessonFeedbackPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final bottomSafe = MediaQuery.of(context).padding.bottom;
 
     final Color background = isCorrect == null
@@ -32,6 +34,12 @@ class LessonFeedbackPanel extends StatelessWidget {
             ? AppColors.correct
             : AppColors.incorrect;
 
+    final String statusText = isCorrect == null
+        ? l10n.analyzing
+        : isCorrect!
+            ? l10n.correct
+            : l10n.notQuite;
+
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 350),
       curve: Curves.easeOutCubic,
@@ -41,7 +49,7 @@ class LessonFeedbackPanel extends StatelessWidget {
       child: TweenAnimationBuilder<double>(
         duration: const Duration(milliseconds: 450),
         tween: Tween(begin: visible ? 0.05 : 0, end: 0),
-        curve: Curves.elasticOut, // bounce effect
+        curve: Curves.elasticOut,
         builder: (context, bounce, child) {
           return Transform.translate(
             offset: Offset(0, -20 * bounce),
@@ -49,12 +57,7 @@ class LessonFeedbackPanel extends StatelessWidget {
           );
         },
         child: Container(
-          padding: EdgeInsets.fromLTRB(
-            24,
-            24,
-            24,
-            90 + bottomSafe,
-          ),
+          padding: EdgeInsets.fromLTRB(24, 24, 24, 90 + bottomSafe),
           decoration: BoxDecoration(color: background),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -71,22 +74,14 @@ class LessonFeedbackPanel extends StatelessWidget {
                       double dx = 0;
 
                       if (isCorrect == true) {
-                        // success pulse
-                        scale = 1 +
-                            (sin(value * pi) *
-                                0.3); // pulse between 100% and 130%
+                        scale = 1 + (sin(value * pi) * 0.3);
                       } else if (isCorrect == false) {
-                        // shake animation
-                        dx = sin(value * 8 * pi) *
-                            4; // shake left-right 4 times with 4px amplitude
+                        dx = sin(value * 8 * pi) * 4;
                       }
 
                       return Transform.translate(
                         offset: Offset(dx, 0),
-                        child: Transform.scale(
-                          scale: scale,
-                          child: child,
-                        ),
+                        child: Transform.scale(scale: scale, child: child),
                       );
                     },
                     child: Icon(
@@ -101,11 +96,7 @@ class LessonFeedbackPanel extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    isCorrect == null
-                        ? "Analyzing..."
-                        : isCorrect!
-                            ? "Correct!"
-                            : "Not quite",
+                    statusText,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -133,7 +124,7 @@ class LessonFeedbackPanel extends StatelessWidget {
               if (hint != null) ...[
                 const SizedBox(height: 4),
                 Text(
-                  "Hint: $hint",
+                  l10n.hintLabel(hint!),
                   style: const TextStyle(
                     fontSize: 14,
                     height: 1.4,

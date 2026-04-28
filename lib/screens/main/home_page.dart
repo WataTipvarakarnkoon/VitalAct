@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/models/lesson_module.dart';
 import 'package:vitalact/models/lesson_item.dart';
 import 'package:vitalact/theme/app_colors.dart';
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -30,7 +32,7 @@ class _HomePageState extends State<HomePage> {
               colors: [
                 AppColors.background,
                 AppColors.background,
-                AppColors.gradient
+                AppColors.gradient,
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -39,10 +41,7 @@ class _HomePageState extends State<HomePage> {
         ),
         Positioned(
           top: height * -0.4,
-          child: Image.asset(
-            'assets/images/Background.png',
-            width: width,
-          ),
+          child: Image.asset('assets/images/Background.png', width: width),
         ),
         Positioned(
           top: height * -0.39,
@@ -51,7 +50,6 @@ class _HomePageState extends State<HomePage> {
           child: Image.asset('assets/images/Ellipse.png'),
         ),
 
-        /// 🔥 CONTINUE BUTTON (multi-module)
         Positioned(
           top: height * 0.08,
           left: width * 0.05,
@@ -74,7 +72,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "CONTINUE",
+                  l10n.continueLesson,
                   style: TextStyle(
                     fontSize: 16,
                     height: 1.0,
@@ -88,9 +86,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return const Text(
-                        "Loading...",
-                        style: TextStyle(
+                      return Text(
+                        l10n.loading,
+                        style: const TextStyle(
                           color: AppColors.background,
                           height: 1.0,
                         ),
@@ -184,10 +182,7 @@ class _LessonState extends State<Lesson> {
         }
 
         final modules = snapshot.data!;
-
         final items = buildMixedList(modules);
-
-        // store flat lessons for navigation
         allLessons = modules.expand((m) => m.lessons).toList();
 
         return buildLessonList(items);
@@ -195,18 +190,14 @@ class _LessonState extends State<Lesson> {
     );
   }
 
-  /// 🔥 MIX MODULE + LESSON
   List<LessonListItem> buildMixedList(List<LessonModule> modules) {
     final List<LessonListItem> items = [];
-
     for (final module in modules) {
       items.add(LessonListItem.module(module.moduleTitle));
-
       for (final lesson in module.lessons) {
         items.add(LessonListItem.lesson(lesson));
       }
     }
-
     return items;
   }
 
@@ -227,7 +218,6 @@ class _LessonState extends State<Lesson> {
             itemBuilder: (context, index) {
               final item = items[index];
 
-              /// 🟡 MODULE HEADER
               if (item.isModule) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 35),
@@ -242,12 +232,9 @@ class _LessonState extends State<Lesson> {
                 );
               }
 
-              /// 🔴 LESSON
               final lesson = item.lesson!;
-
               final lessonIndex =
                   items.where((e) => e.lesson != null).toList().indexOf(item);
-
               final active = lessonIndex <= currentStep;
               final isPressed = pressedIndex == lessonIndex;
 
@@ -395,7 +382,6 @@ class _LessonState extends State<Lesson> {
   }
 }
 
-/// 🔥 HELPER CLASS
 class LessonListItem {
   final String? moduleTitle;
   final LessonItem? lesson;
@@ -406,7 +392,6 @@ class LessonListItem {
   bool get isModule => moduleTitle != null;
 }
 
-/// 🔥 SCROLL PHYSICS
 class SlowScrollPhysics extends BouncingScrollPhysics {
   const SlowScrollPhysics({super.parent});
 

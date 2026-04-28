@@ -2,77 +2,62 @@
   "@@locale": "en",
 
   "appName": "VitalAct",
-  "proceed": "Continue",
-  "cancel": "Cancel",
-  "back": "Back",
-  "next": "Next",
-  "finish": "Finish",
-
   "tagline": "A fun way to learn First Aid!",
+  "loading": "Loading...",
+  "errorGeneral": "Something went wrong. Please try again.",
+
   "getStarted": "Get Started",
   "alreadyHaveAccount": "I already have an account",
-
   "loginTitle": "Log In",
   "signupTitle": "Sign Up",
   "email": "Email",
   "password": "Password",
   "continueAsGuest": "Continue as guest",
-  "logout": "Log out",
-
+  "logout": "Log Out",
+  "pleaseFixErrors": "Please fix the errors",
+  "anonymousSignInFailed": "Anonymous sign-in failed",
   "errorInvalidEmail": "Invalid email address",
   "errorWrongPassword": "Incorrect password",
   "errorUserNotFound": "User not found",
 
-  "lessonPathTitle": "Lesson Path",
-  "locked": "Locked",
-  "completed": "Completed",
-  "startLesson": "Start Lesson",
+  "nameSurname": "Name Surname",
+  "emailLabel": "Email:",
+  "passwordLabel": "Password:",
+  "darkModeLabel": "Dark Mode:",
+  "darkMode": "Dark Mode",
 
-  "exitLessonTitle": "Exit lesson?",
-  "exitLessonMessage": "Your progress will not be saved.",
-  "exit": "Exit",
+  "continueLesson": "CONTINUE",
 
-  "progress": "{current} / {total}",
-  "@progress": {
+  "leaveLessonTitle": "Leave lesson?",
+  "leaveLessonMessage": "Your progress in this lesson will not be saved.",
+  "stay": "Stay",
+  "leave": "Leave",
+
+  "continueButton": "Continue",
+  "nextButton": "NEXT",
+  "answerButton": "ANSWER",
+  "typeYourAnswer": "Type your answer...",
+  "checkingAnswer": "Checking your answer...",
+
+  "analyzing": "Analyzing...",
+  "correct": "Correct!",
+  "notQuite": "Not quite",
+  "hintLabel": "Hint: {hint}",
+  "@hintLabel": {
     "placeholders": {
-      "current": {},
-      "total": {}
+      "hint": { "type": "String" }
     }
   },
-
-  "chooseBestAnswer": "Choose the best answer",
-  "submitAnswer": "Submit",
-  "correctAnswer": "Correct!",
-  "wrongAnswer": "Try again",
-
-  "scenarioTitle": "Scenario",
-  "whatWouldYouDo": "What would you do?",
-  "excellentResponse": "Excellent response!",
-  "goodResponse": "Good response",
-  "improveResponse": "What could be improved",
-
-  "normal": "Normal",
-  "emergency": "Emergency",
-  "normalVsAbnormal": "Normal vs abnormal signs",
-  "lifeThreatening": "Life-threatening red flags",
-
   "score": "Score: {score}/10",
   "@score": {
     "placeholders": {
-      "score": {}
+      "score": { "type": "int" }
     }
   },
+  "whatCouldBeImproved": "What could be improved:",
 
-  "whatYouDidWell": "What you did well",
-  "whatToImprove": "What could improve",
-
-  "mentalDrill": "Mental Drill",
-  "physicalDrill": "Physical Drill",
+  "practice": "Practice",
   "practiceSubtitle": "Sharpen your emergency skills",
-  "emergencySimulation": "Emergency Simulation",
-  "cprTrainer": "CPR Trainer",
-
-  "darkMode": "Dark Mode",
-
-  "nameSurname": "Name Surname"
+  "mentalDrill": "Mental Drill",
+  "physicalDrill": "Physical Drill"
 }

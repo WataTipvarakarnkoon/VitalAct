@@ -2,77 +2,63 @@
   "@@locale": "th",
 
   "appName": "VitalAct",
-  "proceed": "ดำเนินการต่อ",
-  "cancel": "ยกเลิก",
-  "back": "ย้อนกลับ",
-  "next": "ถัดไป",
-  "finish": "เสร็จสิ้น",
-
   "tagline": "A fun way to learn First Aid!",
+  "loading": "กำลังโหลด...",
+  "errorGeneral": "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+
   "getStarted": "เริ่มต้นใช้งาน",
   "alreadyHaveAccount": "ฉันมีบัญชีอยู่แล้ว",
-
-  "loginTitle": "เข้าสู้ระบบ",
+  "loginTitle": "เข้าสู่ระบบ",
   "signupTitle": "ลงทะเบียน",
   "email": "อีเมล",
   "password": "รหัสผ่าน",
   "continueAsGuest": "ดำเนินการต่อในฐานะผู้เยี่ยมชม",
   "logout": "ออกจากระบบ",
+  "pleaseFixErrors": "กรุณาแก้ไขข้อผิดพลาด",
+  "anonymousSignInFailed": "การเข้าสู่ระบบแบบไม่ระบุตัวตนล้มเหลว",
+  "errorInvalidEmail": "ที่อยู่อีเมลไม่ถูกต้อง",
+  "errorWrongPassword": "รหัสผ่านไม่ถูกต้อง",
+  "errorUserNotFound": "ไม่พบผู้ใช้",
 
-  "errorInvalidEmail": "Invalid email address",
-  "errorWrongPassword": "Incorrect password",
-  "errorUserNotFound": "User not found",
+  "nameSurname": "ชื่อ นามสกุล",
+  "emailLabel": "อีเมล:",
+  "passwordLabel": "รหัสผ่าน:",
+  "darkModeLabel": "โหมดมืด:",
+  "darkMode": "โหมดมืด",
 
-  "lessonPathTitle": "Lesson Path",
-  "locked": "Locked",
-  "completed": "Completed",
-  "startLesson": "Start Lesson",
+  "continueLesson": "ดำเนินการต่อ",
 
-  "exitLessonTitle": "Exit lesson?",
-  "exitLessonMessage": "Your progress will not be saved.",
-  "exit": "Exit",
+  "leaveLessonTitle": "ออกจากบทเรียน?",
+  "leaveLessonMessage": "ความคืบหน้าในบทเรียนนี้จะไม่ถูกบันทึก",
+  "stay": "อยู่ต่อ",
+  "leave": "ออก",
 
-  "progress": "{current} / {total}",
-  "@progress": {
+  "continueButton": "ดำเนินการต่อ",
+  "nextButton": "ถัดไป",
+  "answerButton": "ตอบ",
+  "typeYourAnswer": "พิมพ์คำตอบของคุณ...",
+  "checkingAnswer": "กำลังตรวจสอบคำตอบ...",
+
+  "analyzing": "กำลังวิเคราะห์...",
+  "correct": "ถูกต้อง!",
+  "notQuite": "ไม่ถูกทั้งหมด",
+  "hintLabel": "คำใบ้: {hint}",
+  "@hintLabel": {
     "placeholders": {
-      "current": {},
-      "total": {}
+      "hint": { "type": "String" }
     }
   },
-
-  "chooseBestAnswer": "Choose the best answer",
-  "submitAnswer": "Submit",
-  "correctAnswer": "Correct!",
-  "wrongAnswer": "Try again",
-
-  "scenarioTitle": "Scenario",
-  "whatWouldYouDo": "What would you do?",
-  "excellentResponse": "Excellent response!",
-  "goodResponse": "Good response",
-  "improveResponse": "What could be improved",
-
-  "normal": "Normal",
-  "emergency": "Emergency",
-  "normalVsAbnormal": "Normal vs abnormal signs",
-  "lifeThreatening": "Life-threatening red flags",
-
-  "score": "Score: {score}/10",
+  "score": "คะแนน: {score}/10",
   "@score": {
     "placeholders": {
-      "score": {}
+      "score": { "type": "int" }
     }
   },
+  "whatCouldBeImproved": "สิ่งที่ควรปรับปรุง:",
 
-  "whatYouDidWell": "What you did well",
-  "whatToImprove": "What could improve",
-
-  "mentalDrill": "Mental Drill",
-  "physicalDrill": "Physical Drill",
-  "practiceSubtitle": "Sharpen your emergency skills",
-  "emergencySimulation": "Emergency Simulation",
-  "cprTrainer": "CPR Trainer",
-
-  "darkMode": "Dark Mode",
-
-  "nameSurname": "Name Surname"
+  "practice": "ฝึกฝน",
+  "practiceSubtitle": "ฝึกฝนทักษะฉุกเฉินของคุณ",
+  "mentalDrill": "ฝึกความคิด",
+  "physicalDrill": "ฝึกร่างกาย",
+  "darkMode": "โหมดมืด"
 }

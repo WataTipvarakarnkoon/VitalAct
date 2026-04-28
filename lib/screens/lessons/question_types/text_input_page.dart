@@ -1,5 +1,6 @@
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/material.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_text_field.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
@@ -22,16 +23,18 @@ class TextInputPage extends StatefulWidget {
 }
 
 class _TextInputPageState extends State<TextInputPage> {
-  int? aiScore;
+  int? _aiScore;
+  String? _aiExplanationRaw;
+  String? _aiImprovementRaw;
+  bool _aiError = false;
+
   bool isAnalyzing = false;
   String? aiHint;
   final FocusNode focusNode = FocusNode();
-  bool isTyping = false;
   final TextEditingController controller = TextEditingController();
   final model =
       FirebaseAI.googleAI().generativeModel(model: 'gemini-2.5-flash-lite');
 
-  String? aiExplanation;
   bool? isCorrect;
   bool answered = false;
 
@@ -71,59 +74,58 @@ If the answer is correct:
       ];
 
       final response = model.generateContentStream(prompt);
-
-      String fullText = "";
-
+      String fullText = '';
       await for (final chunk in response) {
-        fullText += chunk.text ?? "";
+        fullText += chunk.text ?? '';
       }
 
-      // --- parsing (UNCHANGED) ---
-      bool aiCorrect = fullText.toLowerCase().contains("correct: true");
+      final aiCorrect = fullText.toLowerCase().contains('correct: true');
 
-      String explanation = RegExp(r'EXPLANATION:\s*(.*)', caseSensitive: false)
-              .firstMatch(fullText)
-              ?.group(1)
-              ?.trim() ??
-          "";
-
-      String hint = RegExp(r'HINT:\s*(.*)', caseSensitive: false)
-              .firstMatch(fullText)
-              ?.group(1)
-              ?.trim() ??
-          "";
-
-      String improvement = RegExp(r'IMPROVEMENT:\s*(.*)', caseSensitive: false)
-              .firstMatch(fullText)
-              ?.group(1)
-              ?.trim() ??
-          "";
-
-      int score = int.tryParse(RegExp(r'SCORE:\s*(\d+)', caseSensitive: false)
+      final explanation =
+          RegExp(r'EXPLANATION:\s*(.*)', caseSensitive: false)
                   .firstMatch(fullText)
-                  ?.group(1) ??
-              "0") ??
+                  ?.group(1)
+                  ?.trim() ??
+              '';
+
+      final hint =
+          RegExp(r'HINT:\s*(.*)', caseSensitive: false)
+                  .firstMatch(fullText)
+                  ?.group(1)
+                  ?.trim() ??
+              '';
+
+      final improvement =
+          RegExp(r'IMPROVEMENT:\s*(.*)', caseSensitive: false)
+                  .firstMatch(fullText)
+                  ?.group(1)
+                  ?.trim() ??
+              '';
+
+      final scoreVal = int.tryParse(
+              RegExp(r'SCORE:\s*(\d+)', caseSensitive: false)
+                      .firstMatch(fullText)
+                      ?.group(1) ??
+                  '0') ??
           0;
 
       if (!mounted) return;
 
       setState(() {
         isCorrect = aiCorrect;
-        aiScore = score;
-
-        aiExplanation =
-            "Score: $score / 10\n\n$explanation${improvement.isNotEmpty ? "\n\nWhat could be improved:\n$improvement" : ""}";
-
-        aiHint = (!aiCorrect && hint != "none") ? hint : null;
+        _aiScore = scoreVal;
+        _aiExplanationRaw = explanation;
+        _aiImprovementRaw = improvement.isNotEmpty ? improvement : null;
+        _aiError = false;
+        aiHint = (!aiCorrect && hint != 'none') ? hint : null;
       });
 
-      LessonProgressService.recordAnswer(aiCorrect, score);
+      LessonProgressService.recordAnswer(aiCorrect, scoreVal);
     } catch (e) {
       if (!mounted) return;
-
       setState(() {
-        aiExplanation =
-            "Something went wrong. Please try again.\n\n\nError details:\n$e";
+        _aiError = true;
+        _aiExplanationRaw = e.toString();
       });
     } finally {
       if (mounted) {
@@ -136,29 +138,22 @@ If the answer is correct:
 
   void submit() {
     if (answered) return;
-
     final input = controller.text.trim();
-
     setState(() {
       answered = true;
       isAnalyzing = true;
-      aiExplanation = "Checking your answer...";
     });
-    evaluateAnswer(input); // CALL GEMINI
+    evaluateAnswer(input);
   }
 
   @override
   void initState() {
     super.initState();
-
     focusNode.addListener(() {
-      setState(() {
-        isTyping = focusNode.hasFocus;
-      });
+      setState(() {});
     });
-
     controller.addListener(() {
-      setState(() {}); // rebuild so button enable + animations update
+      setState(() {});
     });
   }
 
@@ -169,16 +164,35 @@ If the answer is correct:
     super.dispose();
   }
 
+  String? _buildExplanation(AppLocalizations l10n) {
+    if (!answered) return null;
+    if (isAnalyzing) return l10n.checkingAnswer;
+    if (_aiError) return '${l10n.errorGeneral}\n\n${_aiExplanationRaw ?? ''}';
+
+    final score = _aiScore;
+    final explanation = _aiExplanationRaw ?? '';
+    final improvement = _aiImprovementRaw;
+
+    final buffer = StringBuffer();
+    if (score != null) buffer.write('${l10n.score(score)}\n\n');
+    buffer.write(explanation);
+    if (improvement != null && improvement.isNotEmpty) {
+      buffer.write('\n\n${l10n.whatCouldBeImproved}\n$improvement');
+    }
+    return buffer.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final step = widget.step;
 
     return LessonStepScaffold(
       answered: answered,
       isCorrect: isCorrect,
-      explanation: aiExplanation,
+      explanation: _buildExplanation(l10n),
       hint: isCorrect == false ? aiHint ?? step.hint : null,
-      buttonText: answered ? "NEXT" : "ANSWER",
+      buttonText: answered ? l10n.nextButton : l10n.answerButton,
       onButtonPressed: (!answered && controller.text.isNotEmpty && !isAnalyzing)
           ? submit
           : (answered && !isAnalyzing
@@ -187,78 +201,75 @@ If the answer is correct:
       child: Column(
         children: [
           Expanded(
-              child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 140),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  step.instructions,
-                  style: const TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  step.title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    height: 1.5,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Column(
-                  children: [
-                    Center(
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Stack(
-                            children: [
-                              Image.asset(
-                                'assets/icons/redRectangle.png',
-                                width: 170,
-                              ),
-                              SpriteSheet(
-                                asset: step.spriteAsset,
-                                columns: 50,
-                                rows: 1,
-                                totalFrames: 50,
-                                fps: 25,
-                                height: 172,
-                                width: 172,
-                              )
-                            ],
-                          )),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 140),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    step.instructions,
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 28),
-                  ],
-                ),
-                const SizedBox(height: 28),
-                AppTextField(
-                  hintText: "Type your answer...",
-                  controller: controller,
-                  borderRadius: 16,
-                  multiline: true,
-                  minLines: 5,
-                  maxLines: 10,
-                  shadowOffset: const Offset(0, 2),
-                  focusNode: focusNode,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  step.disclaimer,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textPrimary.withValues(alpha: 0.7),
-                    fontWeight: FontWeight.w500,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  Text(
+                    step.title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      height: 1.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            'assets/icons/redRectangle.png',
+                            width: 170,
+                          ),
+                          SpriteSheet(
+                            asset: step.spriteAsset,
+                            columns: 50,
+                            rows: 1,
+                            totalFrames: 50,
+                            fps: 25,
+                            height: 172,
+                            width: 172,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 28),
+                  AppTextField(
+                    hintText: l10n.typeYourAnswer,
+                    controller: controller,
+                    borderRadius: 16,
+                    multiline: true,
+                    minLines: 5,
+                    maxLines: 10,
+                    shadowOffset: const Offset(0, 2),
+                    focusNode: focusNode,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    step.disclaimer,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textPrimary.withValues(alpha: 0.7),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          )),
+          ),
         ],
       ),
     );

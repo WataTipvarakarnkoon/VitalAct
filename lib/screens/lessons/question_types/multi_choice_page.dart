@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/lesson/lesson_button.dart';
 import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
@@ -27,7 +28,6 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
 
   void select(int index) {
     if (answered) return;
-
     setState(() {
       selectedIndex = index;
     });
@@ -35,6 +35,7 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final step = widget.step;
 
     return LessonStepScaffold(
@@ -44,7 +45,7 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
           ? step.correctExplanation
           : step.incorrectExplanation,
       hint: isCorrect == false ? step.hint : null,
-      buttonText: answered ? "NEXT" : "ANSWER",
+      buttonText: answered ? l10n.nextButton : l10n.answerButton,
       onButtonPressed: selectedIndex != null
           ? () {
               if (!answered) {
@@ -52,7 +53,6 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
                   answered = true;
                   isCorrect = selectedIndex == widget.step.correctIndex;
                 });
-
                 LessonProgressService.recordAnswer(
                   isCorrect!,
                   isCorrect! ? 10 : 0,
@@ -89,24 +89,25 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
                   const SizedBox(height: 24),
                   Center(
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              'assets/icons/redRectangle.png',
-                              width: 170,
-                            ),
-                            SpriteSheet(
-                              asset: step.spriteAsset,
-                              columns: 50,
-                              rows: 1,
-                              totalFrames: 50,
-                              fps: 25,
-                              height: 172,
-                              width: 172,
-                            )
-                          ],
-                        )),
+                      borderRadius: BorderRadius.circular(16),
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            'assets/icons/redRectangle.png',
+                            width: 170,
+                          ),
+                          SpriteSheet(
+                            asset: step.spriteAsset,
+                            columns: 50,
+                            rows: 1,
+                            totalFrames: 50,
+                            fps: 25,
+                            height: 172,
+                            width: 172,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 28),
                   Column(

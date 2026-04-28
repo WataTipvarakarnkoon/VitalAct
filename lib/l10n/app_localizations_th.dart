@@ -12,22 +12,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get appName => 'VitalAct';
 
   @override
-  String get proceed => 'ดำเนินการต่อ';
-
-  @override
-  String get cancel => 'ยกเลิก';
-
-  @override
-  String get back => 'ย้อนกลับ';
-
-  @override
-  String get next => 'ถัดไป';
-
-  @override
-  String get finish => 'เสร็จสิ้น';
-
-  @override
   String get tagline => 'A fun way to learn First Aid!';
+
+  @override
+  String get loading => 'กำลังโหลด...';
+
+  @override
+  String get errorGeneral => 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง';
 
   @override
   String get getStarted => 'เริ่มต้นใช้งาน';
@@ -36,7 +27,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get alreadyHaveAccount => 'ฉันมีบัญชีอยู่แล้ว';
 
   @override
-  String get loginTitle => 'เข้าสู้ระบบ';
+  String get loginTitle => 'เข้าสู่ระบบ';
 
   @override
   String get signupTitle => 'ลงทะเบียน';
@@ -54,108 +45,96 @@ class AppLocalizationsTh extends AppLocalizations {
   String get logout => 'ออกจากระบบ';
 
   @override
-  String get errorInvalidEmail => 'Invalid email address';
+  String get pleaseFixErrors => 'กรุณาแก้ไขข้อผิดพลาด';
 
   @override
-  String get errorWrongPassword => 'Incorrect password';
+  String get anonymousSignInFailed => 'การเข้าสู่ระบบแบบไม่ระบุตัวตนล้มเหลว';
 
   @override
-  String get errorUserNotFound => 'User not found';
+  String get errorInvalidEmail => 'ที่อยู่อีเมลไม่ถูกต้อง';
 
   @override
-  String get lessonPathTitle => 'Lesson Path';
+  String get errorWrongPassword => 'รหัสผ่านไม่ถูกต้อง';
 
   @override
-  String get locked => 'Locked';
+  String get errorUserNotFound => 'ไม่พบผู้ใช้';
 
   @override
-  String get completed => 'Completed';
+  String get nameSurname => 'ชื่อ นามสกุล';
 
   @override
-  String get startLesson => 'Start Lesson';
+  String get emailLabel => 'อีเมล:';
 
   @override
-  String get exitLessonTitle => 'Exit lesson?';
+  String get passwordLabel => 'รหัสผ่าน:';
 
   @override
-  String get exitLessonMessage => 'Your progress will not be saved.';
+  String get darkModeLabel => 'โหมดมืด:';
 
   @override
-  String get exit => 'Exit';
+  String get darkMode => 'โหมดมืด';
 
   @override
-  String progress(Object current, Object total) {
-    return '$current / $total';
+  String get continueLesson => 'ดำเนินการต่อ';
+
+  @override
+  String get leaveLessonTitle => 'ออกจากบทเรียน?';
+
+  @override
+  String get leaveLessonMessage => 'ความคืบหน้าในบทเรียนนี้จะไม่ถูกบันทึก';
+
+  @override
+  String get stay => 'อยู่ต่อ';
+
+  @override
+  String get leave => 'ออก';
+
+  @override
+  String get continueButton => 'ดำเนินการต่อ';
+
+  @override
+  String get nextButton => 'ถัดไป';
+
+  @override
+  String get answerButton => 'ตอบ';
+
+  @override
+  String get typeYourAnswer => 'พิมพ์คำตอบของคุณ...';
+
+  @override
+  String get checkingAnswer => 'กำลังตรวจสอบคำตอบ...';
+
+  @override
+  String get analyzing => 'กำลังวิเคราะห์...';
+
+  @override
+  String get correct => 'ถูกต้อง!';
+
+  @override
+  String get notQuite => 'ไม่ถูกทั้งหมด';
+
+  @override
+  String hintLabel(String hint) {
+    return 'คำใบ้: $hint';
   }
 
   @override
-  String get chooseBestAnswer => 'Choose the best answer';
-
-  @override
-  String get submitAnswer => 'Submit';
-
-  @override
-  String get correctAnswer => 'Correct!';
-
-  @override
-  String get wrongAnswer => 'Try again';
-
-  @override
-  String get scenarioTitle => 'Scenario';
-
-  @override
-  String get whatWouldYouDo => 'What would you do?';
-
-  @override
-  String get excellentResponse => 'Excellent response!';
-
-  @override
-  String get goodResponse => 'Good response';
-
-  @override
-  String get improveResponse => 'What could be improved';
-
-  @override
-  String get normal => 'Normal';
-
-  @override
-  String get emergency => 'Emergency';
-
-  @override
-  String get normalVsAbnormal => 'Normal vs abnormal signs';
-
-  @override
-  String get lifeThreatening => 'Life-threatening red flags';
-
-  @override
-  String score(Object score) {
-    return 'Score: $score/10';
+  String score(int score) {
+    return 'คะแนน: $score/10';
   }
 
   @override
-  String get whatYouDidWell => 'What you did well';
+  String get whatCouldBeImproved => 'สิ่งที่ควรปรับปรุง:';
 
   @override
-  String get whatToImprove => 'What could improve';
+  String get practice => 'ฝึกฝน';
 
   @override
-  String get mentalDrill => 'Mental Drill';
+  String get practiceSubtitle => 'ฝึกฝนทักษะฉุกเฉินของคุณ';
 
   @override
-  String get physicalDrill => 'Physical Drill';
+  String get mentalDrill => 'ฝึกความคิด';
 
   @override
-  String get practiceSubtitle => 'Sharpen your emergency skills';
-
-  @override
-  String get emergencySimulation => 'Emergency Simulation';
-
-  @override
-  String get cprTrainer => 'CPR Trainer';
-
-  @override
-  String get darkMode => 'Dark Mode';
-
-  @override
-  String get nameSurname => 'Name Surname';
+  String get physicalDrill => 'ฝึกร่างกาย';
 }
