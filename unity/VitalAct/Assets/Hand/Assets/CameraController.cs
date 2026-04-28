@@ -1,16 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Mediapipe.Tasks.Vision.PoseLandmarker;
 using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
-// ควบคุมกล้องด้วย left_wrist(15) จาก Pose tracking
-// ขยับข้อมือซ้ายไปทิศไหน → กล้องหันตาม
 public class CameraController : MonoBehaviour
 {
-    [Header(“Camera Settings”)]
+    [Header("Camera Settings")]
     public float rotateSpeed = 120f;
     public float smoothSpeed = 6f;
 
-    [Header(“Wrist Tracking”)]
+    [Header("Wrist Tracking")]
     public float gestureHoldTime = 0.08f;
 
     private PoseLandmarkerResult latestResult;
@@ -63,7 +61,6 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        // ใช้ left_wrist(15) ควบคุมกล้อง
         var wrist = landmarks[15];
         Vector2 center = new Vector2(wrist.x, wrist.y);
 
@@ -71,7 +68,6 @@ public class CameraController : MonoBehaviour
         {
             Vector2 rawDelta = center - lastPos;
             smoothDelta = Vector2.Lerp(smoothDelta, rawDelta, Time.deltaTime * 15f);
-
             targetYaw -= smoothDelta.x * rotateSpeed;
             targetPitch -= smoothDelta.y * rotateSpeed;
             targetPitch = Mathf.Clamp(targetPitch, -80f, 80f);
@@ -97,7 +93,6 @@ public class CameraController : MonoBehaviour
     {
         currentYaw = Mathf.Lerp(currentYaw, targetYaw, Time.deltaTime * smoothSpeed);
         currentPitch = Mathf.Lerp(currentPitch, targetPitch, Time.deltaTime * smoothSpeed);
-
         transform.rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
     }
 }
