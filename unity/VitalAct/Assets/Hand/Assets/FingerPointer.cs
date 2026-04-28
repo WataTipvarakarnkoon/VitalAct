@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
 public class FingerPointer : MonoBehaviour
 {
@@ -9,22 +9,22 @@ public class FingerPointer : MonoBehaviour
     public float hoverTime = 1.5f;
     public float rayLength = 50f;
 
-    private HandLandmarkerResult latestResult;
+    private PoseLandmarkerResult latestResult;
     private bool hasResult = false;
     private float hoverTimer = 0f;
     private Collider lastHovered = null;
 
     void Start()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult += OnReceiveResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult += OnReceiveResult;
     }
 
     void OnDestroy()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult -= OnReceiveResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult -= OnReceiveResult;
     }
 
-    void OnReceiveResult(HandLandmarkerResult result)
+    void OnReceiveResult(PoseLandmarkerResult result)
     {
         latestResult = result;
         hasResult = true;
@@ -32,14 +32,14 @@ public class FingerPointer : MonoBehaviour
 
     void Update()
     {
-        if (!hasResult || latestResult.handLandmarks == null) return;
-        if (latestResult.handLandmarks.Count == 0) return;
+        if (!hasResult || latestResult.poseLandmarks == null) return;
+        if (latestResult.poseLandmarks.Count == 0) return;
 
-        var landmarks = latestResult.handLandmarks[0].landmarks;
-        if (landmarks == null || landmarks.Count < 9) return;
+        var landmarks = latestResult.poseLandmarks[0].landmarks;
+        if (landmarks == null || landmarks.Count < 17) return;
 
-        // ปลายนิ้วชี้ = landmark 8
-        var tip = landmarks[8];
+        // ใช้ left_wrist(15) เป็นตัวชี้
+        var tip = landmarks[15];
         Vector3 tipWorld = Camera.main.ViewportToWorldPoint(
             new Vector3(1f - tip.x, 1f - tip.y, handDepth));
 

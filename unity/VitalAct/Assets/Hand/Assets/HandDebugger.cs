@@ -1,24 +1,26 @@
 ﻿using UnityEngine;
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
 public class HandDebugger : MonoBehaviour
 {
     void OnEnable()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult += OnResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult += OnResult;
     }
 
     void OnDisable()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult -= OnResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult -= OnResult;
     }
 
-    private void OnResult(HandLandmarkerResult result)
+    private void OnResult(PoseLandmarkerResult result)
     {
-        if (result.handLandmarks == null || result.handLandmarks.Count == 0) return;
+        if (result.poseLandmarks == null || result.poseLandmarks.Count == 0) return;
 
-        var tip = result.handLandmarks[0].landmarks[8];
-        Debug.Log($"Index Tip X:{tip.x:F2} Y:{tip.y:F2} Z:{tip.z:F2}");
+        var lm = result.poseLandmarks[0].landmarks;
+        var lw = lm[15]; // left_wrist
+        var rw = lm[16]; // right_wrist
+        Debug.Log($"L-Wrist X:{lw.x:F2} Y:{lw.y:F2}  R-Wrist X:{rw.x:F2} Y:{rw.y:F2}");
     }
 }

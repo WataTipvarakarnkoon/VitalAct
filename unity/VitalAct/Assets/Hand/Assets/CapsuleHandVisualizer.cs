@@ -1,81 +1,62 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
+// แสดง arm skeleton capsule: shoulder→elbow→wrist จาก Pose landmark
+// Left:  shoulder=11, elbow=13, wrist=15
+// Right: shoulder=12, elbow=14, wrist=16
 public class CapsuleHandVisualizer : MonoBehaviour
 {
     public float handDepth = 2f;
     public float smoothSpeed = 25f;
-    public float fingerRadius = 0.012f;  // ความหนานิ้ว
-    public float palmRadius = 0.018f;    // ความหนาฝ่ามือ
+    public float armRadius = 0.018f;
 
-    // เส้นเชื่อมระหว่าง landmark (bone connections)
-    private static readonly int[][] bones = {
-        // ฝ่ามือ
-        new int[]{0, 1}, new int[]{0, 5}, new int[]{0, 17},
-        new int[]{5, 9}, new int[]{9, 13}, new int[]{13, 17},
-        // นิ้วหัวแม่มือ
-        new int[]{1, 2}, new int[]{2, 3}, new int[]{3, 4},
-        // นิ้วชี้
-        new int[]{5, 6}, new int[]{6, 7}, new int[]{7, 8},
-        // นิ้วกลาง
-        new int[]{9, 10}, new int[]{10, 11}, new int[]{11, 12},
-        // นิ้วนาง
-        new int[]{13, 14}, new int[]{14, 15}, new int[]{15, 16},
-        // นิ้วก้อย
-        new int[]{17, 18}, new int[]{18, 19}, new int[]{19, 20}
+    // [arm][bone]: pose landmark index คู่ a→b
+    private static readonly int[][][] armBones = {
+        new int[][]{ new int[]{11,13}, new int[]{13,15} }, // left
+        new int[][]{ new int[]{12,14}, new int[]{14,16} }, // right
     };
 
-    private List<CapsuleBone> leftBones = new List<CapsuleBone>();
+    private List<CapsuleBone> leftBones  = new List<CapsuleBone>();
     private List<CapsuleBone> rightBones = new List<CapsuleBone>();
-    private List<Vector3> leftPositions = new List<Vector3>();
-    private List<Vector3> rightPositions = new List<Vector3>();
 
-    private HandLandmarkerResult latestResult;
+    // positions: [left/right][shoulder=0, elbow=1, wrist=2]
+    private Vector3[][] positions = { new Vector3[3], new Vector3[3] };
+
+    private PoseLandmarkerResult latestResult;
     private bool hasResult = false;
 
     void Start()
     {
-        // เตรียม positions 21 จุดต่อมือ
-        for (int i = 0; i < 21; i++)
-        {
-            leftPositions.Add(Vector3.zero);
-            rightPositions.Add(Vector3.zero);
-        }
+        leftBones  = CreateArmBones("Left",  new Color(0.9f, 0.75f, 0.65f));
+        rightBones = CreateArmBones("Right", new Color(0.9f, 0.75f, 0.65f));
 
-        leftBones = CreateHandBones("Left", new Color(0.9f, 0.75f, 0.65f));
-        rightBones = CreateHandBones("Right", new Color(0.9f, 0.75f, 0.65f));
+        SetArmActive(leftBones,  false);
+        SetArmActive(rightBones, false);
 
-        SetHandActive(leftBones, false);
-        SetHandActive(rightBones, false);
-
-        HandLandmarkerRunner.OnHandLandmarkResult += OnReceiveResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult += OnReceiveResult;
     }
 
-    List<CapsuleBone> CreateHandBones(string handName, Color color)
+    List<CapsuleBone> CreateArmBones(string side, Color color)
     {
         var boneList = new List<CapsuleBone>();
-        var parent = new GameObject(handName + "_Hand");
+        var parent = new GameObject(side + "_Arm");
         parent.transform.parent = this.transform;
 
         var mat = new Material(Shader.Find("Standard"));
         mat.color = color;
 
-        for (int i = 0; i < bones.Length; i++)
+        for (int i = 0; i < 2; i++) // shoulder→elbow, elbow→wrist
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            go.name = handName + "_Bone_" + i;
+            go.name = side + "_ArmBone_" + i;
             go.transform.parent = parent.transform;
             go.GetComponent<Renderer>().material = mat;
             Destroy(go.GetComponent<CapsuleCollider>());
+            go.transform.localScale = new Vector3(armRadius * 2, 0.05f, armRadius * 2);
 
-            // palm bone หนากว่า finger bone
-            bool isPalm = i < 6;
-            float radius = isPalm ? palmRadius : fingerRadius;
-            go.transform.localScale = new Vector3(radius * 2, 0.05f, radius * 2);
-
-            boneList.Add(new CapsuleBone { gameObject = go, radius = radius });
+            boneList.Add(new CapsuleBone { gameObject = go, radius = armRadius });
         }
 
         return boneList;
@@ -83,10 +64,10 @@ public class CapsuleHandVisualizer : MonoBehaviour
 
     void OnDestroy()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult -= OnReceiveResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult -= OnReceiveResult;
     }
 
-    private void OnReceiveResult(HandLandmarkerResult result)
+    private void OnReceiveResult(PoseLandmarkerResult result)
     {
         latestResult = result;
         hasResult = true;
@@ -94,50 +75,36 @@ public class CapsuleHandVisualizer : MonoBehaviour
 
     void Update()
     {
-        SetHandActive(leftBones, false);
-        SetHandActive(rightBones, false);
+        SetArmActive(leftBones,  false);
+        SetArmActive(rightBones, false);
 
-        if (!hasResult || latestResult.handLandmarks == null) return;
+        if (!hasResult || latestResult.poseLandmarks == null) return;
+        if (latestResult.poseLandmarks.Count == 0) return;
 
-        bool foundLeft = false;
-        bool foundRight = false;
+        var landmarks = latestResult.poseLandmarks[0].landmarks;
+        if (landmarks.Count < 17) return;
 
-        for (int h = 0; h < latestResult.handLandmarks.Count; h++)
+        // Pose indices: left shoulder=11,elbow=13,wrist=15 | right shoulder=12,elbow=14,wrist=16
+        int[][] poseSides = {
+            new int[]{ 11, 13, 15 }, // left
+            new int[]{ 12, 14, 16 }, // right
+        };
+        List<CapsuleBone>[] boneSides = { leftBones, rightBones };
+
+        for (int s = 0; s < 2; s++)
         {
-            bool isLeft = false;
-            if (latestResult.handedness != null && h < latestResult.handedness.Count)
+            // อัพเดท 3 positions: shoulder, elbow, wrist
+            for (int j = 0; j < 3; j++)
             {
-                var handedness = latestResult.handedness[h].categories[0].categoryName;
-                isLeft = handedness == "Left";
-            }
-
-            var landmarks = latestResult.handLandmarks[h].landmarks;
-            if (landmarks.Count < 21) continue;
-
-            var positions = isLeft ? leftPositions : rightPositions;
-            var boneList = isLeft ? leftBones : rightBones;
-
-            if (isLeft) foundLeft = true;
-            else foundRight = true;
-
-            // อัพเดท positions ทุก landmark
-            for (int i = 0; i < 21; i++)
-            {
-                var lm = landmarks[i];
+                var lm = landmarks[poseSides[s][j]];
                 Vector3 target = Camera.main.ViewportToWorldPoint(
-                    new Vector3(lm.x, 1f - lm.y, handDepth)
-                );
-                positions[i] = Vector3.Lerp(positions[i], target, Time.deltaTime * smoothSpeed);
+                    new Vector3(lm.x, 1f - lm.y, handDepth));
+                positions[s][j] = Vector3.Lerp(positions[s][j], target, Time.deltaTime * smoothSpeed);
             }
 
-            // อัพเดท capsule แต่ละ bone
-            SetHandActive(boneList, true);
-            for (int i = 0; i < bones.Length; i++)
-            {
-                Vector3 start = positions[bones[i][0]];
-                Vector3 end = positions[bones[i][1]];
-                UpdateCapsule(boneList[i], start, end);
-            }
+            SetArmActive(boneSides[s], true);
+            for (int i = 0; i < 2; i++) // bone 0: shoulder→elbow, bone 1: elbow→wrist
+                UpdateCapsule(boneSides[s][i], positions[s][i], positions[s][i + 1]);
         }
     }
 
@@ -164,7 +131,7 @@ public class CapsuleHandVisualizer : MonoBehaviour
         );
     }
 
-    void SetHandActive(List<CapsuleBone> boneList, bool active)
+    void SetArmActive(List<CapsuleBone> boneList, bool active)
     {
         foreach (var b in boneList)
             if (b.gameObject != null)

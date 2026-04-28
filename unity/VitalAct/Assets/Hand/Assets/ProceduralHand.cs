@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
+// แสดง arm skeleton: shoulder→elbow→wrist สำหรับแต่ละข้าง
+// Pose indices: L shoulder=11, L elbow=13, L wrist=15 | R shoulder=12, R elbow=14, R wrist=16
 public class ProceduralHand : MonoBehaviour
 {
     [Header("Settings")]
     public float handDepth = 1.5f;
-    [Tooltip("Half-life (seconds) for joint smoothing. 0.04 = ~2.5 frames at 60fps. " +
-             "Lower = faster response. Replaces the old smoothSpeed field.")]
     public float smoothHalfLife = 0.04f;
-    [Tooltip("Half-life used when the joint is moving fast (CPR compression phase).")]
     public float fastHalfLife = 0.025f;
 
     [Header("Appearance")]
@@ -17,76 +16,68 @@ public class ProceduralHand : MonoBehaviour
     public Color jointColor = new Color(1f, 0.75f, 0.6f);
 
     [Header("Thickness")]
-    public float thumbWidth = 0.035f;
-    public float fingerWidth = 0.025f;
-    public float tipWidth = 0.018f;
-    public float palmWidth = 0.045f;
+    public float armWidth = 0.045f;
+    public float wristWidth = 0.035f;
 
-    private static readonly int[][] bones = {
-        new int[]{0,1,0}, new int[]{0,5,0}, new int[]{0,17,0},
-        new int[]{5,9,0}, new int[]{9,13,0}, new int[]{13,17,0},
-        new int[]{1,2,1}, new int[]{2,3,1}, new int[]{3,4,3},
-        new int[]{5,6,2}, new int[]{6,7,2}, new int[]{7,8,3},
-        new int[]{9,10,2}, new int[]{10,11,2}, new int[]{11,12,3},
-        new int[]{13,14,2}, new int[]{14,15,2}, new int[]{15,16,3},
-        new int[]{17,18,2}, new int[]{18,19,2}, new int[]{19,20,3},
+    // Pose landmark indices สำหรับ arm
+    // [0]=left arm, [1]=right arm; แต่ละ arm: [shoulder, elbow, wrist]
+    private static readonly int[][] armIndices = {
+        new int[]{ 11, 13, 15 },  // left
+        new int[]{ 12, 14, 16 },  // right
+    };
+    // bones ต่อ arm: shoulder→elbow, elbow→wrist
+    private static readonly int[][] armBones = {
+        new int[]{ 0, 1 },
+        new int[]{ 1, 2 },
     };
 
-    private HandData leftHand;
-    private HandData rightHand;
-    private HandLandmarkerResult latestResult;
+    private ArmData leftArm;
+    private ArmData rightArm;
+    private PoseLandmarkerResult latestResult;
     private bool hasResult = false;
 
     void Start()
     {
-        leftHand = CreateHand("Left");
-        rightHand = CreateHand("Right");
-        HandLandmarkerRunner.OnHandLandmarkResult += OnReceiveResult;
+        leftArm  = CreateArm("Left");
+        rightArm = CreateArm("Right");
+        PoseLandmarkerRunner.OnPoseLandmarkResult += OnReceiveResult;
     }
 
     void OnDestroy()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult -= OnReceiveResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult -= OnReceiveResult;
     }
 
-    void OnReceiveResult(HandLandmarkerResult result)
+    void OnReceiveResult(PoseLandmarkerResult result)
     {
-        // Use the stabilizer's buffered result if available, otherwise raw result.
         latestResult = CprTrackingStabilizer.HasStableResult
             ? CprTrackingStabilizer.StableResult
             : result;
         hasResult = CprTrackingStabilizer.HasStableResult
-            || (result.handLandmarks != null && result.handLandmarks.Count > 0);
+            || (result.poseLandmarks != null && result.poseLandmarks.Count > 0);
     }
 
-    HandData CreateHand(string side)
+    ArmData CreateArm(string side)
     {
-        var data = new HandData();
-        var root = new GameObject(side + "_ProceduralHand");
+        var data = new ArmData();
+        var root = new GameObject(side + "_ProceduralArm");
         root.transform.parent = transform;
 
-        data.positions = new Vector3[21];
+        data.positions = new Vector3[3]; // shoulder, elbow, wrist
 
         var skinMat = CreateMat(skinColor);
         var jointMat = CreateMat(jointColor);
 
-        data.joints = new GameObject[21];
-        for (int i = 0; i < 21; i++)
+        data.joints = new GameObject[3];
+        string[] jointNames = { "Shoulder", "Elbow", "Wrist" };
+        float[] sizes = { armWidth * 1.8f, armWidth * 1.6f, wristWidth * 1.8f };
+
+        for (int i = 0; i < 3; i++)
         {
-            bool isTip = (i == 4 || i == 8 || i == 12 || i == 16 || i == 20);
-            bool isThumb = (i >= 1 && i <= 4);
-            bool isPalm = (i == 0);
-
-            float size;
-            if (isPalm) size = palmWidth * 1.8f;
-            else if (isThumb) size = thumbWidth * 1.6f;
-            else if (isTip) size = tipWidth * 1.6f;
-            else size = fingerWidth * 1.6f;
-
             var s = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            s.name = side + "_Joint_" + i;
+            s.name = side + "_" + jointNames[i];
             s.transform.parent = root.transform;
-            s.transform.localScale = Vector3.one * size;
+            s.transform.localScale = Vector3.one * sizes[i];
             s.GetComponent<Renderer>().material = jointMat;
             s.SetActive(false);
             s.layer = LayerMask.NameToLayer("Hand");
@@ -96,25 +87,24 @@ public class ProceduralHand : MonoBehaviour
             rb.useGravity = false;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
 
-            if (isTip)
+            if (i == 2) // wrist = collider สำหรับ interaction
             {
-                var col = s.GetComponent<SphereCollider>();
-                col.radius = 0.5f;
+                s.GetComponent<SphereCollider>().radius = 0.5f;
+                s.tag = "Hand";
             }
             else
             {
                 Destroy(s.GetComponent<SphereCollider>());
             }
 
-            s.tag = "Hand";
             data.joints[i] = s;
         }
 
-        data.capsules = new GameObject[bones.Length];
-        for (int i = 0; i < bones.Length; i++)
+        data.capsules = new GameObject[armBones.Length];
+        for (int i = 0; i < armBones.Length; i++)
         {
             var c = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            c.name = side + "_Bone_" + i;
+            c.name = side + "_ArmBone_" + i;
             c.transform.parent = root.transform;
             c.GetComponent<Renderer>().material = skinMat;
             c.layer = LayerMask.NameToLayer("Hand");
@@ -138,63 +128,43 @@ public class ProceduralHand : MonoBehaviour
 
     void Update()
     {
-        SetHandActive(leftHand, false);
-        SetHandActive(rightHand, false);
+        SetArmActive(leftArm, false);
+        SetArmActive(rightArm, false);
 
-        if (!hasResult || latestResult.handLandmarks == null) return;
+        if (!hasResult || latestResult.poseLandmarks == null) return;
+        if (latestResult.poseLandmarks.Count == 0) return;
 
-        for (int h = 0; h < latestResult.handLandmarks.Count; h++)
+        var landmarks = latestResult.poseLandmarks[0].landmarks;
+        if (landmarks.Count < 17) return;
+
+        UpdateArm(leftArm,  armIndices[0], landmarks);
+        UpdateArm(rightArm, armIndices[1], landmarks);
+    }
+
+    void UpdateArm(ArmData arm, int[] poseIdx, System.Collections.Generic.IList<Mediapipe.Tasks.Components.Containers.NormalizedLandmark> landmarks)
+    {
+        SetArmActive(arm, true);
+
+        for (int i = 0; i < 3; i++)
         {
-            bool isLeft = false;
-            if (latestResult.handedness != null && h < latestResult.handedness.Count)
-                isLeft = latestResult.handedness[h].categories[0].categoryName == "Left";
+            var lm = landmarks[poseIdx[i]];
+            Vector3 target = Camera.main.ViewportToWorldPoint(
+                new Vector3(lm.x, 1f - lm.y, handDepth));
 
-            var hand = isLeft ? leftHand : rightHand;
-            var landmarks = latestResult.handLandmarks[h].landmarks;
+            arm.positions[i] = CprTrackingStabilizer.SmoothTowardAdaptive(
+                arm.positions[i], target,
+                smoothHalfLife, fastHalfLife,
+                CprTrackingStabilizer.VelocityThresholdDefault,
+                Time.deltaTime);
 
-            if (landmarks == null || landmarks.Count < 21) continue;
+            var rb = arm.joints[i].GetComponent<Rigidbody>();
+            if (rb != null) rb.MovePosition(arm.positions[i]);
+            else arm.joints[i].transform.position = arm.positions[i];
+        }
 
-            SetHandActive(hand, true);
-
-            for (int i = 0; i < 21; i++)
-            {
-                var lm = landmarks[i];
-                Vector3 target = Camera.main.ViewportToWorldPoint(
-                    new Vector3(lm.x, 1f - lm.y, handDepth));
-
-                hand.positions[i] = CprTrackingStabilizer.SmoothTowardAdaptive(
-                    hand.positions[i], target,
-                    smoothHalfLife, fastHalfLife,
-                    CprTrackingStabilizer.VelocityThresholdDefault,
-                    Time.deltaTime);
-
-                var rb = hand.joints[i].GetComponent<Rigidbody>();
-                if (rb != null)
-                    rb.MovePosition(hand.positions[i]);
-                else
-                    hand.joints[i].transform.position = hand.positions[i];
-            }
-
-            for (int i = 0; i < bones.Length; i++)
-            {
-                int a = bones[i][0];
-                int b = bones[i][1];
-                if (a >= 21 || b >= 21) continue;
-
-                float width = bones[i][2] switch
-                {
-                    0 => palmWidth,
-                    1 => thumbWidth,
-                    3 => tipWidth,
-                    _ => fingerWidth
-                };
-
-                UpdateCapsule(
-                    hand.capsules[i],
-                    hand.positions[a],
-                    hand.positions[b],
-                    width);
-            }
+        for (int i = 0; i < armBones.Length; i++)
+        {
+            UpdateCapsule(arm.capsules[i], arm.positions[armBones[i][0]], arm.positions[armBones[i][1]], armWidth);
         }
     }
 
@@ -208,19 +178,19 @@ public class ProceduralHand : MonoBehaviour
         cap.transform.localScale = new Vector3(width * 2f, len * 0.5f, width * 2f);
     }
 
-    void SetHandActive(HandData hand, bool active)
+    void SetArmActive(ArmData arm, bool active)
     {
-        foreach (var j in hand.joints)
+        foreach (var j in arm.joints)
             if (j) j.SetActive(active);
-        foreach (var c in hand.capsules)
+        foreach (var c in arm.capsules)
             if (c) c.SetActive(active);
     }
 
-    class HandData
+    class ArmData
     {
         public GameObject root;
-        public GameObject[] joints;
-        public GameObject[] capsules;
+        public GameObject[] joints;   // [0]=shoulder, [1]=elbow, [2]=wrist
+        public GameObject[] capsules; // [0]=shoulder→elbow, [1]=elbow→wrist
         public Vector3[] positions;
     }
 }

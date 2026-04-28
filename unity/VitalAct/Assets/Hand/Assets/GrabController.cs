@@ -1,33 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
 public class GrabController : MonoBehaviour
 {
     [Header("Settings")]
     public float handDepth = 2f;
-    public float grabThreshold = 0.08f;   // ระยะห่างที่ถือว่า "หยิบ"
+    public float grabThreshold = 0.15f;   // ระยะห่างข้อมือกับ object ที่ถือว่า "หยิบ"
     public float smoothSpeed = 25f;
 
-    // เก็บ state แยกต่อมือ
+    // เก็บ state แยกต่อมือ (Pose: 15=left_wrist, 16=right_wrist)
     private GrabHand leftHand = new GrabHand();
     private GrabHand rightHand = new GrabHand();
 
-    private HandLandmarkerResult latestResult;
+    private PoseLandmarkerResult latestResult;
     private bool hasResult = false;
 
     void Start()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult += OnReceiveResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult += OnReceiveResult;
     }
 
     void OnDestroy()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult -= OnReceiveResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult -= OnReceiveResult;
     }
 
-    private void OnReceiveResult(HandLandmarkerResult result)
+    private void OnReceiveResult(PoseLandmarkerResult result)
     {
         latestResult = result;
         hasResult = true;
@@ -35,51 +35,30 @@ public class GrabController : MonoBehaviour
 
     void Update()
     {
-        if (!hasResult || latestResult.handLandmarks == null) return;
+        if (!hasResult || latestResult.poseLandmarks == null) return;
 
-        // reset ถ้าไม่เจอมือ
-        if (latestResult.handLandmarks.Count == 0)
+        if (latestResult.poseLandmarks.Count == 0)
         {
             leftHand.Release();
             rightHand.Release();
             return;
         }
 
-        bool foundLeft = false;
-        bool foundRight = false;
-
-        for (int h = 0; h < latestResult.handLandmarks.Count; h++)
+        var lm = latestResult.poseLandmarks[0].landmarks;
+        if (lm.Count < 17)
         {
-            bool isLeft = false;
-            if (latestResult.handedness != null && h < latestResult.handedness.Count)
-            {
-                var handedness = latestResult.handedness[h].categories[0].categoryName;
-                isLeft = handedness == "Left";
-            }
-
-            var landmarks = latestResult.handLandmarks[h].landmarks;
-            if (landmarks.Count < 21) continue;
-
-            // ตำแหน่งนิ้วหัวแม่มือ (4) และนิ้วชี้ (8)
-            Vector3 thumbPos = GetWorldPos(landmarks[4]);
-            Vector3 indexPos = GetWorldPos(landmarks[8]);
-
-            // จุดกึ่งกลางระหว่างสองนิ้ว = ตำแหน่งที่ใช้เลื่อน object
-            Vector3 pinchCenter = (thumbPos + indexPos) / 2f;
-
-            float distance = Vector3.Distance(thumbPos, indexPos);
-            bool isPinching = distance < grabThreshold;
-
-            var hand = isLeft ? leftHand : rightHand;
-
-            if (isLeft) foundLeft = true;
-            else foundRight = true;
-
-            hand.UpdateGrab(isPinching, pinchCenter, smoothSpeed);
+            leftHand.Release();
+            rightHand.Release();
+            return;
         }
 
-        if (!foundLeft) leftHand.Release();
-        if (!foundRight) rightHand.Release();
+        // left_wrist=15, right_wrist=16
+        Vector3 leftWrist  = GetWorldPos(lm[15]);
+        Vector3 rightWrist = GetWorldPos(lm[16]);
+
+        // Grab โดยใช้ wrist proximity (ไม่มี pinch ใน Pose)
+        leftHand.UpdateGrab(true, leftWrist, smoothSpeed, grabThreshold);
+        rightHand.UpdateGrab(true, rightWrist, smoothSpeed, grabThreshold);
     }
 
     Vector3 GetWorldPos(Mediapipe.Tasks.Components.Containers.NormalizedLandmark lm)
@@ -98,20 +77,19 @@ public class GrabHand
     private Vector3 grabOffset;
     private bool wasPinching = false;
 
-    public void UpdateGrab(bool isPinching, Vector3 pinchCenter, float smoothSpeed)
+    public void UpdateGrab(bool wristVisible, Vector3 wristPos, float smoothSpeed, float grabThreshold)
     {
-        if (isPinching)
+        if (wristVisible)
         {
             if (!wasPinching)
             {
-                // เพิ่งเริ่มหยิบ → หา object ที่ใกล้ที่สุด
-                TryGrab(pinchCenter);
+                // ลอง grab object ที่ใกล้ wrist
+                TryGrab(wristPos, grabThreshold);
             }
 
             if (grabbedObject != null)
             {
-                // เลื่อน object ตาม pinch center
-                Vector3 targetPos = pinchCenter + grabOffset;
+                Vector3 targetPos = wristPos + grabOffset;
                 var rb = grabbedObject.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -133,7 +111,6 @@ public class GrabHand
         }
         else
         {
-            // ปล่อย object
             if (grabbedObject != null)
             {
                 var rb = grabbedObject.GetComponent<Rigidbody>();
@@ -142,13 +119,12 @@ public class GrabHand
             }
         }
 
-        wasPinching = isPinching;
+        wasPinching = wristVisible && grabbedObject != null;
     }
 
-    void TryGrab(Vector3 pinchCenter)
+    void TryGrab(Vector3 wristPos, float grabThreshold)
     {
-        // หา Collider ที่อยู่ในรัศมี 0.15f รอบ pinch point
-        Collider[] hits = Physics.OverlapSphere(pinchCenter, 0.15f);
+        Collider[] hits = Physics.OverlapSphere(wristPos, grabThreshold);
         float closest = float.MaxValue;
 
         foreach (var hit in hits)
@@ -167,8 +143,7 @@ public class GrabHand
 
         if (grabbedObject != null)
         {
-            // คำนวณ offset ระหว่าง object กับ pinch center
-            grabOffset = grabbedObject.transform.position - pinchCenter;
+            grabOffset = grabbedObject.transform.position - wristPos;
 
             // หยุด physics ชั่วคราวขณะถือ
             var rb = grabbedObject.GetComponent<Rigidbody>();

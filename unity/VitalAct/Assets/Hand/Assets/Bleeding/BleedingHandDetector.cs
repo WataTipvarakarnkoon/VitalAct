@@ -1,5 +1,5 @@
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,26 +44,27 @@ public class BleedingHandDetector : MonoBehaviour
 
     private void OnEnable()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult += OnHandLandmarkResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult += OnPoseLandmarkResult;
     }
 
     private void OnDisable()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult -= OnHandLandmarkResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult -= OnPoseLandmarkResult;
     }
 
-    private void OnHandLandmarkResult(HandLandmarkerResult result)
+    private void OnPoseLandmarkResult(PoseLandmarkerResult result)
     {
-        if (result.handLandmarks == null || result.handLandmarks.Count == 0)
+        if (result.poseLandmarks == null || result.poseLandmarks.Count == 0)
         {
             _handVisible = false;
             _hasNewData = true;
             return;
         }
 
-        var landmarks = result.handLandmarks[0].landmarks;
-        _pendingRawX = (landmarks[0].x + landmarks[5].x + landmarks[9].x + landmarks[13].x + landmarks[17].x) / 5f;
-        _pendingRawY = (landmarks[0].y + landmarks[5].y + landmarks[9].y + landmarks[13].y + landmarks[17].y) / 5f;
+        var landmarks = result.poseLandmarks[0].landmarks;
+        // left_wrist(15) + right_wrist(16)
+        _pendingRawX = (landmarks[15].x + landmarks[16].x) / 2f;
+        _pendingRawY = (landmarks[15].y + landmarks[16].y) / 2f;
         _handVisible = true;
         _hasNewData = true;
     }

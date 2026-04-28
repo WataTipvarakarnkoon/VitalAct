@@ -1,6 +1,6 @@
 using UnityEngine;
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
 /// <summary>
 /// Drop-in stabilizer for the CPR hand-tracking pipeline.
@@ -42,7 +42,7 @@ public class CprTrackingStabilizer : MonoBehaviour
     /// Latest stable result. May be the real MediaPipe output or the last
     /// cached one if we are inside the grace window.
     /// </summary>
-    public static HandLandmarkerResult StableResult { get; private set; }
+    public static PoseLandmarkerResult StableResult { get; private set; }
 
     /// <summary>
     /// True only when we have a result that is still within the grace window.
@@ -51,22 +51,22 @@ public class CprTrackingStabilizer : MonoBehaviour
 
     // ---- internals ----
 
-    private HandLandmarkerResult _lastGoodResult;
+    private PoseLandmarkerResult _lastGoodResult;
     private int _missingFrames = 0;
 
     void OnEnable()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult += OnResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult += OnResult;
     }
 
     void OnDisable()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult -= OnResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult -= OnResult;
     }
 
-    private void OnResult(HandLandmarkerResult result)
+    private void OnResult(PoseLandmarkerResult result)
     {
-        bool hasHands = result.handLandmarks != null && result.handLandmarks.Count > 0;
+        bool hasHands = result.poseLandmarks != null && result.poseLandmarks.Count > 0;
 
         if (hasHands)
         {

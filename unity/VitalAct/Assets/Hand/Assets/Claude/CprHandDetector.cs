@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
 public class CprHandDetector : MonoBehaviour
 {
@@ -110,24 +110,24 @@ public class CprHandDetector : MonoBehaviour
 
     // ──────────────────────────────────────────────────────
 
-    void OnEnable()  => HandLandmarkerRunner.OnHandLandmarkResult += OnHandLandmarkResult;
-    void OnDisable() => HandLandmarkerRunner.OnHandLandmarkResult -= OnHandLandmarkResult;
+    void OnEnable()  => PoseLandmarkerRunner.OnPoseLandmarkResult += OnPoseLandmarkResult;
+    void OnDisable() => PoseLandmarkerRunner.OnPoseLandmarkResult -= OnPoseLandmarkResult;
 
     // MediaPipe thread
-    void OnHandLandmarkResult(HandLandmarkerResult result)
+    void OnPoseLandmarkResult(PoseLandmarkerResult result)
     {
-        if (result.handLandmarks == null || result.handLandmarks.Count == 0)
+        if (result.poseLandmarks == null || result.poseLandmarks.Count == 0)
         {
             _handVisible = false;
             _hasNewData  = true;
             return;
         }
 
-        var lm = result.handLandmarks[0].landmarks;
-        // ใช้ wrist(0), index-MCP(5), middle-MCP(9), ring-MCP(13), pinky-MCP(17)
-        // เพิ่มจุดอ้างอิง → stable กว่าใช้แค่ 3 จุด
-        _pendingRawX = (lm[0].x + lm[5].x + lm[9].x + lm[13].x + lm[17].x) / 5f;
-        _pendingRawY = (lm[0].y + lm[5].y + lm[9].y + lm[13].y + lm[17].y) / 5f;
+        var lm = result.poseLandmarks[0].landmarks;
+        // ใช้ left_wrist(15) + right_wrist(16) — Pose tracking
+        // เฉลี่ยสองมือ → ตำแหน่งกลางระหว่างมือสองข้างที่กด CPR
+        _pendingRawX = (lm[15].x + lm[16].x) / 2f;
+        _pendingRawY = (lm[15].y + lm[16].y) / 2f;
         _handVisible = true;
         _hasNewData  = true;
     }

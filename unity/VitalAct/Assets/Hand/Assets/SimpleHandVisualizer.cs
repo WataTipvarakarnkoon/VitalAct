@@ -1,88 +1,61 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Mediapipe.Tasks.Vision.HandLandmarker;
-using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.PoseLandmarker;
+using Mediapipe.Unity.Sample.PoseLandmarkDetection;
 
+// แสดง sphere ที่ข้อมือซ้าย(15) และขวา(16) จาก Pose landmark
 public class SimpleHandVisualizer : MonoBehaviour
 {
     public float handDepth = 2f;
     public float smoothSpeed = 25f;
 
-    private List<GameObject> leftJoints = new List<GameObject>();
-    private List<GameObject> rightJoints = new List<GameObject>();
+    // Pose: left_wrist=15, right_wrist=16
+    private static readonly int[] poseWristIndices = { 15, 16 };
+    private static readonly string[] wristNames = { "Left_Wrist", "Right_Wrist" };
+    private static readonly Color[] wristColors = { Color.red, Color.blue };
 
-    // index ของ joint ที่ต้องการ collider
-    private int[] colliderJoints = { 0, 4, 8, 12, 16, 20 };
+    private List<GameObject> wristSpheres = new List<GameObject>();
 
-    private HandLandmarkerResult latestResult;
+    private PoseLandmarkerResult latestResult;
     private bool hasResult = false;
-
-    private string[] landmarkNames = {
-        "Wrist",
-        "Thumb_CMC", "Thumb_MCP", "Thumb_IP", "Thumb_Tip",
-        "Index_MCP", "Index_PIP", "Index_DIP", "Index_Tip",
-        "Middle_MCP", "Middle_PIP", "Middle_DIP", "Middle_Tip",
-        "Ring_MCP", "Ring_PIP", "Ring_DIP", "Ring_Tip",
-        "Pinky_MCP", "Pinky_PIP", "Pinky_DIP", "Pinky_Tip"
-    };
 
     void Start()
     {
-        leftJoints = CreateHandJoints("Left", Color.red);
-        rightJoints = CreateHandJoints("Right", Color.blue);
-        HandLandmarkerRunner.OnHandLandmarkResult += OnReceiveResult;
-    }
-
-    List<GameObject> CreateHandJoints(string handName, Color color)
-    {
-        var joints = new List<GameObject>();
-        var parent = new GameObject(handName + "_Hand");
+        var parent = new GameObject("Wrist_Visualizer");
         parent.transform.parent = this.transform;
 
-        for (int i = 0; i < 21; i++)
+        for (int i = 0; i < 2; i++)
         {
             var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            sphere.name = handName + "_" + landmarkNames[i];
+            sphere.name = wristNames[i];
             sphere.transform.parent = parent.transform;
+            sphere.transform.localScale = Vector3.one * 0.05f;
             sphere.SetActive(false);
 
-            bool isColliderJoint = System.Array.IndexOf(colliderJoints, i) >= 0;
+            var col = sphere.GetComponent<SphereCollider>();
+            col.radius = 0.5f;
 
-            if (isColliderJoint)
-            {
-                // ปลายนิ้ว: ใหญ่กว่า + มี physics
-                sphere.transform.localScale = Vector3.one * 0.05f;
-
-                var col = sphere.GetComponent<SphereCollider>();
-                col.radius = 0.5f;
-
-                var rb = sphere.AddComponent<Rigidbody>();
-                rb.isKinematic = true;
-                rb.useGravity = false;
-                rb.interpolation = RigidbodyInterpolation.Interpolate;
-            }
-            else
-            {
-                // joint ทั่วไป: เล็กกว่า ไม่มี collider
-                sphere.transform.localScale = Vector3.one * 0.02f;
-                Destroy(sphere.GetComponent<SphereCollider>());
-            }
+            var rb = sphere.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.useGravity = false;
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
 
             var mat = new Material(Shader.Find("Standard"));
-            mat.color = isColliderJoint ? Color.white : color;
+            mat.color = wristColors[i];
             sphere.GetComponent<Renderer>().material = mat;
 
-            joints.Add(sphere);
+            wristSpheres.Add(sphere);
         }
-        return joints;
+
+        PoseLandmarkerRunner.OnPoseLandmarkResult += OnReceiveResult;
     }
 
     void OnDestroy()
     {
-        HandLandmarkerRunner.OnHandLandmarkResult -= OnReceiveResult;
+        PoseLandmarkerRunner.OnPoseLandmarkResult -= OnReceiveResult;
     }
 
-    private void OnReceiveResult(HandLandmarkerResult result)
+    private void OnReceiveResult(PoseLandmarkerResult result)
     {
         latestResult = result;
         hasResult = true;
@@ -90,53 +63,28 @@ public class SimpleHandVisualizer : MonoBehaviour
 
     void Update()
     {
-        foreach (var obj in leftJoints) obj.SetActive(false);
-        foreach (var obj in rightJoints) obj.SetActive(false);
+        foreach (var obj in wristSpheres) obj.SetActive(false);
 
-        if (!hasResult || latestResult.handLandmarks == null) return;
+        if (!hasResult || latestResult.poseLandmarks == null) return;
+        if (latestResult.poseLandmarks.Count == 0) return;
 
-        int handCount = latestResult.handLandmarks.Count;
+        var landmarks = latestResult.poseLandmarks[0].landmarks;
+        if (landmarks.Count < 17) return;
 
-        for (int h = 0; h < handCount; h++)
+        for (int i = 0; i < 2; i++)
         {
-            bool isLeft = false;
-            if (latestResult.handedness != null && h < latestResult.handedness.Count)
-            {
-                var handedness = latestResult.handedness[h].categories[0].categoryName;
-                isLeft = handedness == "Left";
-            }
+            var lm = landmarks[poseWristIndices[i]];
+            wristSpheres[i].SetActive(true);
 
-            var joints = isLeft ? leftJoints : rightJoints;
-            var landmarks = latestResult.handLandmarks[h].landmarks;
+            Vector3 worldPos = Camera.main.ViewportToWorldPoint(
+                new Vector3(lm.x, 1f - lm.y, handDepth)
+            );
 
-            for (int i = 0; i < Mathf.Min(21, landmarks.Count); i++)
-            {
-                joints[i].SetActive(true);
-
-                var lm = landmarks[i];
-                Vector3 worldPos = Camera.main.ViewportToWorldPoint(
-                    new Vector3(lm.x, 1f - lm.y, handDepth)
-                );
-
-                var rb = joints[i].GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    // ใช้ MovePosition สำหรับ joint ที่มี physics
-                    rb.MovePosition(Vector3.Lerp(
-                        joints[i].transform.position,
-                        worldPos,
-                        Time.deltaTime * smoothSpeed
-                    ));
-                }
-                else
-                {
-                    joints[i].transform.position = Vector3.Lerp(
-                        joints[i].transform.position,
-                        worldPos,
-                        Time.deltaTime * smoothSpeed
-                    );
-                }
-            }
+            var rb = wristSpheres[i].GetComponent<Rigidbody>();
+            if (rb != null)
+                rb.MovePosition(Vector3.Lerp(wristSpheres[i].transform.position, worldPos, Time.deltaTime * smoothSpeed));
+            else
+                wristSpheres[i].transform.position = Vector3.Lerp(wristSpheres[i].transform.position, worldPos, Time.deltaTime * smoothSpeed);
         }
     }
 }
