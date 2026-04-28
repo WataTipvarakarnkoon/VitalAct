@@ -33,7 +33,8 @@ class _PracticePageState extends State<PracticePage>
 
   /// 🔥 BUILD DRILL STEPS FROM ALL MODULES
   Future<void> startMentalDrill(BuildContext context) async {
-    final modules = await LessonLoader.loadAllModules();
+    final locale = Localizations.localeOf(context).languageCode;
+    final modules = await LessonLoader.loadAllModules(locale);
 
     // ✅ flatten lessons
     final lessons = modules.expand((m) => m.lessons).toList();

@@ -1,0 +1,180 @@
+{
+  "moduleTitle": "การรับรู้เหตุฉุกเฉิน",
+  "lessons": [
+    {
+      "id": "lesson_2_1",
+      "title": "สัญญาณปกติ vs ผิดปกติ",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "r1",
+          "title": "ปกติ vs ผิดปกติ",
+          "content": "ภาวะปกติหมายความว่าร่างกายทำงานได้ดี สัญญาณผิดปกติอาจบ่งบอกถึงอันตราย ให้เปรียบเทียบสภาพปัจจุบันกับพฤติกรรมปกติเสมอ"
+        },
+        {
+          "type": "mcq",
+          "id": "q1",
+          "title": "คนที่หายใจ 22 ครั้งต่อนาทีแต่พูดได้ชัดเจน นี่คืออะไร?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "choices": ["ปกติ", "ฉุกเฉิน"],
+          "correctIndex": 0,
+          "hint": "คิดว่าพวกเขาสามารถทำงานได้หรือไม่",
+          "correctExplanation": "การหายใจ 22 ครั้งต่อนาทีในขณะที่พูดได้ชัดเจนถือเป็นเรื่องปกติ",
+          "incorrectExplanation": "หากพูดได้ชัดเจน นั่นไม่ใช่ภาวะฉุกเฉิน"
+        },
+        {
+          "type": "text",
+          "id": "q2",
+          "title": "สัญญาณผิดปกติบ่งบอกอะไร?",
+          "instructions": "อธิบายสั้นๆ",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "aiPrompt": "Explain what abnormal signs indicate",
+          "hint": "คิดถึงความเสี่ยงที่เกี่ยวข้อง"
+        },
+        {
+          "type": "order",
+          "id": "q3",
+          "title": "จับคู่แต่ละสัญญาณกับหมวดหมู่",
+          "instructions": "เรียงลำดับจากปกติไปผิดปกติ",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "choices": ["หายใจสงบ", "อ่อนเพลียเล็กน้อย", "พูดไม่ชัด"],
+          "correctOrder": [0, 1, 2],
+          "hint": "สัญญาณปกติมาก่อน",
+          "correctExplanation": "การหายใจสงบเป็นเรื่องปกติ อ่อนเพลียเล็กน้อยอยู่กึ่งกลาง พูดไม่ชัดผิดปกติ",
+          "incorrectExplanation": "เรียงลำดับจากน้อยไปมากที่น่าเป็นห่วง"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_2",
+      "title": "สัญญาณเตือนอันตราย",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "r1",
+          "title": "สัญญาณเตือนอันตราย",
+          "content": "สัญญาณเตือนอันตรายคือสัญญาณที่บ่งบอกถึงอันตรายทันที ซึ่งรวมถึงอาการเจ็บหน้าอกรุนแรง หายใจลำบาก หมดสติ และเลือดออกมาก"
+        },
+        {
+          "type": "mcq",
+          "id": "q1",
+          "title": "ข้อใดเป็นสัญญาณเตือนอันตราย?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "choices": ["ปวดหัวเล็กน้อย", "เจ็บหน้าอกรุนแรง"],
+          "correctIndex": 1,
+          "hint": "คิดเรื่องอันตรายต่อชีวิต",
+          "correctExplanation": "อาการเจ็บหน้าอกรุนแรงเป็นสัญญาณเตือนที่บ่งบอกถึงภาวะฉุกเฉินของหัวใจ",
+          "incorrectExplanation": "ปวดหัวเล็กน้อยไม่เป็นอันตรายถึงชีวิตทันที"
+        },
+        {
+          "type": "order",
+          "id": "q2",
+          "title": "จัดเรียงความรุนแรงจากน้อยไปมากอันตราย",
+          "instructions": "เรียงลำดับให้ถูกต้อง",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "choices": ["รู้สึกไม่สบายเล็กน้อย", "หายใจลำบาก", "หมดสติ"],
+          "correctOrder": [0, 1, 2],
+          "hint": "คิดว่าอันไหนคุกคามชีวิตมากที่สุด",
+          "correctExplanation": "การหมดสติอันตรายที่สุด รู้สึกไม่สบายเล็กน้อยอันตรายน้อยที่สุด",
+          "incorrectExplanation": "ความรุนแรงเพิ่มขึ้นจากรู้สึกไม่สบายเล็กน้อยไปสู่การหมดสติ"
+        },
+        {
+          "type": "text",
+          "id": "q3",
+          "title": "บอกอาการสัญญาณเตือนอันตรายหนึ่งอย่าง",
+          "instructions": "อธิบายสั้นๆ",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "aiPrompt": "Identify a red flag emergency symptom",
+          "hint": "คิดเรื่องการหายใจ หน้าอก หรือสติสัมปชัญญะ"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_3",
+      "title": "การประเมินการหายใจ",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "r1",
+          "title": "การตรวจสอบการหายใจ",
+          "content": "การหายใจปกติจะสม่ำเสมอและไม่ออกแรง การหายใจผิดปกติอาจเร็วเกินไป ช้าเกินไป หรือไม่สม่ำเสมอ"
+        },
+        {
+          "type": "mcq",
+          "id": "q1",
+          "title": "คนที่หอบหายใจคือ:",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "choices": ["ปกติ", "ฉุกเฉิน"],
+          "correctIndex": 1,
+          "hint": "การหอบไม่ใช่การหายใจที่ไม่ออกแรง",
+          "correctExplanation": "การหอบหายใจบ่งบอกถึงภาวะฉุกเฉินการหายใจ",
+          "incorrectExplanation": "การหายใจปกติจะไม่ออกแรงและสม่ำเสมอ"
+        },
+        {
+          "type": "order",
+          "id": "q2",
+          "title": "ขั้นตอนการตรวจสอบการหายใจ",
+          "instructions": "เรียงลำดับให้ถูกต้อง",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "choices": ["ดูการเคลื่อนไหวของหน้าอก", "ฟังเสียงลมหายใจ", "รู้สึกลมที่แก้ม"],
+          "correctOrder": [0, 1, 2],
+          "hint": "ดู ฟัง รู้สึก",
+          "correctExplanation": "ดู → ฟัง → รู้สึก คือลำดับการตรวจสอบการหายใจมาตรฐาน",
+          "incorrectExplanation": "เริ่มด้วยการสังเกตก่อนเสมอ แล้วค่อยฟังและรู้สึก"
+        },
+        {
+          "type": "text",
+          "id": "q3",
+          "title": "อาการหายใจผิดปกติอย่างหนึ่งคืออะไร?",
+          "instructions": "อธิบายสั้นๆ",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "aiPrompt": "Describe an abnormal breathing sign",
+          "hint": "คิดเรื่องการหอบหรือไม่หายใจ"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_4",
+      "title": "การตรวจสอบสติสัมปชัญญะ",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "r1",
+          "title": "การตอบสนอง",
+          "content": "บุคคลที่มีสติจะตอบสนองต่อเสียงหรือการสัมผัส บุคคลที่ไม่มีสติจะไม่ตอบสนองเลยและอาจอยู่ในอันตรายร้ายแรง"
+        },
+        {
+          "type": "mcq",
+          "id": "q1",
+          "title": "บุคคลไม่ตอบสนองต่อเสียงหรือการสัมผัส นี่คือ:",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "choices": ["มีสติ", "ไม่มีสติ"],
+          "correctIndex": 1,
+          "hint": "ไม่มีปฏิกิริยาหมายถึงไม่มีสติ",
+          "correctExplanation": "การไม่ตอบสนองต่อเสียงหรือการสัมผัสหมายความว่าบุคคลนั้นไม่มีสติ",
+          "incorrectExplanation": "บุคคลที่มีสติจะตอบสนองต่อสิ่งกระตุ้น"
+        },
+        {
+          "type": "order",
+          "id": "q2",
+          "title": "ขั้นตอนการตรวจสอบสติสัมปชัญญะ",
+          "instructions": "เรียงลำดับให้ถูกต้อง",
+          "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+          "choices": ["เรียกบุคคลนั้น", "เคาะที่ไหล่", "สังเกตการตอบสนอง"],
+          "correctOrder": [0, 1, 2],
+          "hint": "เสียงก่อนการสัมผัส",
+          "correctExplanation": "เรียก → เคาะไหล่ → สังเกตการตอบสนอง",
+          "incorrectExplanation": "ให้ลองกระตุ้นด้วยเสียงก่อนเสมอ แล้วค่อยทำกายภาพ"
+        }
+      ]
+    }
+  ]
+}

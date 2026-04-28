@@ -6,39 +6,57 @@ import 'package:vitalact/models/lesson_item.dart';
 import 'package:vitalact/services/step_factory.dart';
 
 class LessonLoader {
-  static Future<List<LessonModule>> loadAllModules() async {
-    final paths = [
-      'assets/data/module1.json',
-      'assets/data/module2.json',
-    ];
+  static const _moduleFiles = [
+    'module1.json',
+    'module2.json',
+  ];
 
+  static Future<List<LessonModule>> loadAllModules([String locale = 'en']) async {
     List<LessonModule> modules = [];
 
-    for (final path in paths) {
-      try {
-        final String jsonString = await rootBundle.loadString(path);
-        final Map<String, dynamic> data = json.decode(jsonString);
-
-        final module = LessonModule(
-          moduleTitle: data['title'] ?? data['moduleTitle'] ?? 'Unknown',
-          lessons: (data['lessons'] as List).map((lessonJson) {
-            return LessonItem(
-              id: lessonJson['id'],
-              title: lessonJson['title'],
-              spriteAsset: lessonJson['spriteAsset'] ?? '',
-              steps: (lessonJson['steps'] as List)
-                  .map((stepJson) => StepFactory.build(stepJson))
-                  .toList(),
-            );
-          }).toList(),
-        );
-
-        modules.add(module);
-      } catch (e) {
-        debugPrint('🔥 ERROR loading $path: $e');
-      }
+    for (final file in _moduleFiles) {
+      final module = await _loadModule(file, locale);
+      if (module != null) modules.add(module);
     }
 
     return modules;
+  }
+
+  static Future<LessonModule?> _loadModule(String file, String locale) async {
+    final localePath = 'assets/data/$locale/$file';
+    final fallbackPath = 'assets/data/$file';
+
+    String? jsonString;
+
+    try {
+      jsonString = await rootBundle.loadString(localePath);
+    } catch (_) {
+      try {
+        jsonString = await rootBundle.loadString(fallbackPath);
+      } catch (e) {
+        debugPrint('ERROR loading $file: $e');
+        return null;
+      }
+    }
+
+    try {
+      final Map<String, dynamic> data = json.decode(jsonString);
+      return LessonModule(
+        moduleTitle: data['title'] ?? data['moduleTitle'] ?? 'Unknown',
+        lessons: (data['lessons'] as List).map((lessonJson) {
+          return LessonItem(
+            id: lessonJson['id'],
+            title: lessonJson['title'],
+            spriteAsset: lessonJson['spriteAsset'] ?? '',
+            steps: (lessonJson['steps'] as List)
+                .map((stepJson) => StepFactory.build(stepJson))
+                .toList(),
+          );
+        }).toList(),
+      );
+    } catch (e) {
+      debugPrint('ERROR parsing $file: $e');
+      return null;
+    }
   }
 }

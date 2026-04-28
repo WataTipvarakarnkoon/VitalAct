@@ -36,6 +36,7 @@ flutter:
     - assets/spritesheet/
     - assets/spritesheet/50_frames/
     - assets/data/
+    - assets/data/th/
     - assets/videos/
 
   fonts:

@@ -83,7 +83,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 4),
                 FutureBuilder<List<LessonModule>>(
-                  future: LessonLoader.loadAllModules(),
+                  future: LessonLoader.loadAllModules(
+                    Localizations.localeOf(context).languageCode,
+                  ),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return const Text(
@@ -140,11 +142,16 @@ class _LessonState extends State<Lesson> {
 
   late Future<List<LessonModule>> moduleFuture;
   List<LessonItem> allLessons = [];
+  String? _loadedLocale;
 
   @override
-  void initState() {
-    super.initState();
-    moduleFuture = LessonLoader.loadAllModules();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final locale = Localizations.localeOf(context).languageCode;
+    if (_loadedLocale != locale) {
+      _loadedLocale = locale;
+      moduleFuture = LessonLoader.loadAllModules(locale);
+    }
   }
 
   Future<void> openLesson(int index) async {

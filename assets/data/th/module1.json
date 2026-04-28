@@ -1,0 +1,191 @@
+{
+  "moduleTitle": "พื้นฐาน",
+  "lessons": [
+    {
+      "id": "L1",
+      "title": "พื้นฐานการปฐมพยาบาล",
+      "spriteAsset": "assets/spritesheet/50_frames/NVSA.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "L1_R1",
+          "title": "การปฐมพยาบาลคืออะไร?",
+          "content": "การปฐมพยาบาลคือความช่วยเหลือทันทีก่อนที่ผู้เชี่ยวชาญจะมาถึง\n\nเป้าหมาย:\n• ช่วยชีวิต\n• ป้องกันอาการแย่ลง\n• ส่งเสริมการฟื้นตัว"
+        },
+        {
+          "type": "mcq",
+          "id": "L1_Q1",
+          "title": "จุดประสงค์หลักของการปฐมพยาบาลคืออะไร?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/ChestPain.png",
+          "choices": ["แทนแพทย์", "ให้ความช่วยเหลือทันที", "ทำการผ่าตัด"],
+          "correctIndex": 1,
+          "hint": "คิดเรื่องเวลา",
+          "correctExplanation": "การปฐมพยาบาลให้การดูแลทันทีก่อนผู้เชี่ยวชาญมาถึง",
+          "incorrectExplanation": "การปฐมพยาบาลไม่ได้มีไว้แทนแพทย์หรือทำการผ่าตัด"
+        },
+        {
+          "type": "mcq",
+          "id": "L1_Q2",
+          "title": "ข้อใดไม่ใช่เป้าหมายของการปฐมพยาบาล?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/RedFlags.png",
+          "choices": ["ช่วยชีวิต", "ป้องกันอาการแย่ลง", "ทำการผ่าตัด"],
+          "correctIndex": 2,
+          "hint": "การดูแลพื้นฐาน vs ขั้นสูง",
+          "correctExplanation": "การผ่าตัดไม่ใช่ส่วนหนึ่งของการปฐมพยาบาล",
+          "incorrectExplanation": "การช่วยชีวิตและการป้องกันอาการแย่ลงเป็นเป้าหมายหลัก"
+        },
+        {
+          "type": "order",
+          "id": "L1_Q3",
+          "title": "จัดลำดับความสำคัญของการปฐมพยาบาล",
+          "instructions": "เรียงลำดับให้ถูกต้อง",
+          "spriteAsset": "assets/spritesheet/50_frames/BreathingO.png",
+          "choices": ["ส่งเสริมการฟื้นตัว", "ช่วยชีวิต", "ป้องกันอาการแย่ลง"],
+          "correctOrder": [1, 2, 0],
+          "hint": "อะไรเร่งด่วนที่สุด?",
+          "correctExplanation": "ลำดับที่ถูกต้อง: ช่วยชีวิต → ป้องกันอาการแย่ลง → ส่งเสริมการฟื้นตัว",
+          "incorrectExplanation": "ปัญหาที่เป็นอันตรายต่อชีวิตต้องมาก่อนเสมอ"
+        },
+        {
+          "type": "mcq",
+          "id": "L1_Q4",
+          "title": "ทำไมการตรวจพบตั้งแต่เนิ่นๆ จึงสำคัญ?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/Shocked.png",
+          "choices": ["ช่วยให้คุณดำเนินการเร็วขึ้น", "แทนการรักษา", "เป็นทางเลือก"],
+          "correctIndex": 0,
+          "hint": "คิดเรื่องความเร็ว",
+          "correctExplanation": "การตรวจพบปัญหาตั้งแต่เนิ่นๆ ช่วยให้ดำเนินการได้เร็วและถูกต้อง",
+          "incorrectExplanation": "การตรวจพบเป็นสิ่งจำเป็น ไม่ใช่ทางเลือก"
+        },
+        {
+          "type": "text",
+          "id": "L1_Q5",
+          "title": "ทำไมการปฐมพยาบาลต้องทำทันที?",
+          "instructions": "อธิบายสั้นๆ",
+          "spriteAsset": "assets/spritesheet/50_frames/Bleeding.png",
+          "aiPrompt": "Give a short explanation",
+          "hint": "คิดเรื่องความล่าช้าและความเสี่ยง"
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "title": "ความปลอดภัยของตัวเองก่อน",
+      "spriteAsset": "assets/spritesheet/50_frames/BreathingO.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "L2_R1",
+          "title": "ความปลอดภัยของสถานที่เกิดเหตุ",
+          "content": "ก่อนช่วยเหลือผู้อื่น ต้องแน่ใจว่าสถานที่ปลอดภัย\n\nตรวจสอบอันตราย เช่น:\n• การจราจร\n• ไฟไหม้\n• ไฟฟ้า\n• บุคคลที่ก้าวร้าว\n\nหากสถานที่ไม่ปลอดภัย อย่าเข้าใกล้"
+        },
+        {
+          "type": "mcq",
+          "id": "L2_Q1",
+          "title": "สิ่งแรกที่ควรทำในเหตุฉุกเฉินคืออะไร?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "choices": ["วิ่งไปหาผู้บาดเจ็บทันที", "ตรวจสอบว่าสถานที่ปลอดภัยหรือไม่", "เริ่มการรักษาทันที"],
+          "correctIndex": 1,
+          "hint": "คิดถึงความปลอดภัยของตัวคุณ",
+          "correctExplanation": "ต้องแน่ใจว่าสถานที่ปลอดภัยก่อนให้ความช่วยเหลือ",
+          "incorrectExplanation": "การช่วยเหลือโดยไม่ตรวจสอบความปลอดภัยอาจทำให้คุณตกอยู่ในอันตราย"
+        },
+        {
+          "type": "order",
+          "id": "L2_Q2",
+          "title": "จัดลำดับขั้นตอนความปลอดภัย",
+          "instructions": "เรียงลำดับให้ถูกต้อง",
+          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "choices": ["เข้าหาผู้บาดเจ็บ", "ตรวจสอบสภาพแวดล้อม", "ตรวจสอบว่าไม่มีอันตราย"],
+          "correctOrder": [1, 2, 0],
+          "hint": "สังเกตก่อนดำเนินการ",
+          "correctExplanation": "ตรวจสอบสภาพแวดล้อม → ตรวจสอบความปลอดภัย → เข้าหา",
+          "incorrectExplanation": "ต้องยืนยันความปลอดภัยก่อนเข้าหา"
+        },
+        {
+          "type": "mcq",
+          "id": "L2_Q3",
+          "title": "สถานการณ์ใดไม่ปลอดภัย?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "choices": ["ห้องเงียบสงบ", "อุบัติเหตุรถยนต์ที่มีน้ำมันรั่ว", "บุคคลที่นั่งสงบนิ่ง"],
+          "correctIndex": 1,
+          "hint": "คิดเรื่องอันตราย",
+          "correctExplanation": "น้ำมันรั่วเป็นอันตรายและอาจก่อให้เกิดไฟไหม้หรือระเบิด",
+          "incorrectExplanation": "สถานที่ที่ไม่ปลอดภัยมีอันตรายทันที"
+        },
+        {
+          "type": "text",
+          "id": "L2_Q4",
+          "title": "ทำไมความปลอดภัยของคุณจึงสำคัญ?",
+          "instructions": "อธิบายสั้นๆ",
+          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "aiPrompt": "Explain why rescuers must stay safe",
+          "hint": "จะเกิดอะไรขึ้นถ้าคุณได้รับบาดเจ็บ?"
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "title": "ทัศนคติของผู้ให้การปฐมพยาบาล",
+      "spriteAsset": "assets/spritesheet/50_frames/ChestPain.png",
+      "steps": [
+        {
+          "type": "reading",
+          "id": "L3_R1",
+          "title": "สงบสติอารมณ์และคิด",
+          "content": "ในสถานการณ์ฉุกเฉิน การสงบสติอารมณ์เป็นสิ่งสำคัญ\n\nผู้ให้การปฐมพยาบาลที่ดี:\n• สงบสติอารมณ์\n• คิดอย่างชัดเจน\n• ดำเนินการเป็นขั้นตอน\n\nความตื่นตระหนกนำไปสู่ความผิดพลาด"
+        },
+        {
+          "type": "mcq",
+          "id": "L3_Q1",
+          "title": "การตอบสนองที่ดีที่สุดในสถานการณ์ฉุกเฉินคืออะไร?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "choices": ["ตื่นตระหนกและดำเนินการเร็วๆ", "สงบสติอารมณ์และประเมินสถานการณ์", "รอให้คนอื่นดำเนินการ"],
+          "correctIndex": 1,
+          "hint": "คิดเรื่องการควบคุม",
+          "correctExplanation": "การสงบสติอารมณ์ช่วยให้คิดได้ชัดเจนและดำเนินการได้ถูกต้อง",
+          "incorrectExplanation": "ความตื่นตระหนกนำไปสู่การตัดสินใจที่ไม่ดี"
+        },
+        {
+          "type": "mcq",
+          "id": "L3_Q2",
+          "title": "ทำไมความตื่นตระหนกจึงอันตราย?",
+          "instructions": "เลือกคำตอบที่ดีที่สุด",
+          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "choices": ["ช่วยประหยัดเวลา", "ช่วยปรับปรุงการตัดสินใจ", "นำไปสู่ความผิดพลาด"],
+          "correctIndex": 2,
+          "hint": "คิดอย่างชัดเจน vs ไม่ชัดเจน",
+          "correctExplanation": "ความตื่นตระหนกลดความคิดที่ชัดเจนและเพิ่มความผิดพลาด",
+          "incorrectExplanation": "การตัดสินใจที่ดีต้องการการคิดอย่างสงบ"
+        },
+        {
+          "type": "order",
+          "id": "L3_Q3",
+          "title": "จัดลำดับขั้นตอนทัศนคติที่ถูกต้อง",
+          "instructions": "เรียงลำดับให้ถูกต้อง",
+          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "choices": ["ดำเนินการ", "คิด", "สงบสติอารมณ์"],
+          "correctOrder": [2, 1, 0],
+          "hint": "จิตใจก่อนการกระทำ",
+          "correctExplanation": "สงบสติอารมณ์ → คิด → ดำเนินการ",
+          "incorrectExplanation": "ต้องควบคุมตัวเองก่อนดำเนินการ"
+        },
+        {
+          "type": "text",
+          "id": "L3_Q4",
+          "title": "ทำไมการสงบสติอารมณ์จึงสำคัญ?",
+          "instructions": "อธิบายสั้นๆ",
+          "spriteAsset": "assets/spritesheet/50_frames/Breathing.png",
+          "aiPrompt": "Explain why calmness improves emergency response",
+          "hint": "คิดเรื่องการตัดสินใจ"
+        }
+      ]
+    }
+  ]
+}
