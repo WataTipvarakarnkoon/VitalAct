@@ -26,6 +26,11 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
       _textureFramePool = null;
     }
 
+    void Awake()
+    {
+      Debug.Log("[PoseLandmarkerRunner] Awake() called! Component is alive.");
+    }
+
     protected override IEnumerator Start()
     {
       Debug.Log($"[PoseLandmarkerRunner] Start() called. NoCameraMode={GameManager.NoCameraMode}");
