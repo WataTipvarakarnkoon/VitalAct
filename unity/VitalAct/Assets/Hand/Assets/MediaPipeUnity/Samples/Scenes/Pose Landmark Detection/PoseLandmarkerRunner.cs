@@ -28,13 +28,16 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
 
     protected override IEnumerator Start()
     {
+      Debug.Log($"[PoseLandmarkerRunner] Start() called. NoCameraMode={GameManager.NoCameraMode}");
       if (GameManager.NoCameraMode)
       {
-        Debug.Log("No Camera Mode: PoseLandmarkerRunner disabled.");
+        Debug.Log("[PoseLandmarkerRunner] Aborting - NoCameraMode is true");
         if (screen != null) screen.gameObject.SetActive(false);
         yield break;
       }
+      Debug.Log("[PoseLandmarkerRunner] Calling base.Start()...");
       yield return base.Start();
+      Debug.Log("[PoseLandmarkerRunner] base.Start() completed");
     }
 
     protected override IEnumerator Run()
