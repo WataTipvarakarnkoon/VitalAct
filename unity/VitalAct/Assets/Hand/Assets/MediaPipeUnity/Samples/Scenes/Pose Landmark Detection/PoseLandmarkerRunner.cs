@@ -187,7 +187,7 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
 
     private void OnPoseLandmarkDetectionOutput(PoseLandmarkerResult result, Image image, long timestamp)
     {
-      _poseLandmarkerResultAnnotationController.DrawLater(result);
+      _poseLandmarkerResultAnnotationController?.DrawLater(result);
       OnPoseLandmarkResult?.Invoke(result);
       DisposeAllMasks(result);
     }
