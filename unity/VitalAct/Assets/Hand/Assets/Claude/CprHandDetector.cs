@@ -24,8 +24,8 @@ public class CprHandDetector : MonoBehaviour
     //  COMPRESSION DETECTION
     // ──────────────────────────────────────────────────────
     [Header("Compression Detection")]
-    [Tooltip("ระยะ Y (normalized) ที่ถือว่ากดสุด\nค่ามาก = sensitive มากขึ้น (เคลื่อนมือนิดก็นับ)  |  แนะนำ: 0.06-0.10")]
-    public float maxDepthY = 0.08f;
+    [Tooltip("ระยะ Y relative (wrist-shoulder) ที่ถือว่ากดสุด\nแนะนำ: 0.10-0.20 สำหรับ Pose wrist")]
+    public float maxDepthY = 0.15f;
 
     [Range(0.1f, 0.9f)]
     [Tooltip("กดลงถึงค่านี้ = นับ 1 ครั้ง  |  แนะนำ: 0.45-0.60")]
@@ -88,7 +88,8 @@ public class CprHandDetector : MonoBehaviour
     // ──────────────────────────────────────────────────────
     // thread-safe (MediaPipe → main)
     volatile float _pendingRawX;
-    volatile float _pendingRawY;
+    volatile float _pendingRawY;   // wrist Y relative to shoulder (increases when pressing down)
+    volatile float _pendingWristY; // absolute wrist Y for zone check
     volatile bool  _hasNewData;
     volatile bool  _handVisible;
 
@@ -124,14 +125,17 @@ public class CprHandDetector : MonoBehaviour
         }
 
         var lm = result.poseLandmarks[0].landmarks;
-        // Use the wrist with higher visibility; fall back to left wrist
-        var lw = lm[15];
-        var rw = lm[16];
-        var best = (rw.visibility > lw.visibility) ? rw : lw;
-        _pendingRawX = best.x;
-        _pendingRawY = best.y;
-        _handVisible = true;
-        _hasNewData  = true;
+        // Pick wrist with higher visibility
+        bool useRight = lm[16].visibility > lm[15].visibility;
+        var wrist    = useRight ? lm[16] : lm[15];
+        var shoulder = useRight ? lm[12] : lm[11];
+
+        _pendingRawX   = wrist.x;
+        _pendingWristY = wrist.y;
+        // Depth = wrist Y minus shoulder Y (in-frame signal: increases when pressing down)
+        _pendingRawY   = wrist.y - shoulder.y;
+        _handVisible   = true;
+        _hasNewData    = true;
     }
 
     void Update()
@@ -145,20 +149,19 @@ public class CprHandDetector : MonoBehaviour
             return;
         }
 
-        float rawX = _pendingRawX;
-        float rawY = _pendingRawY;
+        float rawX      = _pendingRawX;
+        float rawY      = _pendingRawY;      // relative depth signal (wrist - shoulder Y)
+        float wristAbsY = _pendingWristY;    // absolute wrist Y for zone check
 
-        // ── Exponential Moving Average smoothing ──
+        // ── Exponential Moving Average smoothing on relative depth ──
         if (!_smoothInit) { _smoothY = rawY; _smoothInit = true; }
         _smoothY = _smoothY + smoothAlpha * (rawY - _smoothY);
 
-        // flip X (MediaPipe mirror)
+        // flip X (MediaPipe mirror), zone uses absolute wrist Y
         float zoneX = 1f - rawX;
-        float zoneY = _smoothY;
-
-        // Allow Y to go beyond zone bottom during compression (wrist may leave frame)
+        // Allow wrist below zone bottom (Y > 1) — common during CPR lean
         bool inZone = zoneX >= mannequinZone.xMin && zoneX <= mannequinZone.xMax &&
-                      zoneY >= mannequinZone.yMin;
+                      wristAbsY >= mannequinZone.yMin;
 
         if (!inZone)
         {
