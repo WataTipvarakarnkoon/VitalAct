@@ -91,8 +91,11 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
       // NOTE: The screen will be resized later, keeping the aspect ratio.
       screen.Initialize(imageSource);
 
-      SetupAnnotationController(_poseLandmarkerResultAnnotationController, imageSource);
-      _poseLandmarkerResultAnnotationController.InitScreen(imageSource.textureWidth, imageSource.textureHeight);
+      if (_poseLandmarkerResultAnnotationController != null)
+      {
+        SetupAnnotationController(_poseLandmarkerResultAnnotationController, imageSource);
+        _poseLandmarkerResultAnnotationController.InitScreen(imageSource.textureWidth, imageSource.textureHeight);
+      }
 
       var transformationOptions = imageSource.GetTransformationOptions();
       var flipHorizontally = transformationOptions.flipHorizontally;
@@ -165,22 +168,22 @@ namespace Mediapipe.Unity.Sample.PoseLandmarkDetection
           case Tasks.Vision.Core.RunningMode.IMAGE:
             if (taskApi.TryDetect(image, imageProcessingOptions, ref result))
             {
-              _poseLandmarkerResultAnnotationController.DrawNow(result);
+              _poseLandmarkerResultAnnotationController?.DrawNow(result);
             }
             else
             {
-              _poseLandmarkerResultAnnotationController.DrawNow(default);
+              _poseLandmarkerResultAnnotationController?.DrawNow(default);
             }
             DisposeAllMasks(result);
             break;
           case Tasks.Vision.Core.RunningMode.VIDEO:
             if (taskApi.TryDetectForVideo(image, GetCurrentTimestampMillisec(), imageProcessingOptions, ref result))
             {
-              _poseLandmarkerResultAnnotationController.DrawNow(result);
+              _poseLandmarkerResultAnnotationController?.DrawNow(result);
             }
             else
             {
-              _poseLandmarkerResultAnnotationController.DrawNow(default);
+              _poseLandmarkerResultAnnotationController?.DrawNow(default);
             }
             DisposeAllMasks(result);
             break;
