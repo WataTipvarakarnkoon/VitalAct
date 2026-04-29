@@ -116,9 +116,6 @@ public class CprHandDetector : MonoBehaviour
     // MediaPipe thread
     void OnPoseLandmarkResult(PoseLandmarkerResult result)
     {
-        int count = result.poseLandmarks?.Count ?? 0;
-        Debug.Log($"[CPR] Pose event received. poseLandmarks count={count}");
-
         if (result.poseLandmarks == null || result.poseLandmarks.Count == 0)
         {
             _handVisible = false;
@@ -127,9 +124,12 @@ public class CprHandDetector : MonoBehaviour
         }
 
         var lm = result.poseLandmarks[0].landmarks;
-        Debug.Log($"[CPR] L-Wrist=({lm[15].x:F2},{lm[15].y:F2}) R-Wrist=({lm[16].x:F2},{lm[16].y:F2})");
-        _pendingRawX = (lm[15].x + lm[16].x) / 2f;
-        _pendingRawY = (lm[15].y + lm[16].y) / 2f;
+        // Use the wrist with higher visibility; fall back to left wrist
+        var lw = lm[15];
+        var rw = lm[16];
+        var best = (rw.visibility > lw.visibility) ? rw : lw;
+        _pendingRawX = best.x;
+        _pendingRawY = best.y;
         _handVisible = true;
         _hasNewData  = true;
     }
@@ -156,7 +156,9 @@ public class CprHandDetector : MonoBehaviour
         float zoneX = 1f - rawX;
         float zoneY = _smoothY;
 
-        bool inZone = mannequinZone.Contains(new Vector2(zoneX, zoneY));
+        // Allow Y to go beyond zone bottom during compression (wrist may leave frame)
+        bool inZone = zoneX >= mannequinZone.xMin && zoneX <= mannequinZone.xMax &&
+                      zoneY >= mannequinZone.yMin;
 
         if (!inZone)
         {
