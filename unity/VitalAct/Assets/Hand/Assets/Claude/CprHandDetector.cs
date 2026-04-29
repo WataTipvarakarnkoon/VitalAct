@@ -116,6 +116,9 @@ public class CprHandDetector : MonoBehaviour
     // MediaPipe thread
     void OnPoseLandmarkResult(PoseLandmarkerResult result)
     {
+        int count = result.poseLandmarks?.Count ?? 0;
+        Debug.Log($"[CPR] Pose event received. poseLandmarks count={count}");
+
         if (result.poseLandmarks == null || result.poseLandmarks.Count == 0)
         {
             _handVisible = false;
@@ -124,8 +127,7 @@ public class CprHandDetector : MonoBehaviour
         }
 
         var lm = result.poseLandmarks[0].landmarks;
-        // ใช้ left_wrist(15) + right_wrist(16) — Pose tracking
-        // เฉลี่ยสองมือ → ตำแหน่งกลางระหว่างมือสองข้างที่กด CPR
+        Debug.Log($"[CPR] L-Wrist=({lm[15].x:F2},{lm[15].y:F2}) R-Wrist=({lm[16].x:F2},{lm[16].y:F2})");
         _pendingRawX = (lm[15].x + lm[16].x) / 2f;
         _pendingRawY = (lm[15].y + lm[16].y) / 2f;
         _handVisible = true;
