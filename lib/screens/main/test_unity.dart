@@ -74,7 +74,7 @@ class _TestUnityState extends State<TestUnity> {
           UnityWidget(
             onUnityCreated: onUnityCreated,
             onUnityMessage: onUnityMessage,
-            useAndroidViewSurface: false,
+            useAndroidViewSurface: true,
             fullscreen: false,
             gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
               Factory<OneSequenceGestureRecognizer>(
