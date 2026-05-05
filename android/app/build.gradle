@@ -62,6 +62,12 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    packagingOptions {
+        // libc++_shared.so may appear from multiple sources (MediaPipe AAR, NDK).
+        // Pick the first occurrence so the build doesn't fail with a duplicate error.
+        pickFirst '**/libc++_shared.so'
+    }
 }
 
 flutter {

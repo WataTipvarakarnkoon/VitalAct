@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_ANDROID && !UNITY_EDITOR
+using UnityEngine.Android;
+#endif
 
 public class GameManager : MonoBehaviour
 {
@@ -52,7 +55,26 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         Scene = SceneManager.GetActiveScene().name;
-        NoCameraMode = PlayerPrefs.GetInt("NoCameraMode", 0) == 1;
+
+        bool savedNoCameraMode = PlayerPrefs.GetInt("NoCameraMode", 0) == 1;
+#if UNITY_ANDROID && !UNITY_EDITOR
+        // If camera permission is granted (Flutter already asked the user), always retry
+        // the camera on launch regardless of what was saved — avoids getting permanently
+        // stuck in NoCameraMode after a single transient failure or prior toggle.
+        bool hasCameraPermission = Permission.HasUserAuthorizedPermission(Permission.Camera);
+        if (savedNoCameraMode && hasCameraPermission)
+        {
+            NoCameraMode = false;
+            PlayerPrefs.SetInt("NoCameraMode", 0);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            NoCameraMode = savedNoCameraMode;
+        }
+#else
+        NoCameraMode = savedNoCameraMode;
+#endif
     }
 
     void OnEnable()  => CprHandDetector.OnCompression += OnCompression;

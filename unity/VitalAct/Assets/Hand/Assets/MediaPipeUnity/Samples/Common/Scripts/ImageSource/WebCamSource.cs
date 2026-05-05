@@ -145,41 +145,44 @@ namespace Mediapipe.Unity
 
     private IEnumerator GetPermission()
     {
-      lock (_PermissionLock)
+      if (_IsPermitted)
       {
-        if (_IsPermitted)
-        {
-          yield break;
-        }
-
-#if UNITY_ANDROID
-        if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
-        {
-          Permission.RequestUserPermission(Permission.Camera);
-          yield return new WaitForSeconds(0.1f);
-        }
-#elif UNITY_IOS
-        if (!Application.HasUserAuthorization(UserAuthorization.WebCam)) {
-          yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
-        }
-#endif
-
-#if UNITY_ANDROID
-        if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
-        {
-          Debug.LogWarning("Not permitted to use Camera");
-          yield break;
-        }
-#elif UNITY_IOS
-        if (!Application.HasUserAuthorization(UserAuthorization.WebCam)) {
-          Debug.LogWarning("Not permitted to use WebCam");
-          yield break;
-        }
-#endif
-        _IsPermitted = true;
-
-        yield return new WaitForEndOfFrame();
+        yield break;
       }
+
+#if UNITY_ANDROID
+      // If the Flutter host app already obtained camera permission (the normal flow),
+      // HasUserAuthorizedPermission returns true immediately — no dialog needed.
+      if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
+      {
+        Permission.RequestUserPermission(Permission.Camera);
+        // Poll for up to 5 seconds so the user has time to respond to the dialog.
+        float waited = 0f;
+        while (!Permission.HasUserAuthorizedPermission(Permission.Camera) && waited < 5f)
+        {
+          yield return new WaitForSeconds(0.2f);
+          waited += 0.2f;
+        }
+      }
+      if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
+      {
+        Debug.LogWarning("[WebCamSource] Camera permission not granted.");
+        yield break;
+      }
+#elif UNITY_IOS
+      if (!Application.HasUserAuthorization(UserAuthorization.WebCam))
+      {
+        yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
+      }
+      if (!Application.HasUserAuthorization(UserAuthorization.WebCam))
+      {
+        Debug.LogWarning("[WebCamSource] WebCam permission not granted.");
+        yield break;
+      }
+#endif
+
+      _IsPermitted = true;
+      yield return new WaitForEndOfFrame();
     }
 
     public override void SelectSource(int sourceId)
