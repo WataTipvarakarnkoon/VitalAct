@@ -52,3 +52,15 @@ flutter:
           weight: 800
         - asset: assets/fonts/BalooBhai2-Bold.ttf
           weight: 700
+    - family: Athiti
+      fonts:
+        - asset: assets/fonts/Athiti-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Athiti-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Athiti-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Athiti-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Athiti-Bold.ttf
+          weight: 700

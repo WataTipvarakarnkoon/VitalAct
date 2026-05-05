@@ -31,10 +31,11 @@ class MainApp extends StatelessWidget {
     return ValueListenableBuilder<Locale>(
       valueListenable: appLocale,
       builder: (context, locale, _) {
+        final isThai = locale.languageCode == 'th';
         return MaterialApp(
           locale: locale,
           theme: ThemeData(
-            fontFamily: 'BalooBhai2',
+            fontFamily: isThai ? 'Athiti' : 'BalooBhai2',
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,

@@ -138,4 +138,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get physicalDrill => 'Physical Drill';
+
+  @override
+  String get cprPlacementTitle => 'CPR Placement';
+
+  @override
+  String get cprPlacementInstruction => 'Tap where CPR should be performed';
+
+  @override
+  String get cprPlacementSubtitle => 'Focus on the center of the chest';
+
+  @override
+  String get cprPlacementCorrectDetail =>
+      'The heel of your hand on the center of the sternum.';
+
+  @override
+  String get cprPlacementIncorrectDetail =>
+      'The correct spot is highlighted in green. Try again!';
+
+  @override
+  String get cprPlacementTapHint => 'Tap anywhere on the image above';
+
+  @override
+  String get cprPlacementCardSubtitle => 'Identify where on the chest';
+
+  @override
+  String get cprPlacementReadingTitle => 'Where to perform CPR';
+
+  @override
+  String get cprPlacementReadingDetail =>
+      'Place the heel of your hand on the center of the chest — on the lower half of the breastbone (sternum). Place your other hand on top, interlace your fingers, and keep your elbows straight.';
+
+  @override
+  String get cprPlacementReadingCompression =>
+      'Push hard and fast — compress at least 5 cm (2 inches) deep at 100–120 compressions per minute.';
+
+  @override
+  String get startTest => 'Start Test';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get done => 'Done';
 }
