@@ -60,5 +60,19 @@
   "practiceSubtitle": "ฝึกฝนทักษะฉุกเฉินของคุณ",
   "mentalDrill": "ฝึกความคิด",
   "physicalDrill": "ฝึกร่างกาย",
-  "darkMode": "โหมดมืด"
+  "darkMode": "โหมดมืด",
+
+  "cprPlacementTitle": "การวางมือ CPR",
+  "cprPlacementInstruction": "แตะที่จุดที่ควรทำ CPR",
+  "cprPlacementSubtitle": "มุ่งไปที่กลางหน้าอก",
+  "cprPlacementCorrectDetail": "วางส้นมือไว้ที่กลางกระดูกหน้าอก",
+  "cprPlacementIncorrectDetail": "จุดที่ถูกต้องแสดงด้วยสีเขียว ลองอีกครั้ง!",
+  "cprPlacementTapHint": "แตะที่ใดก็ได้บนภาพด้านบน",
+  "cprPlacementCardSubtitle": "ระบุจุดบนหน้าอก",
+  "cprPlacementReadingTitle": "ตำแหน่งที่ควรทำ CPR",
+  "cprPlacementReadingDetail": "วางส้นมือไว้ตรงกลางหน้าอก — บริเวณครึ่งล่างของกระดูกอก (กระดูกหน้าอก) วางมืออีกข้างซ้อนด้านบน สอดนิ้วและตั้งข้อศอกให้ตรง.",
+  "cprPlacementReadingCompression": "กดให้แรงและเร็ว — กดลึกอย่างน้อย 5 ซม. (2 นิ้ว) ด้วยความถี่ 100–120 ครั้งต่อนาที.",
+  "startTest": "เริ่มทดสอบ",
+  "tryAgain": "ลองอีกครั้ง",
+  "done": "เสร็จสิ้น"
 }

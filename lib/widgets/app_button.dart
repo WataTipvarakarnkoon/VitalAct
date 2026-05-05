@@ -76,6 +76,11 @@ class AppButton extends StatelessWidget {
                   alignment: alignment,
                   backgroundColor: backgroundColor ?? defaultBackground,
                   foregroundColor: foregroundColor ?? defaultForeground,
+                  textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: foregroundColor ?? defaultForeground,
+                  ),
                   side: BorderSide(
                     color: isFilled
                         ? Colors.transparent
@@ -87,12 +92,16 @@ class AppButton extends StatelessWidget {
                   ),
                 ),
                 child: DefaultTextStyle(
-                  style: TextStyle(
-                    fontFamily: 'BalooBhai2',
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: foregroundColor ?? defaultForeground,
-                  ),
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: foregroundColor ?? defaultForeground,
+                      ) ??
+                      TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: foregroundColor ?? defaultForeground,
+                      ),
                   child: child,
                 ),
               ),

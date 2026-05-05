@@ -59,5 +59,19 @@
   "practice": "Practice",
   "practiceSubtitle": "Sharpen your emergency skills",
   "mentalDrill": "Mental Drill",
-  "physicalDrill": "Physical Drill"
+  "physicalDrill": "Physical Drill",
+
+  "cprPlacementTitle": "CPR Placement",
+  "cprPlacementInstruction": "Tap where CPR should be performed",
+  "cprPlacementSubtitle": "Focus on the center of the chest",
+  "cprPlacementCorrectDetail": "The heel of your hand on the center of the sternum.",
+  "cprPlacementIncorrectDetail": "The correct spot is highlighted in green. Try again!",
+  "cprPlacementTapHint": "Tap anywhere on the image above",
+  "cprPlacementCardSubtitle": "Identify where on the chest",
+  "cprPlacementReadingTitle": "Where to perform CPR",
+  "cprPlacementReadingDetail": "Place the heel of your hand on the center of the chest — on the lower half of the breastbone (sternum). Place your other hand on top, interlace your fingers, and keep your elbows straight.",
+  "cprPlacementReadingCompression": "Push hard and fast — compress at least 5 cm (2 inches) deep at 100–120 compressions per minute.",
+  "startTest": "Start Test",
+  "tryAgain": "Try Again",
+  "done": "Done"
 }

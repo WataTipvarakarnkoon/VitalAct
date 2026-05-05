@@ -137,4 +137,46 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get physicalDrill => 'ฝึกร่างกาย';
+
+  @override
+  String get cprPlacementTitle => 'การวางมือ CPR';
+
+  @override
+  String get cprPlacementInstruction => 'แตะที่จุดที่ควรทำ CPR';
+
+  @override
+  String get cprPlacementSubtitle => 'มุ่งไปที่กลางหน้าอก';
+
+  @override
+  String get cprPlacementCorrectDetail => 'วางส้นมือไว้ที่กลางกระดูกหน้าอก';
+
+  @override
+  String get cprPlacementIncorrectDetail =>
+      'จุดที่ถูกต้องแสดงด้วยสีเขียว ลองอีกครั้ง!';
+
+  @override
+  String get cprPlacementTapHint => 'แตะที่ใดก็ได้บนภาพด้านบน';
+
+  @override
+  String get cprPlacementCardSubtitle => 'ระบุจุดบนหน้าอก';
+
+  @override
+  String get cprPlacementReadingTitle => 'ตำแหน่งที่ควรทำ CPR';
+
+  @override
+  String get cprPlacementReadingDetail =>
+      'วางส้นมือไว้ตรงกลางหน้าอก — บริเวณครึ่งล่างของกระดูกอก (กระดูกหน้าอก) วางมืออีกข้างซ้อนด้านบน สอดนิ้วและตั้งข้อศอกให้ตรง.';
+
+  @override
+  String get cprPlacementReadingCompression =>
+      'กดให้แรงและเร็ว — กดลึกอย่างน้อย 5 ซม. (2 นิ้ว) ด้วยความถี่ 100–120 ครั้งต่อนาที.';
+
+  @override
+  String get startTest => 'เริ่มทดสอบ';
+
+  @override
+  String get tryAgain => 'ลองอีกครั้ง';
+
+  @override
+  String get done => 'เสร็จสิ้น';
 }

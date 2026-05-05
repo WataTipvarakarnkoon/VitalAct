@@ -349,6 +349,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Physical Drill'**
   String get physicalDrill;
+
+  /// No description provided for @cprPlacementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CPR Placement'**
+  String get cprPlacementTitle;
+
+  /// No description provided for @cprPlacementInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap where CPR should be performed'**
+  String get cprPlacementInstruction;
+
+  /// No description provided for @cprPlacementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus on the center of the chest'**
+  String get cprPlacementSubtitle;
+
+  /// No description provided for @cprPlacementCorrectDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'The heel of your hand on the center of the sternum.'**
+  String get cprPlacementCorrectDetail;
+
+  /// No description provided for @cprPlacementIncorrectDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'The correct spot is highlighted in green. Try again!'**
+  String get cprPlacementIncorrectDetail;
+
+  /// No description provided for @cprPlacementTapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap anywhere on the image above'**
+  String get cprPlacementTapHint;
+
+  /// No description provided for @cprPlacementCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Identify where on the chest'**
+  String get cprPlacementCardSubtitle;
+
+  /// No description provided for @cprPlacementReadingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where to perform CPR'**
+  String get cprPlacementReadingTitle;
+
+  /// No description provided for @cprPlacementReadingDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the heel of your hand on the center of the chest — on the lower half of the breastbone (sternum). Place your other hand on top, interlace your fingers, and keep your elbows straight.'**
+  String get cprPlacementReadingDetail;
+
+  /// No description provided for @cprPlacementReadingCompression.
+  ///
+  /// In en, this message translates to:
+  /// **'Push hard and fast — compress at least 5 cm (2 inches) deep at 100–120 compressions per minute.'**
+  String get cprPlacementReadingCompression;
+
+  /// No description provided for @startTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Test'**
+  String get startTest;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
 }
 
 class _AppLocalizationsDelegate

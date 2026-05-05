@@ -7,6 +7,7 @@ import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
 import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
+import 'package:vitalact/screens/practice/cpr_placement_reading_page.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key});
@@ -18,6 +19,7 @@ class PracticePage extends StatefulWidget {
 class _PracticePageState extends State<PracticePage>
     with SingleTickerProviderStateMixin {
   bool isPressed = false;
+  bool _cprPressed = false;
   late final TabController _tabController;
 
   @override
@@ -106,7 +108,7 @@ class _PracticePageState extends State<PracticePage>
                   controller: _tabController,
                   children: [
                     /// 🧠 MENTAL DRILL
-                    Center(
+                    SingleChildScrollView(
                       child: Column(
                         children: [
                           const SizedBox(height: 25),
@@ -152,7 +154,8 @@ class _PracticePageState extends State<PracticePage>
                                     child: const Align(
                                       alignment: Alignment.center,
                                       child: SpriteSheet(
-                                        asset: 'assets/spritesheet/NVSA.png',
+                                        asset:
+                                            'assets/spritesheet/50_frames/NVSA.png',
                                         columns: 50,
                                         rows: 1,
                                         totalFrames: 50,
@@ -165,7 +168,95 @@ class _PracticePageState extends State<PracticePage>
                                 ],
                               ),
                             ),
-                          )
+                          ),
+                          const SizedBox(height: 16),
+
+                          // CPR Placement drill button
+                          GestureDetector(
+                            onTapDown: (_) =>
+                                setState(() => _cprPressed = true),
+                            onTapUp: (_) => setState(() => _cprPressed = false),
+                            onTapCancel: () =>
+                                setState(() => _cprPressed = false),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const CprPlacementReadingPage(),
+                              ),
+                            ),
+                            child: AnimatedScale(
+                              scale: _cprPressed ? 0.96 : 1.0,
+                              duration: const Duration(milliseconds: 100),
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                decoration: BoxDecoration(
+                                  color: AppColors.surface,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                      color: AppColors.border, width: 2),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                          Colors.black.withValues(alpha: 0.07),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: const SpriteSheet(
+                                        asset: 'assets/spritesheet/CPR.png',
+                                        columns: 20,
+                                        rows: 1,
+                                        totalFrames: 20,
+                                        fps: 30,
+                                        height: 64,
+                                        width: 64,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 14),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            l10n.cprPlacementTitle,
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: themeColor,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            l10n.cprPlacementCardSubtitle,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppColors.textPrimary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: AppColors.textPrimary,
+                                      size: 16,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),
