@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/lesson/lesson_button.dart';
+import 'package:vitalact/widgets/sprite_animation.dart';
 import 'package:vitalact/screens/practice/cpr_placement_test_page.dart';
 import 'package:vitalact/l10n/app_localizations.dart';
 
@@ -66,32 +67,14 @@ class CprPlacementReadingPage extends StatelessWidget {
                     Center(
                       child: SizedBox(
                         height: 260,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/idle.png',
-                              height: 260,
-                              fit: BoxFit.contain,
-                            ),
-                            Positioned(
-                              left: 0,
-                              right: 5,
-                              child: Center(
-                                child: Container(
-                                  width: 24,
-                                  height: 24,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.blue,
-                                      width: 3,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        child: SpriteSheet(
+                          asset: 'assets/spritesheet/CPRLocation.png',
+                          columns: 40,
+                          rows: 1,
+                          totalFrames: 40,
+                          fps: 30,
+                          height: 256,
+                          width: 256,
                         ),
                       ),
                     ),
