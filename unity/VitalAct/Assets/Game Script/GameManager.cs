@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         Scene = SceneManager.GetActiveScene().name;
+        NoCameraMode = PlayerPrefs.GetInt("NoCameraMode", 0) == 1;
     }
 
     void OnEnable()  => CprHandDetector.OnCompression += OnCompression;
