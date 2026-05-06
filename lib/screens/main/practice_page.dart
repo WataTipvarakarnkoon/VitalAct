@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
 import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
-import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:vitalact/screens/practice/cpr_placement_reading_page.dart';
 import 'package:vitalact/services/lesson_loader.dart';
 import 'package:vitalact/theme/app_colors.dart';
@@ -262,20 +259,7 @@ class _PracticePageState extends State<PracticePage>
                       const SizedBox(height: 30),
                       _animatedCard(
                         pressed: _physicalPressed,
-                        onTap: () async {
-                          final status = await Permission.camera.request();
-
-                          if (!context.mounted) return;
-
-                          if (status.isGranted) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const TestUnity(),
-                              ),
-                            );
-                          }
-                        },
+                        onTap: () {},
                         onTapDown: (_) =>
                             setState(() => _physicalPressed = true),
                         onTapUp: () => setState(() => _physicalPressed = false),
