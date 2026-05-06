@@ -216,7 +216,7 @@ class _PracticePageState extends State<PracticePage>
                               right: 0,
                               child: Center(
                                 child: _sprite(
-                                  'assets/spritesheet/50_frames/NVSA.png',
+                                  'assets/spritesheet/50_frames/HandPlacement.png',
                                 ),
                               ),
                             ),

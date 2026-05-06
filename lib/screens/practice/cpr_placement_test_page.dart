@@ -141,7 +141,7 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
                                 width: 350,
                                 height: 420,
                                 child: Image.asset(
-                                  'assets/images/idle.png',
+                                  'assets/images/Idle.png',
                                 ),
                               ),
                             ),
