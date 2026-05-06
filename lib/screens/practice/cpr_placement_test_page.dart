@@ -153,8 +153,8 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
                                   _tapNormalized!.dy * 2 - 1,
                                 ),
                                 child: Container(
-                                  width: 36,
-                                  height: 36,
+                                  width: 30,
+                                  height: 30,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: (correct
@@ -177,7 +177,7 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
                             // Correct position ring (shown when wrong)
                             if (_answered && !correct)
                               const Align(
-                                alignment: Alignment(0, 0.07),
+                                alignment: Alignment(0, 0.02),
                                 child: _CorrectRing(),
                               ),
                           ],
