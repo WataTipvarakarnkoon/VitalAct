@@ -1,13 +1,13 @@
-import 'package:vitalact/screens/main/test_unity.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vitalact/l10n/app_localizations.dart';
+import 'package:vitalact/models/steps/reading_step.dart';
+import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
+import 'package:vitalact/screens/main/test_unity.dart';
+import 'package:vitalact/screens/practice/cpr_placement_reading_page.dart';
 import 'package:vitalact/services/lesson_loader.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/sprite_animation.dart';
-import 'package:vitalact/models/steps/reading_step.dart';
-import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
-import 'package:vitalact/screens/practice/cpr_placement_reading_page.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key});
@@ -18,9 +18,11 @@ class PracticePage extends StatefulWidget {
 
 class _PracticePageState extends State<PracticePage>
     with SingleTickerProviderStateMixin {
-  bool isPressed = false;
-  bool _cprPressed = false;
   late final TabController _tabController;
+
+  bool _mentalPressed = false;
+  bool _cprPressed = false;
+  bool _physicalPressed = false;
 
   @override
   void initState() {
@@ -29,21 +31,33 @@ class _PracticePageState extends State<PracticePage>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    precacheImage(
+      const AssetImage('assets/images/mentalDrill.png'),
+      context,
+    );
+
+    precacheImage(
+      const AssetImage('assets/images/Emergency Simulator.png'),
+      context,
+    );
+  }
+
+  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
 
-  /// 🔥 BUILD DRILL STEPS FROM ALL MODULES
   Future<void> startMentalDrill(BuildContext context) async {
     final locale = Localizations.localeOf(context).languageCode;
     final drillTitle = AppLocalizations.of(context)!.mentalDrill;
     final modules = await LessonLoader.loadAllModules(locale);
 
-    // ✅ flatten lessons
     final lessons = modules.expand((m) => m.lessons).toList();
 
-    // ✅ flatten steps (exclude reading)
     final allSteps = lessons
         .expand((lesson) => lesson.steps)
         .where((step) => step is! ReadingStep)
@@ -52,7 +66,6 @@ class _PracticePageState extends State<PracticePage>
     if (allSteps.isEmpty) return;
 
     allSteps.shuffle();
-
     final steps = allSteps.take(10).toList();
 
     if (!mounted) return;
@@ -60,7 +73,7 @@ class _PracticePageState extends State<PracticePage>
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LessonRunnerPage(
+        builder: (_) => LessonRunnerPage(
           title: drillTitle,
           steps: steps,
         ),
@@ -68,277 +81,200 @@ class _PracticePageState extends State<PracticePage>
     );
   }
 
+  Widget _animatedCard({
+    required bool pressed,
+    required VoidCallback onTap,
+    required ValueChanged<TapDownDetails> onTapDown,
+    required VoidCallback onTapUp,
+    required Widget child,
+  }) {
+    return GestureDetector(
+      onTapDown: onTapDown,
+      onTapUp: (_) => onTapUp(),
+      onTapCancel: onTapUp,
+      onTap: onTap,
+      child: AnimatedScale(
+        scale: pressed ? 0.94 : 1,
+        duration: const Duration(milliseconds: 100),
+        child: child,
+      ),
+    );
+  }
+
+  Widget _sprite(String asset, {double h = 140, double w = 140}) {
+    return RepaintBoundary(
+      child: SpriteSheet(
+        asset: asset,
+        columns: 50,
+        rows: 1,
+        totalFrames: 50,
+        fps: 15,
+        height: h,
+        width: w,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final themeColor = AppColors.primary;
     final height = MediaQuery.of(context).size.height;
 
-    return AnimatedBuilder(
-      animation: _tabController.animation!,
-      builder: (context, _) {
-        final double t = _tabController.animation!.value;
-        final Color themeColor =
-            Color.lerp(AppColors.primary, AppColors.secondary, t)!;
-
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          color: themeColor.withValues(alpha: 0.05),
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
-
-              /// 🔥 TAB BAR
-              TabBar(
-                controller: _tabController,
-                indicatorWeight: 1,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorColor: themeColor,
-                labelColor: themeColor,
-                unselectedLabelColor: AppColors.textPrimary,
-                labelStyle:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                tabs: [
-                  Tab(text: l10n.mentalDrill),
-                  Tab(text: l10n.physicalDrill),
-                ],
-              ),
-
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    /// 🧠 MENTAL DRILL
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 25),
-                          Text(
-                            l10n.practice,
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w800,
-                              color: themeColor,
-                            ),
-                          ),
-                          Text(
-                            l10n.practiceSubtitle,
-                            style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          GestureDetector(
-                            onTapDown: (_) => setState(() => isPressed = true),
-                            onTapUp: (_) => setState(() => isPressed = false),
-                            onTapCancel: () =>
-                                setState(() => isPressed = false),
-                            onTap: () => startMentalDrill(context),
-                            child: AnimatedScale(
-                              scale: isPressed ? 0.85 : 0.95,
-                              duration: const Duration(milliseconds: 100),
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: const Alignment(.1, 0),
-                                    child: Image.asset(
-                                      'assets/images/rapid_response.png',
-                                      height: 320,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: height * .06,
-                                    left: 0,
-                                    right: 0,
-                                    child: const Align(
-                                      alignment: Alignment.center,
-                                      child: SpriteSheet(
-                                        asset:
-                                            'assets/spritesheet/50_frames/NVSA.png',
-                                        columns: 50,
-                                        rows: 1,
-                                        totalFrames: 50,
-                                        fps: 30,
-                                        height: 140,
-                                        width: 140,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-
-                          // CPR Placement drill button
-                          GestureDetector(
-                            onTapDown: (_) =>
-                                setState(() => _cprPressed = true),
-                            onTapUp: (_) => setState(() => _cprPressed = false),
-                            onTapCancel: () =>
-                                setState(() => _cprPressed = false),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const CprPlacementReadingPage(),
-                              ),
-                            ),
-                            child: AnimatedScale(
-                              scale: _cprPressed ? 0.96 : 1.0,
-                              duration: const Duration(milliseconds: 100),
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 24),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 12),
-                                decoration: BoxDecoration(
-                                  color: AppColors.surface,
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(
-                                      color: AppColors.border, width: 2),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.07),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: const SpriteSheet(
-                                        asset: 'assets/spritesheet/CPR.png',
-                                        columns: 20,
-                                        rows: 1,
-                                        totalFrames: 20,
-                                        fps: 30,
-                                        height: 64,
-                                        width: 64,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 14),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            l10n.cprPlacementTitle,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: themeColor,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 2),
-                                          Text(
-                                            l10n.cprPlacementCardSubtitle,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColors.textPrimary,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: AppColors.textPrimary,
-                                      size: 16,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
-                      ),
-                    ),
-
-                    /// 💪 PHYSICAL DRILL (future simulation)
-                    Center(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 25),
-                          Text(
-                            l10n.practice,
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w800,
-                              color: themeColor,
-                            ),
-                          ),
-                          Text(
-                            l10n.practiceSubtitle,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          GestureDetector(
-                            onTapDown: (_) => setState(() => isPressed = true),
-                            onTapUp: (_) => setState(() => isPressed = false),
-                            onTapCancel: () =>
-                                setState(() => isPressed = false),
-                            onTap: () async {
-                              final status = await Permission.camera.request();
-                              if (!context.mounted) return;
-                              if (status.isGranted) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const TestUnity(),
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Camera permission is required for this feature.'),
-                                  ),
-                                );
-                              }
-                            },
-                            child: AnimatedScale(
-                              scale: isPressed ? 0.85 : 0.95,
-                              duration: const Duration(milliseconds: 100),
-                              child: Stack(
-                                children: [
-                                  Image.asset(
-                                    'assets/images/Emergency Simulator.png',
-                                  ),
-                                  const Center(
-                                    child: SpriteSheet(
-                                      asset: 'assets/spritesheet/CPR.png',
-                                      columns: 20,
-                                      rows: 1,
-                                      totalFrames: 20,
-                                      fps: 30,
-                                      height: 150,
-                                      width: 150,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+    return Container(
+      color: themeColor.withOpacity(0.05),
+      child: Column(
+        children: [
+          const SizedBox(height: 40),
+          TabBar(
+            controller: _tabController,
+            indicatorColor: themeColor,
+            labelColor: themeColor,
+            unselectedLabelColor: AppColors.textPrimary,
+            tabs: [
+              Tab(text: l10n.mentalDrill),
+              Tab(text: l10n.physicalDrill),
             ],
           ),
-        );
-      },
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                /// Mental Drill
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 25),
+                      Text(
+                        l10n.practice,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          color: themeColor,
+                        ),
+                      ),
+                      Text(l10n.practiceSubtitle),
+                      const SizedBox(height: 30),
+                      _animatedCard(
+                        pressed: _mentalPressed,
+                        onTap: () => startMentalDrill(context),
+                        onTapDown: (_) => setState(() => _mentalPressed = true),
+                        onTapUp: () => setState(() => _mentalPressed = false),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'assets/images/mentalDrill.png',
+                              height: 320,
+                            ),
+                            Positioned(
+                              top: height * .06,
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: _sprite(
+                                  'assets/spritesheet/50_frames/NVSA.png',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      _animatedCard(
+                        pressed: _cprPressed,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const CprPlacementReadingPage(),
+                          ),
+                        ),
+                        onTapDown: (_) => setState(() => _cprPressed = true),
+                        onTapUp: () => setState(() => _cprPressed = false),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'assets/images/mentalDrill.png',
+                              height: 320,
+                            ),
+                            Positioned(
+                              top: height * .06,
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: _sprite(
+                                  'assets/spritesheet/50_frames/NVSA.png',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                /// Physical Drill
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 25),
+                      Text(
+                        l10n.practice,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          color: themeColor,
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      _animatedCard(
+                        pressed: _physicalPressed,
+                        onTap: () async {
+                          final status = await Permission.camera.request();
+
+                          if (!context.mounted) return;
+
+                          if (status.isGranted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const TestUnity(),
+                              ),
+                            );
+                          }
+                        },
+                        onTapDown: (_) =>
+                            setState(() => _physicalPressed = true),
+                        onTapUp: () => setState(() => _physicalPressed = false),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'assets/images/Emergency Simulator.png',
+                            ),
+                            Center(
+                              child: RepaintBoundary(
+                                child: SpriteSheet(
+                                  asset: 'assets/spritesheet/CPR.png',
+                                  columns: 20,
+                                  rows: 1,
+                                  totalFrames: 20,
+                                  fps: 12,
+                                  height: 150,
+                                  width: 150,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

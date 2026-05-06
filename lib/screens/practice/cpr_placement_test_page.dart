@@ -12,7 +12,6 @@ class CprPlacementTestPage extends StatefulWidget {
 }
 
 class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
-  // Normalized correct spot (matches CPR sprite center on Emergency Simulator.png)
   static const double _correctNX = 0.50;
   static const double _correctNY = 0.50;
   static const double _acceptableRadius = 0.05;
@@ -110,7 +109,6 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
               ),
             ),
 
-            // Interactive image
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -129,13 +127,25 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: Stack(
-                          fit: StackFit.expand,
                           children: [
-                            Image.asset(
-                              'assets/images/Idle.png',
+                            Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    gradient:
+                                        RadialGradient(radius: .5, colors: [
+                                      Color.fromARGB(204, 83, 10, 10),
+                                      Color(0xFFFF4646),
+                                    ]),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(40))),
+                                width: 350,
+                                height: 420,
+                                child: Image.asset(
+                                  'assets/images/Idle.png',
+                                ),
+                              ),
                             ),
 
-                            // Tap marker
                             if (_tapNormalized != null)
                               Align(
                                 alignment: Alignment(
@@ -167,7 +177,7 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
                             // Correct position ring (shown when wrong)
                             if (_answered && !correct)
                               const Align(
-                                alignment: Alignment(-0.03, 0.0),
+                                alignment: Alignment(0, 0.07),
                                 child: _CorrectRing(),
                               ),
                           ],
