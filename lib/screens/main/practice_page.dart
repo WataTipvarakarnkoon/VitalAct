@@ -25,7 +25,12 @@ class _PracticePageState extends State<PracticePage>
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(length: 2, vsync: this);
+
+    _tabController.animation?.addListener(() {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
@@ -116,11 +121,20 @@ class _PracticePageState extends State<PracticePage>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final themeColor = AppColors.primary;
+
+    final animationValue = _tabController.animation?.value ?? 0;
+    final themeColor = Color.lerp(
+      AppColors.primary,
+      const Color.fromARGB(255, 56, 140, 204),
+      animationValue,
+    )!;
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
       color: themeColor.withOpacity(0.05),
       child: Column(
         children: [
@@ -170,10 +184,11 @@ class _PracticePageState extends State<PracticePage>
                               left: 0,
                               right: 0,
                               child: Center(
-                                child: _sprite(
-                                  'assets/spritesheet/50_frames/NVSA.png',
-                                ),
-                              ),
+                                  child: TickerMode(
+                                      enabled: _tabController.index == 0,
+                                      child: _sprite(
+                                        'assets/spritesheet/50_frames/NVSA.png',
+                                      ))),
                             ),
                             Positioned(
                               top: 240,
@@ -215,10 +230,12 @@ class _PracticePageState extends State<PracticePage>
                               left: 0,
                               right: 0,
                               child: Center(
+                                  child: TickerMode(
+                                enabled: _tabController.index == 0,
                                 child: _sprite(
                                   'assets/spritesheet/50_frames/HandPlacement.png',
                                 ),
-                              ),
+                              )),
                             ),
                             Positioned(
                               top: 240,
@@ -256,6 +273,7 @@ class _PracticePageState extends State<PracticePage>
                           color: themeColor,
                         ),
                       ),
+                      Text(l10n.practiceSubtitle),
                       const SizedBox(height: 30),
                       _animatedCard(
                         pressed: _physicalPressed,
@@ -273,6 +291,8 @@ class _PracticePageState extends State<PracticePage>
                             ),
                             Center(
                               child: RepaintBoundary(
+                                  child: TickerMode(
+                                enabled: _tabController.index == 1,
                                 child: SpriteSheet(
                                   asset: 'assets/spritesheet/CPR.png',
                                   columns: 20,
@@ -282,7 +302,7 @@ class _PracticePageState extends State<PracticePage>
                                   height: 150,
                                   width: 150,
                                 ),
-                              ),
+                              )),
                             ),
                           ],
                         ),
