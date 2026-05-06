@@ -177,7 +177,7 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
                             // Correct position ring (shown when wrong)
                             if (_answered && !correct)
                               const Align(
-                                alignment: Alignment(0, 0.07),
+                                alignment: Alignment(0, 0),
                                 child: _CorrectRing(),
                               ),
                           ],
