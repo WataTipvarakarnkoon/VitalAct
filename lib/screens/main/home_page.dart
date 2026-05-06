@@ -4,7 +4,7 @@ import 'package:vitalact/models/lesson_module.dart';
 import 'package:vitalact/models/lesson_item.dart';
 import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/app_button.dart';
-import 'package:vitalact/widgets/sprite_animation.dart';
+import 'package:vitalact/widgets/step_asset.dart';
 import 'package:vitalact/screens/lessons/lesson_runner_page.dart';
 import 'package:vitalact/services/lesson_loader.dart';
 
@@ -49,7 +49,6 @@ class _HomePageState extends State<HomePage> {
           height: height * 0.5,
           child: Image.asset('assets/images/Ellipse.png'),
         ),
-
         Positioned(
           top: height * 0.08,
           left: width * 0.05,
@@ -117,7 +116,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-
         Positioned.fill(
           top: height * 0.157,
           child: Lesson(key: _lessonKey),
@@ -296,16 +294,13 @@ class _LessonState extends State<Lesson> {
                               if (active)
                                 Positioned(
                                   left: 195,
-                                  child: SpriteSheet(
+                                  child: StepAsset(
                                     asset: lesson.spriteAsset.isNotEmpty
                                         ? lesson.spriteAsset
                                         : 'assets/spritesheet/NVSA.png',
-                                    columns: 50,
-                                    rows: 1,
-                                    totalFrames: 50,
-                                    fps: 30,
                                     width: 102,
                                     height: 102,
+                                    fps: 30,
                                   ),
                                 ),
                               if (active)

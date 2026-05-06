@@ -6,7 +6,7 @@ import 'package:vitalact/widgets/app_text_field.dart';
 import 'package:vitalact/models/steps/text_input_step.dart';
 import 'package:vitalact/services/lesson_progress_service.dart';
 import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
-import 'package:vitalact/widgets/sprite_animation.dart';
+import 'package:vitalact/widgets/step_asset.dart';
 
 class TextInputPage extends StatefulWidget {
   final TextInputStep step;
@@ -81,26 +81,23 @@ If the answer is correct:
 
       final aiCorrect = fullText.toLowerCase().contains('correct: true');
 
-      final explanation =
-          RegExp(r'EXPLANATION:\s*(.*)', caseSensitive: false)
-                  .firstMatch(fullText)
-                  ?.group(1)
-                  ?.trim() ??
-              '';
+      final explanation = RegExp(r'EXPLANATION:\s*(.*)', caseSensitive: false)
+              .firstMatch(fullText)
+              ?.group(1)
+              ?.trim() ??
+          '';
 
-      final hint =
-          RegExp(r'HINT:\s*(.*)', caseSensitive: false)
-                  .firstMatch(fullText)
-                  ?.group(1)
-                  ?.trim() ??
-              '';
+      final hint = RegExp(r'HINT:\s*(.*)', caseSensitive: false)
+              .firstMatch(fullText)
+              ?.group(1)
+              ?.trim() ??
+          '';
 
-      final improvement =
-          RegExp(r'IMPROVEMENT:\s*(.*)', caseSensitive: false)
-                  .firstMatch(fullText)
-                  ?.group(1)
-                  ?.trim() ??
-              '';
+      final improvement = RegExp(r'IMPROVEMENT:\s*(.*)', caseSensitive: false)
+              .firstMatch(fullText)
+              ?.group(1)
+              ?.trim() ??
+          '';
 
       final scoreVal = int.tryParse(
               RegExp(r'SCORE:\s*(\d+)', caseSensitive: false)
@@ -232,14 +229,10 @@ If the answer is correct:
                             'assets/icons/redRectangle.png',
                             width: 170,
                           ),
-                          SpriteSheet(
+                          StepAsset(
                             asset: step.spriteAsset,
-                            columns: 50,
-                            rows: 1,
-                            totalFrames: 50,
-                            fps: 25,
-                            height: 172,
                             width: 172,
+                            height: 172,
                           ),
                         ],
                       ),
