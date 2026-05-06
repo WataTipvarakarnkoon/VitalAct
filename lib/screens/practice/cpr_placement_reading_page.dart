@@ -69,10 +69,10 @@ class CprPlacementReadingPage extends StatelessWidget {
                         height: 260,
                         child: SpriteSheet(
                           asset: 'assets/spritesheet/CPRLocation.png',
-                          columns: 40,
+                          columns: 48,
                           rows: 1,
-                          totalFrames: 40,
-                          fps: 30,
+                          totalFrames: 48,
+                          fps: 24,
                           height: 256,
                           width: 256,
                         ),

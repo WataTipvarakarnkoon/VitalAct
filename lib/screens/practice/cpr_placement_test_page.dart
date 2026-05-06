@@ -132,7 +132,7 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
                           fit: StackFit.expand,
                           children: [
                             Image.asset(
-                              'assets/images/idle.png',
+                              'assets/images/Idle.png',
                             ),
 
                             // Tap marker
