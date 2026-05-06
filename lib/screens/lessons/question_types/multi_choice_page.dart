@@ -5,7 +5,7 @@ import 'package:vitalact/widgets/lesson/lesson_button.dart';
 import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
 import 'package:vitalact/models/steps/multi_choice_step.dart';
 import 'package:vitalact/services/lesson_progress_service.dart';
-import 'package:vitalact/widgets/step_asset.dart';
+import 'package:vitalact/widgets/sprite_animation.dart';
 
 class MultiChoicePage extends StatefulWidget {
   final MultiChoiceStep step;
@@ -96,10 +96,14 @@ class _MultiChoicePageState extends State<MultiChoicePage> {
                             'assets/icons/redRectangle.png',
                             width: 170,
                           ),
-                          StepAsset(
+                          SpriteSheet(
                             asset: step.spriteAsset,
-                            width: 172,
+                            columns: 50,
+                            rows: 1,
+                            totalFrames: 50,
+                            fps: 25,
                             height: 172,
+                            width: 172,
                           ),
                         ],
                       ),
