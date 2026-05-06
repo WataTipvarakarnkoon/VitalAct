@@ -153,8 +153,8 @@ class _CprPlacementTestPageState extends State<CprPlacementTestPage> {
                                   _tapNormalized!.dy * 2 - 1,
                                 ),
                                 child: Container(
-                                  width: 36,
-                                  height: 36,
+                                  width: 30,
+                                  height: 30,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: (correct
