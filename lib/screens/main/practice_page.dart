@@ -186,7 +186,8 @@ class _PracticePageState extends State<PracticePage>
                                   child: Text(
                                 AppLocalizations.of(context)!.rapidResponse,
                                 style: const TextStyle(
-                                  fontSize: 23,
+                                  height: 1.65,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.background,
                                 ),
@@ -230,7 +231,8 @@ class _PracticePageState extends State<PracticePage>
                                   child: Text(
                                 AppLocalizations.of(context)!.handPlacement,
                                 style: const TextStyle(
-                                  fontSize: 23,
+                                  height: 1.65,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.background,
                                 ),
