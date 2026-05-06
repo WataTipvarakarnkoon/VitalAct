@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vitalact/l10n/app_localizations.dart';
 import 'package:vitalact/models/steps/reading_step.dart';
@@ -120,6 +121,7 @@ class _PracticePageState extends State<PracticePage>
     final l10n = AppLocalizations.of(context)!;
     final themeColor = AppColors.primary;
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return Container(
       color: themeColor.withOpacity(0.05),
@@ -179,7 +181,7 @@ class _PracticePageState extends State<PracticePage>
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 50),
                       _animatedCard(
                         pressed: _cprPressed,
                         onTap: () => Navigator.push(
@@ -209,6 +211,7 @@ class _PracticePageState extends State<PracticePage>
                           ],
                         ),
                       ),
+                      const SizedBox(height: 50)
                     ],
                   ),
                 ),
@@ -248,8 +251,11 @@ class _PracticePageState extends State<PracticePage>
                         onTapUp: () => setState(() => _physicalPressed = false),
                         child: Stack(
                           children: [
-                            Image.asset(
-                              'assets/images/Emergency Simulator.png',
+                            Center(
+                              child: Image.asset(
+                                'assets/images/Emergency Simulator.png',
+                                width: width * .9,
+                              ),
                             ),
                             Center(
                               child: RepaintBoundary(
