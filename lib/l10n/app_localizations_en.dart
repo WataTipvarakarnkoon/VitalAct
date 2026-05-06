@@ -140,6 +140,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get physicalDrill => 'Physical Drill';
 
   @override
+  String get rapidResponse => 'Rapid Response';
+
+  @override
+  String get handPlacement => 'Hand Placement';
+
+  @override
   String get cprPlacementTitle => 'CPR Placement';
 
   @override
