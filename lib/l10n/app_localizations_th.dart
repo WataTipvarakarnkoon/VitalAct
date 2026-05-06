@@ -139,6 +139,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get physicalDrill => 'ฝึกร่างกาย';
 
   @override
+  String get rapidResponse => 'เกมตอบคำถาม';
+
+  @override
+  String get handPlacement => 'การวางมือ';
+
+  @override
   String get cprPlacementTitle => 'การวางมือ CPR';
 
   @override

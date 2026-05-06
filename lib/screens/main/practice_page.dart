@@ -176,6 +176,20 @@ class _PracticePageState extends State<PracticePage>
                                 ),
                               ),
                             ),
+                            Positioned(
+                              top: 240,
+                              left: 0,
+                              right: 10,
+                              child: Center(
+                                  child: Text(
+                                AppLocalizations.of(context)!.rapidResponse,
+                                style: const TextStyle(
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.background,
+                                ),
+                              )),
+                            ),
                           ],
                         ),
                       ),
@@ -205,6 +219,20 @@ class _PracticePageState extends State<PracticePage>
                                   'assets/spritesheet/50_frames/NVSA.png',
                                 ),
                               ),
+                            ),
+                            Positioned(
+                              top: 240,
+                              left: 0,
+                              right: 10,
+                              child: Center(
+                                  child: Text(
+                                AppLocalizations.of(context)!.handPlacement,
+                                style: const TextStyle(
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.background,
+                                ),
+                              )),
                             ),
                           ],
                         ),

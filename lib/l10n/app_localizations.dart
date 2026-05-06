@@ -350,6 +350,18 @@ abstract class AppLocalizations {
   /// **'Physical Drill'**
   String get physicalDrill;
 
+  /// No description provided for @rapidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'Rapid Response'**
+  String get rapidResponse;
+
+  /// No description provided for @handPlacement.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand Placement'**
+  String get handPlacement;
+
   /// No description provided for @cprPlacementTitle.
   ///
   /// In en, this message translates to:

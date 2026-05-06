@@ -60,6 +60,8 @@
   "practiceSubtitle": "Sharpen your emergency skills",
   "mentalDrill": "Mental Drill",
   "physicalDrill": "Physical Drill",
+  "rapidResponse": "Rapid Response",
+  "handPlacement": "Hand Placement",
 
   "cprPlacementTitle": "CPR Placement",
   "cprPlacementInstruction": "Tap where CPR should be performed",
