@@ -17,7 +17,7 @@
           "id": "L1_Q1",
           "title": "What is the main purpose of first aid?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/images/lessons/r1.png",
+          "spriteAsset": "assets/images/lessons/q1.png",
           "choices": [
             "Replace doctors",
             "Provide immediate help",
@@ -33,7 +33,7 @@
           "id": "L1_Q2",
           "title": "Which is NOT a goal of first aid?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/50_frames/RedFlags.png",
+          "spriteAsset": "assets/images/lessons/q2.png",
           "choices": [
             "Save life",
             "Prevent worsening",
@@ -49,7 +49,7 @@
           "id": "L1_Q3",
           "title": "Arrange first aid priorities",
           "instructions": "Put in correct order.",
-          "spriteAsset": "assets/spritesheet/50_frames/BreathingO.png",
+          "spriteAsset": "assets/images/lessons/q3.png",
           "choices": [
             "Promote recovery",
             "Save life",
@@ -65,7 +65,7 @@
           "id": "L1_Q4",
           "title": "Why is early recognition important?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/50_frames/Shocked.png",
+          "spriteAsset": "assets/images/lessons/q4.png",
           "choices": [
             "It helps you act faster",
             "It replaces treatment",
