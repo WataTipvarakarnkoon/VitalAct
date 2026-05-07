@@ -31,6 +31,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/lessons/
     - assets/icons/
     - assets/spritesheet/
     - assets/spritesheet/50_frames/

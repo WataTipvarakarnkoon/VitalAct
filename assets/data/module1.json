@@ -17,7 +17,7 @@
           "id": "L1_Q1",
           "title": "What is the main purpose of first aid?",
           "instructions": "Choose the best answer.",
-          "spriteAsset": "assets/spritesheet/50_frames/ChestPain.png",
+          "spriteAsset": "assets/images/lessons/r1.png",
           "choices": [
             "Replace doctors",
             "Provide immediate help",
