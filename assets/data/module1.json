@@ -90,7 +90,7 @@
     {
       "id": "L2",
       "title": "Stay Safe First",
-      "spriteAsset": "assets/spritesheet/50_frames/BreathingO.png",
+      "spriteAsset": "assets/spritesheet/50_frames/Shocked.png",
       "steps": [
         {
           "type": "reading",
@@ -160,7 +160,7 @@
     {
       "id": "L3",
       "title": "First Aider Mindset",
-      "spriteAsset": "assets/spritesheet/50_frames/ChestPain.png",
+      "spriteAsset": "assets/spritesheet/50_frames/RedFlags.png",
       "steps": [
         {
           "type": "reading",
