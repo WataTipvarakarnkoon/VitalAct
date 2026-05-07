@@ -49,16 +49,20 @@ class _SpriteSheetState extends State<SpriteSheet>
   }
 
   Future<void> _loadImage() async {
-    final data = await rootBundle.load(widget.asset);
-    final bytes = data.buffer.asUint8List();
-    final codec = await ui.instantiateImageCodec(bytes);
-    final frame = await codec.getNextFrame();
+    try {
+      final data = await rootBundle.load(widget.asset);
+      final bytes = data.buffer.asUint8List();
+      final codec = await ui.instantiateImageCodec(bytes);
+      final frame = await codec.getNextFrame();
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    setState(() {
-      image = frame.image;
-    });
+      setState(() {
+        image = frame.image;
+      });
+    } catch (e) {
+      debugPrint('SpriteSheet failed to load asset "${widget.asset}": $e');
+    }
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:vitalact/theme/app_colors.dart';
 import 'package:vitalact/widgets/lesson/lesson_button.dart';
 import 'package:vitalact/widgets/lesson/lesson_step_scaffold.dart';
 import 'package:vitalact/services/lesson_progress_service.dart';
-import 'package:vitalact/widgets/sprite_animation.dart';
+import 'package:vitalact/widgets/lesson/lesson_step_asset.dart';
 import 'package:vitalact/models/steps/order_question_step.dart';
 
 class OrderPage extends StatefulWidget {
@@ -107,7 +107,7 @@ class _OrderPageState extends State<OrderPage> {
                             'assets/icons/redRectangle.png',
                             width: 170,
                           ),
-                          SpriteSheet(
+                          LessonStepAsset(
                             asset: step.spriteAsset,
                             columns: 50,
                             rows: 1,
